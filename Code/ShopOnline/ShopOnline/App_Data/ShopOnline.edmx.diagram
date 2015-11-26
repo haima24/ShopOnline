@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="866dbb23f9d043c8ac6776a86ce3cc98" Name="Diagram1">
+        <EntityTypeShape EntityType="ShopOnlineModel.Category" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Product" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopOnlineModel.ProductCategory" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopOnlineModel.sysdiagram" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductCategory_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductCategory_Product" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Config" Width="1.5" PointX="0.0384280085742604" PointY="26.063109693146828" />
+        <EntityTypeShape EntityType="ShopOnlineModel.User" Width="1.5" PointX="8.1991548874411517" PointY="25.641282033939511" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Category_Category" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Category_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
