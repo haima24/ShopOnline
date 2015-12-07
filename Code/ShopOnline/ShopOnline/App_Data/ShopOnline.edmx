@@ -14,8 +14,11 @@
       [Config].[ConfigValue] AS [ConfigValue]
       FROM [dbo].[Config] AS [Config]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="Order" EntityType="ShopOnlineModel.Store.Order" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderDetail" EntityType="ShopOnlineModel.Store.OrderDetail" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Product" EntityType="ShopOnlineModel.Store.Product" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ProductCategory" EntityType="ShopOnlineModel.Store.ProductCategory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ProductImage" EntityType="ShopOnlineModel.Store.ProductImage" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="sysdiagrams" EntityType="ShopOnlineModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="ShopOnlineModel.Store.User" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Category_Category" Association="ShopOnlineModel.Store.FK_Category_Category">
@@ -26,6 +29,18 @@
             <End Role="User" EntitySet="User" />
             <End Role="Category" EntitySet="Category" />
           </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="ShopOnlineModel.Store.FK_Order_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Order" Association="ShopOnlineModel.Store.FK_OrderDetail_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Product" Association="ShopOnlineModel.Store.FK_OrderDetail_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProductCategory_Category" Association="ShopOnlineModel.Store.FK_ProductCategory_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="ProductCategory" EntitySet="ProductCategory" />
@@ -34,6 +49,10 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductCategory" EntitySet="ProductCategory" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductImage_Product" Association="ShopOnlineModel.Store.FK_ProductImage_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductImage" EntitySet="ProductImage" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -41,6 +60,7 @@
           </Key>
           <Property Name="CategoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="nvarchar(max)" />
+          <Property Name="CategoryLevel" Type="int" Nullable="false" />
           <Property Name="ParentCategoryId" Type="int" />
           <Property Name="CreatedUserId" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -58,6 +78,26 @@
           <Property Name="ConfigCode" Type="nvarchar" Nullable="false" MaxLength="200" />
           <Property Name="ConfigValue" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ShippingAddress" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ShippingTelephon" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailId" />
+          </Key>
+          <Property Name="OrderDetailId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -66,6 +106,13 @@
           <Property Name="ProductCode" Type="nvarchar(max)" />
           <Property Name="ProductName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Price" Type="money" />
+          <Property Name="SaleOffPrice" Type="money" />
+          <Property Name="IsSaleOff" Type="bit" />
+          <Property Name="IsNew" Type="bit" />
+          <Property Name="ProductShortDescription" Type="nvarchar(max)" />
+          <Property Name="ProductDetailDescription" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -73,6 +120,14 @@
           </Key>
           <Property Name="ProductCategoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductImage">
+          <Key>
+            <PropertyRef Name="ProductImageId" />
+          </Key>
+          <Property Name="ProductImageId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductImageUrl" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -93,6 +148,8 @@
           <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Telephone" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="FK_Category_Category">
           <End Role="Category" Type="ShopOnlineModel.Store.Category" Multiplicity="0..1" />
@@ -118,6 +175,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Order_User">
+          <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="1" />
+          <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Order">
+          <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="1" />
+          <End Role="OrderDetail" Type="ShopOnlineModel.Store.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Product">
+          <End Role="Product" Type="ShopOnlineModel.Store.Product" Multiplicity="1" />
+          <End Role="OrderDetail" Type="ShopOnlineModel.Store.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductCategory_Category">
           <End Role="Category" Type="ShopOnlineModel.Store.Category" Multiplicity="1" />
           <End Role="ProductCategory" Type="ShopOnlineModel.Store.ProductCategory" Multiplicity="*" />
@@ -126,7 +219,7 @@
               <PropertyRef Name="CategoryId" />
             </Principal>
             <Dependent Role="ProductCategory">
-              <PropertyRef Name="ProductId" />
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -142,6 +235,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductImage_Product">
+          <End Role="Product" Type="ShopOnlineModel.Store.Product" Multiplicity="1" />
+          <End Role="ProductImage" Type="ShopOnlineModel.Store.ProductImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductImage">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -149,16 +254,7 @@
         <EntityContainer Name="ShopOnlineEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="ShopOnlineModel.Category" />
           <EntitySet Name="Products" EntityType="ShopOnlineModel.Product" />
-          <EntitySet Name="ProductCategories" EntityType="ShopOnlineModel.ProductCategory" />
           <EntitySet Name="sysdiagrams" EntityType="ShopOnlineModel.sysdiagram" />
-          <AssociationSet Name="FK_ProductCategory_Category" Association="ShopOnlineModel.FK_ProductCategory_Category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="ProductCategory" EntitySet="ProductCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductCategory_Product" Association="ShopOnlineModel.FK_ProductCategory_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ProductCategory" EntitySet="ProductCategories" />
-          </AssociationSet>
           <EntitySet Name="Configs" EntityType="ShopOnlineModel.Config" />
           <EntitySet Name="Users" EntityType="ShopOnlineModel.User" />
           <AssociationSet Name="FK_Category_Category" Association="ShopOnlineModel.FK_Category_Category">
@@ -169,6 +265,34 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Category" EntitySet="Categories" />
           </AssociationSet>
+          <EntitySet Name="ProductImages" EntityType="ShopOnlineModel.ProductImage" />
+          <AssociationSet Name="FK_ProductImage_Product" Association="ShopOnlineModel.FK_ProductImage_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductImage" EntitySet="ProductImages" />
+          </AssociationSet>
+          <EntitySet Name="ProductCategories" EntityType="ShopOnlineModel.ProductCategory" />
+          <AssociationSet Name="FK_ProductCategory_Category" Association="ShopOnlineModel.FK_ProductCategory_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategory_Product" Association="ShopOnlineModel.FK_ProductCategory_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="ShopOnlineModel.Order" />
+          <EntitySet Name="OrderDetails" EntityType="ShopOnlineModel.OrderDetail" />
+          <AssociationSet Name="FK_Order_User" Association="ShopOnlineModel.FK_Order_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Order" Association="ShopOnlineModel.FK_OrderDetail_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_Product" Association="ShopOnlineModel.FK_OrderDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -178,12 +302,13 @@
           <Property Name="CategoryName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ProductCategories" Relationship="ShopOnlineModel.FK_ProductCategory_Category" FromRole="Category" ToRole="ProductCategory" />
           <Property Type="Int32" Name="ParentCategoryId" />
           <Property Type="Int32" Name="CreatedUserId" Nullable="false" />
           <NavigationProperty Name="Childs" Relationship="ShopOnlineModel.FK_Category_Category" FromRole="Category" ToRole="Category1" />
           <NavigationProperty Name="Parent" Relationship="ShopOnlineModel.FK_Category_Category" FromRole="Category1" ToRole="Category" />
           <NavigationProperty Name="User" Relationship="ShopOnlineModel.FK_Category_User" FromRole="Category" ToRole="User" />
+          <Property Type="Int32" Name="CategoryLevel" Nullable="false" />
+          <NavigationProperty Name="ProductCategories" Relationship="ShopOnlineModel.FK_ProductCategory_Category" FromRole="Category" ToRole="ProductCategory" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -193,17 +318,16 @@
           <Property Name="ProductCode" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="ProductName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Type="String" Name="ProductShortDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProductDetailDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="UpdatedDate" Precision="3" />
+          <NavigationProperty Name="ProductImages" Relationship="ShopOnlineModel.FK_ProductImage_Product" FromRole="Product" ToRole="ProductImage" />
           <NavigationProperty Name="ProductCategories" Relationship="ShopOnlineModel.FK_ProductCategory_Product" FromRole="Product" ToRole="ProductCategory" />
-        </EntityType>
-        <EntityType Name="ProductCategory">
-          <Key>
-            <PropertyRef Name="ProductCategoryId" />
-          </Key>
-          <Property Name="ProductCategoryId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="ShopOnlineModel.FK_ProductCategory_Category" FromRole="ProductCategory" ToRole="Category" />
-          <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_ProductCategory_Product" FromRole="ProductCategory" ToRole="Product" />
+          <Property Type="Decimal" Name="SaleOffPrice" Precision="19" Scale="4" />
+          <Property Type="Boolean" Name="IsSaleOff" />
+          <Property Type="Boolean" Name="IsNew" />
+          <NavigationProperty Name="OrderDetails" Relationship="ShopOnlineModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -215,30 +339,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK_ProductCategory_Category">
-          <End Role="Category" Type="ShopOnlineModel.Category" Multiplicity="1" />
-          <End Role="ProductCategory" Type="ShopOnlineModel.ProductCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryId" />
-            </Principal>
-            <Dependent Role="ProductCategory">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductCategory_Product">
-          <End Role="Product" Type="ShopOnlineModel.Product" Multiplicity="1" />
-          <End Role="ProductCategory" Type="ShopOnlineModel.ProductCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
-            </Principal>
-            <Dependent Role="ProductCategory">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Config">
           <Key>
             <PropertyRef Name="ConfigId" />
@@ -257,6 +357,9 @@
           <Property Type="String" Name="Password" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Role" Nullable="false" />
           <NavigationProperty Name="Categories" Relationship="ShopOnlineModel.FK_Category_User" FromRole="User" ToRole="Category" />
+          <Property Type="String" Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Telephone" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK_Order_User" FromRole="User" ToRole="Order" />
         </EntityType>
         <Association Name="FK_Category_Category">
           <End Type="ShopOnlineModel.Category" Role="Category" Multiplicity="0..1" />
@@ -282,6 +385,121 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProductImage">
+          <Key>
+            <PropertyRef Name="ProductImageId" />
+          </Key>
+          <Property Type="Int32" Name="ProductImageId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ProductImageUrl" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ProductId" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_ProductImage_Product" FromRole="ProductImage" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_ProductImage_Product">
+          <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ShopOnlineModel.ProductImage" Role="ProductImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductImage">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryId" />
+          </Key>
+          <Property Type="Int32" Name="ProductCategoryId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CategoryId" Nullable="false" />
+          <Property Type="Int32" Name="ProductId" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="ShopOnlineModel.FK_ProductCategory_Category" FromRole="ProductCategory" ToRole="Category" />
+          <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_ProductCategory_Product" FromRole="ProductCategory" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_ProductCategory_Category">
+          <End Type="ShopOnlineModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="ShopOnlineModel.ProductCategory" Role="ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ProductCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategory_Product">
+          <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ShopOnlineModel.ProductCategory" Role="ProductCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="ProductCategory">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Type="Int32" Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ShippingAddress" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="ShippingTelephon" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="ShopOnlineModel.FK_Order_User" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="OrderDetails" Relationship="ShopOnlineModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailId" />
+          </Key>
+          <Property Type="Int32" Name="OrderDetailId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Type="Int32" Name="ProductId" Nullable="false" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="ShopOnlineModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Order_User">
+          <End Type="ShopOnlineModel.User" Role="User" Multiplicity="1" />
+          <End Type="ShopOnlineModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Order">
+          <End Type="ShopOnlineModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="ShopOnlineModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_Product">
+          <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ShopOnlineModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -291,6 +509,7 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="ShopOnlineModel.Category">
               <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryLevel" ColumnName="CategoryLevel" />
                 <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
                 <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
@@ -303,19 +522,17 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="ShopOnlineModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="IsNew" ColumnName="IsNew" />
+                <ScalarProperty Name="IsSaleOff" ColumnName="IsSaleOff" />
+                <ScalarProperty Name="SaleOffPrice" ColumnName="SaleOffPrice" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ProductDetailDescription" ColumnName="ProductDetailDescription" />
+                <ScalarProperty Name="ProductShortDescription" ColumnName="ProductShortDescription" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductCategories">
-            <EntityTypeMapping TypeName="ShopOnlineModel.ProductCategory">
-              <MappingFragment StoreEntitySet="ProductCategory">
-                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -342,10 +559,52 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ShopOnlineModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductImages">
+            <EntityTypeMapping TypeName="ShopOnlineModel.ProductImage">
+              <MappingFragment StoreEntitySet="ProductImage">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductImageUrl" ColumnName="ProductImageUrl" />
+                <ScalarProperty Name="ProductImageId" ColumnName="ProductImageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategories">
+            <EntityTypeMapping TypeName="ShopOnlineModel.ProductCategory">
+              <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="ShippingTelephon" ColumnName="ShippingTelephon" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="ShopOnlineModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

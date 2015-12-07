@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "CheckOutStep4";
+    Layout = "~/Views/Shared/_ContactLayout.cshtml";
+}
+@model ShopOnline.Models.CartViewModel
+<div class="col-md-9 clearfix" id="checkout">
+
+    <div class="box">
+        <form method="post" action="shop-checkout4.html">
+            <ul class="nav nav-pills nav-justified">
+                <li><a href="@Url.Action("CheckOutStep1", "Cart")"><i class="fa fa-map-marker"></i>
+                    <br>
+                    Địa Chỉ</a>
+                </li>
+                <li><a href="@Url.Action("CheckOutStep2", "Cart")"><i class="fa fa-truck"></i>
+                    <br>
+                    Phương Thức Giao Hàng</a>
+                </li>
+                <li><a href="@Url.Action("CheckOutStep3", "Cart")"><i class="fa fa-money"></i>
+                    <br>
+                    Phương Thức Thanh Toán</a>
+                </li>
+                <li class="active"><a href="#"><i class="fa fa-eye"></i>
+                    <br>
+                    Xem Lại Đơn Hàng</a>
+                </li>
+            </ul>
+
+            <div class="content">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Sản Phẩm</th>
+                                <th>Số Lượng</th>
+                                <th>Giá</th>
+                                <th>Tổng Cộng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                var product = item.Product;
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            <img src="@Url.Content(product.ProductImageDisplay.ProductImageUrl)" alt="@product.ProductName">
+                                        </a>
+                                    </td>
+                                    <td><a href="#">@product.ProductName</a>
+                                    </td>
+                                    <td>@item.Quantity</td>
+                                    <td>@product.Price</td>
+                                    <td>@item.TotalPrice</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4">Tổng Cộng</th>
+                                <th>@Model.Total</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.content -->
+
+            <div class="box-footer">
+                <div class="pull-left">
+                    <a href="shop-checkout3.html" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Payment method</a>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-template-main">
+                        Place an order<i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /.box -->
+
+
+</div>
+<!-- /.col-md-9 -->
+<!-- /.col-md-9 -->
+@{Html.RenderAction("RenderOrderSummary", "Cart");}

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ShopOnline.App_Start;
+using ShopOnline.Extension;
 
 namespace ShopOnline
 {
@@ -19,6 +21,22 @@ namespace ShopOnline
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            AutoMapperConfig.RegisterMappings();
+            ////find the default JsonVAlueProviderFactory
+            //JsonValueProviderFactory jsonValueProviderFactory = null;
+            //foreach (var factory in ValueProviderFactories.Factories)
+            //{
+            //    if (factory is JsonValueProviderFactory)
+            //    {
+            //        jsonValueProviderFactory = factory as JsonValueProviderFactory;
+            //    }
+            //}
+
+            ////remove the default JsonVAlueProviderFactory
+            //if (jsonValueProviderFactory != null) ValueProviderFactories.Factories.Remove(jsonValueProviderFactory);
+
+            ////add the custom one
+            //ValueProviderFactories.Factories.Add(new CustomJsonValueProviderFactory());
         }
     }
 }

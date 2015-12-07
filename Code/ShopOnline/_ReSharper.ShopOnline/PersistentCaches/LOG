@@ -1,5 +1,5 @@
-2015/11/26-12:39:37.575 43d4 Recovering log #6
-2015/11/26-12:39:37.595 43d4 Level-0 table #8: started
-2015/11/26-12:39:37.625 43d4 Level-0 table #8: 15456 bytes OK
-2015/11/26-12:39:37.675 43d4 Delete type=0 #6
-2015/11/26-12:39:37.685 43d4 Delete type=3 #4
+2015/12/07-09:43:22.835 1be0 Recovering log #87
+2015/12/07-09:43:22.888 1be0 Level-0 table #89: started
+2015/12/07-09:43:22.994 1be0 Level-0 table #89: 49441 bytes OK
+2015/12/07-09:43:23.087 1be0 Delete type=0 #87
+2015/12/07-09:43:23.087 1be0 Delete type=3 #85

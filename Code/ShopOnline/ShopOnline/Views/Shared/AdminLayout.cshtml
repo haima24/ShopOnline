@@ -1,4 +1,4 @@
-﻿    <!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,18 +12,19 @@
     <title>Shop Online - Trang Quản Lí</title>
 
     <!-- Bootstrap Core CSS -->
-<link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")" rel="stylesheet" />
     <!-- MetisMenu CSS -->
-<link href="@Url.Content("~/Content/metisMenu/dist/metisMenu.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/metisMenu/dist/metisMenu.css")" rel="stylesheet" />
     <!-- DataTables CSS -->
-<link href="@Url.Content("~/Content/bootstrap/css/dataTables.bootstrap.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap/css/dataTables.bootstrap.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-multiselect.css")" rel="stylesheet" />
     <!-- DataTables Responsive CSS -->
-        <link href="@Url.Content("~/Content/bootstrap/css/dataTables.responsive.css")" rel="stylesheet" />
-
+    <link href="@Url.Content("~/Content/bootstrap/css/dataTables.responsive.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/dropzone/dropzone.css")" rel="stylesheet" />
     <!-- Custom CSS -->
-<link href="@Url.Content("~/Content/css/sb-admin-2.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/sb-admin-2.css")" rel="stylesheet" />
     <!-- Custom Fonts -->
-        <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.css")" rel="stylesheet" />
     <link href="~/Content/summernote/summernote.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -53,20 +54,20 @@
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
-              
-               
+
+
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -93,22 +94,22 @@
                             <a href="#"><i class="fa fa-wrench fa-fw"></i>Cấu Hình Chung<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="@Url.Action("ConfigLogo","Admin")">Logo</a>
+                                    <a href="@Url.Action("ConfigLogo", "Admin")">Logo</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ConfigBanner","Admin")">Banner</a>
+                                    <a href="@Url.Action("ConfigBanner", "Admin")">Banner</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ConfigHome","Admin")">Trang Chủ</a>
-                                </li>
-                                 <li>
-                                    <a href="@Url.Action("ConfigIntroduction","Admin")">Giới Thiệu</a>
+                                    <a href="@Url.Action("ConfigHome", "Admin")">Trang Chủ</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ConfigProcess","Admin")">Quy Trình Đặt Hàng</a>
+                                    <a href="@Url.Action("ConfigIntroduction", "Admin")">Giới Thiệu</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ConfigContact","Admin")">Liên Hệ</a>
+                                    <a href="@Url.Action("ConfigProcess", "Admin")">Quy Trình Đặt Hàng</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ConfigContact", "Admin")">Liên Hệ</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -117,13 +118,16 @@
                             <a href="#"><i class="fa fa-table fa-fw"></i>Danh Mục<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="@Url.Action("Categories","Admin")">Chủng Loại Danh Mục</a>
+                                    <a href="@Url.Action("CategoriesParent", "Admin")">Chủng Loại Danh Mục</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("CategoriesSub","Admin")">Chi Tiết Danh Mục</a>
+                                    <a href="@Url.Action("CategoriesSub", "Admin")">Chi Tiết Danh Mục</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ProductList", "Admin")"><i class="fa fa-cubes"></i>Sản Phẩm</a>
                         </li>
                     </ul>
                 </div>
@@ -133,7 +137,7 @@
         </nav>
 
         <div id="page-wrapper">
-          @RenderBody()
+            @RenderBody()
         </div>
         <!-- /#page-wrapper -->
 
@@ -141,22 +145,25 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-        <script src="@Url.Content("~/Content/bootstrap/js/jquery.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery.js")"></script>
 
     <!-- Bootstrap Core JavaScript -->
-        <script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-        <script src="@Url.Content("~/Content/metisMenu/dist/metisMenu.js")"></script>
+    <script src="@Url.Content("~/Content/metisMenu/dist/metisMenu.js")"></script>
 
     <!-- DataTables JavaScript -->
-        <script src="@Url.Content("~/Content/bootstrap/js/jquery.dataTables.js")"></script>
-        <script src="@Url.Content("~/Content/bootstrap/js/dataTables.bootstrap.js")"></script>
-        <script src="@Url.Content("~/Content/summernote/summernote.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/dataTables.bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/bootstrap-multiselect.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/moment.js")"></script>
+    <script src="@Url.Content("~/Content/summernote/summernote.js")"></script>
+    <script src="@Url.Content("~/Content/dropzone/dropzone.js")"></script>
     <!-- Custom Theme JavaScript -->
-        <script src="@Url.Content("~/Scripts/sb-admin-2.js")"></script>
-
-      @RenderSection("scripts", required: false)
+    <script src="@Url.Content("~/Scripts/sb-admin-2.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/environment.js")"></script>
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>

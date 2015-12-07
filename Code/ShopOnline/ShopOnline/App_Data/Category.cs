@@ -16,8 +16,8 @@ namespace ShopOnline.App_Data
     {
         public Category()
         {
-            this.ProductCategories = new HashSet<ProductCategory>();
             this.Childs = new HashSet<Category>();
+            this.ProductCategories = new HashSet<ProductCategory>();
         }
     
         public int CategoryId { get; set; }
@@ -26,10 +26,11 @@ namespace ShopOnline.App_Data
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> ParentCategoryId { get; set; }
         public int CreatedUserId { get; set; }
+        public int CategoryLevel { get; set; }
     
-        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
         public virtual ICollection<Category> Childs { get; set; }
         public virtual Category Parent { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
     }
 }

@@ -235,9 +235,14 @@ function counters() {
 
 function pictureZoom() {
 
-    $('.product .image, .post .image, .photostream div').each(function () {
+    $('.product .image').each(function () {
 	var imgHeight = $(this).find('img').height();
-	$(this).height(imgHeight);
+        //$(this).height(imgHeight);
+	$(this).height(262);
+    });
+    $('.post .image, .photostream div').each(function () {
+        var imgHeight = $(this).find('img').height();
+        $(this).height(imgHeight);
     });
 }
 

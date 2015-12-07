@@ -360,3 +360,22 @@ table.dataTable thead .sorting:after {
     height: 100px;
      border-radius: initial;
  }
+ .product-images {
+         width: 270px;
+     min-height: 100px;
+    height: auto;
+    border: 1px dotted;
+    cursor: pointer;
+ }
+  .product-images .dz-image {
+      margin: 10px 10px 0 10px;
+  }
+    .product-images .dz-remove {
+         margin-left: 180px;
+  }
+    .product-images .exist.dz-remove {
+         margin-left: 170px;
+  }
+ .product-images .dz-details, .product-images .dz-error-mark , .product-images .dz-success-mark  {
+     display: none;
+ }

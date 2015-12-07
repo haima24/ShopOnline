@@ -16,14 +16,25 @@ namespace ShopOnline.App_Data
     {
         public Product()
         {
+            this.ProductImages = new HashSet<ProductImage>();
             this.ProductCategories = new HashSet<ProductCategory>();
+            this.OrderDetails = new HashSet<OrderDetail>();
         }
     
         public int ProductId { get; set; }
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
         public Nullable<decimal> Price { get; set; }
+        public string ProductShortDescription { get; set; }
+        public string ProductDetailDescription { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public Nullable<decimal> SaleOffPrice { get; set; }
+        public Nullable<bool> IsSaleOff { get; set; }
+        public Nullable<bool> IsNew { get; set; }
     
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -1,0 +1,10 @@
+﻿@model dynamic
+@if (Model.IsUserLoggedIn)
+{
+    <a href="#"><i class="fa fa-user"></i><span class="hidden-xs text-uppercase">Xin chào <strong>@Model.UserName</strong></span></a>
+}
+else
+{
+    <a href="#" data-toggle="modal" data-target="#login-modal"><i class="fa fa-sign-in"></i><span class="hidden-xs text-uppercase">Đăng Nhập</span></a>
+    <a href="@Url.Action("SignUpPage", "Contact")"><i class="fa fa-user"></i><span class="hidden-xs text-uppercase">Đăng Ký</span></a>
+}

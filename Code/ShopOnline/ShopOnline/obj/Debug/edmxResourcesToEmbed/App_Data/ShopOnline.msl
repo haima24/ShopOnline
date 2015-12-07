@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="ShopOnlineModel.Category">
         <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="CategoryLevel" ColumnName="CategoryLevel" />
           <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
           <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
           <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
@@ -16,19 +17,17 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="ShopOnlineModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="IsNew" ColumnName="IsNew" />
+          <ScalarProperty Name="IsSaleOff" ColumnName="IsSaleOff" />
+          <ScalarProperty Name="SaleOffPrice" ColumnName="SaleOffPrice" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ProductDetailDescription" ColumnName="ProductDetailDescription" />
+          <ScalarProperty Name="ProductShortDescription" ColumnName="ProductShortDescription" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
           <ScalarProperty Name="ProductName" ColumnName="ProductName" />
           <ScalarProperty Name="Price" ColumnName="Price" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ProductCategories">
-      <EntityTypeMapping TypeName="ShopOnlineModel.ProductCategory">
-        <MappingFragment StoreEntitySet="ProductCategory">
-          <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
-          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -55,10 +54,52 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="ShopOnlineModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="Role" ColumnName="Role" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductImages">
+      <EntityTypeMapping TypeName="ShopOnlineModel.ProductImage">
+        <MappingFragment StoreEntitySet="ProductImage">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ProductImageUrl" ColumnName="ProductImageUrl" />
+          <ScalarProperty Name="ProductImageId" ColumnName="ProductImageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductCategories">
+      <EntityTypeMapping TypeName="ShopOnlineModel.ProductCategory">
+        <MappingFragment StoreEntitySet="ProductCategory">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="ShopOnlineModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="ShippingTelephon" ColumnName="ShippingTelephon" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="ShopOnlineModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetail">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

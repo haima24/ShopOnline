@@ -9,8 +9,11 @@
       [Config].[ConfigValue] AS [ConfigValue]
       FROM [dbo].[Config] AS [Config]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="Order" EntityType="ShopOnlineModel.Store.Order" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderDetail" EntityType="ShopOnlineModel.Store.OrderDetail" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Product" EntityType="ShopOnlineModel.Store.Product" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ProductCategory" EntityType="ShopOnlineModel.Store.ProductCategory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductImage" EntityType="ShopOnlineModel.Store.ProductImage" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="sysdiagrams" EntityType="ShopOnlineModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="User" EntityType="ShopOnlineModel.Store.User" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Category_Category" Association="ShopOnlineModel.Store.FK_Category_Category">
@@ -21,6 +24,18 @@
       <End Role="User" EntitySet="User" />
       <End Role="Category" EntitySet="Category" />
     </AssociationSet>
+    <AssociationSet Name="FK_Order_User" Association="ShopOnlineModel.Store.FK_Order_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Order" Association="ShopOnlineModel.Store.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Product" Association="ShopOnlineModel.Store.FK_OrderDetail_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
     <AssociationSet Name="FK_ProductCategory_Category" Association="ShopOnlineModel.Store.FK_ProductCategory_Category">
       <End Role="Category" EntitySet="Category" />
       <End Role="ProductCategory" EntitySet="ProductCategory" />
@@ -29,6 +44,10 @@
       <End Role="Product" EntitySet="Product" />
       <End Role="ProductCategory" EntitySet="ProductCategory" />
     </AssociationSet>
+    <AssociationSet Name="FK_ProductImage_Product" Association="ShopOnlineModel.Store.FK_ProductImage_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductImage" EntitySet="ProductImage" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Category">
     <Key>
@@ -36,6 +55,7 @@
     </Key>
     <Property Name="CategoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="CategoryName" Type="nvarchar(max)" />
+    <Property Name="CategoryLevel" Type="int" Nullable="false" />
     <Property Name="ParentCategoryId" Type="int" />
     <Property Name="CreatedUserId" Type="int" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -53,6 +73,26 @@
     <Property Name="ConfigCode" Type="nvarchar" Nullable="false" MaxLength="200" />
     <Property Name="ConfigValue" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ShippingAddress" Type="nvarchar(max)" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ShippingTelephon" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderDetailId" />
+    </Key>
+    <Property Name="OrderDetailId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="Price" Type="money" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Product">
     <Key>
       <PropertyRef Name="ProductId" />
@@ -61,6 +101,13 @@
     <Property Name="ProductCode" Type="nvarchar(max)" />
     <Property Name="ProductName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Price" Type="money" />
+    <Property Name="SaleOffPrice" Type="money" />
+    <Property Name="IsSaleOff" Type="bit" />
+    <Property Name="IsNew" Type="bit" />
+    <Property Name="ProductShortDescription" Type="nvarchar(max)" />
+    <Property Name="ProductDetailDescription" Type="nvarchar(max)" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="ProductCategory">
     <Key>
@@ -68,6 +115,14 @@
     </Key>
     <Property Name="ProductCategoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="CategoryId" Type="int" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductImage">
+    <Key>
+      <PropertyRef Name="ProductImageId" />
+    </Key>
+    <Property Name="ProductImageId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProductImageUrl" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
@@ -88,6 +143,8 @@
     <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Role" Type="int" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Telephone" Type="nvarchar(max)" />
   </EntityType>
   <Association Name="FK_Category_Category">
     <End Role="Category" Type="ShopOnlineModel.Store.Category" Multiplicity="0..1" />
@@ -113,6 +170,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Order_User">
+    <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="1" />
+    <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Order">
+    <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="1" />
+    <End Role="OrderDetail" Type="ShopOnlineModel.Store.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Product">
+    <End Role="Product" Type="ShopOnlineModel.Store.Product" Multiplicity="1" />
+    <End Role="OrderDetail" Type="ShopOnlineModel.Store.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ProductCategory_Category">
     <End Role="Category" Type="ShopOnlineModel.Store.Category" Multiplicity="1" />
     <End Role="ProductCategory" Type="ShopOnlineModel.Store.ProductCategory" Multiplicity="*" />
@@ -121,7 +214,7 @@
         <PropertyRef Name="CategoryId" />
       </Principal>
       <Dependent Role="ProductCategory">
-        <PropertyRef Name="ProductId" />
+        <PropertyRef Name="CategoryId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -133,6 +226,18 @@
         <PropertyRef Name="ProductId" />
       </Principal>
       <Dependent Role="ProductCategory">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductImage_Product">
+    <End Role="Product" Type="ShopOnlineModel.Store.Product" Multiplicity="1" />
+    <End Role="ProductImage" Type="ShopOnlineModel.Store.ProductImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="ProductImage">
         <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>

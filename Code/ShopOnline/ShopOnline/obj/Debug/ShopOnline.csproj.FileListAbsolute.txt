@@ -26,3 +26,5 @@ E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\System.Web.WebP
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\obj\Debug\ShopOnline.csprojResolveAssemblyReference.cache
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\obj\Debug\ShopOnline.dll
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\obj\Debug\ShopOnline.pdb
+E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\AutoMapper.dll
+E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\AutoMapper.xml

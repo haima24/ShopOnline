@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -116,12 +119,27 @@
     <Compile Include="App_Data\Config.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\Order.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OrderDetail.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\ProductImage.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\User.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="Constants\Common.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\BaseFrontController.cs" />
+    <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\ProductListController.cs" />
+    <Compile Include="Extension\ControllerExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -131,7 +149,13 @@
     <Compile Include="App_Data\ProductCategory.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\OrderDetailViewModel.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\ProductImageViewModel.cs" />
+    <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\ProductListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Data\ShopOnline.Context.cs">
       <AutoGen>True</AutoGen>
@@ -154,22 +178,27 @@
     <Compile Include="Service\BaseService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\ConfigService.cs" />
+    <Compile Include="Service\UserService.cs" />
+    <Compile Include="Service\ProductService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\bootstrap\css\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\css\dataTables.bootstrap.css" />
     <Content Include="Content\bootstrap\css\dataTables.responsive.css" />
+    <Content Include="Content\bootstrap\js\bootstrap-multiselect.js" />
     <Content Include="Content\bootstrap\js\bootstrap.js" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\bootstrap\js\dataTables.bootstrap.js" />
     <Content Include="Content\bootstrap\js\jquery.dataTables.js" />
     <Content Include="Content\bootstrap\js\jquery.js" />
+    <Content Include="Content\bootstrap\js\moment.js" />
     <Content Include="Content\bootstrap\js\npm.js" />
     <Content Include="Content\component\js\bootstrap-hover-dropdown.js" />
     <Content Include="Content\component\js\bootstrap.min.js" />
@@ -200,8 +229,12 @@
     <Content Include="Content\css\style.red.css" />
     <Content Include="Content\css\style.turquoise.css" />
     <Content Include="Content\css\style.violet.css" />
+    <Content Include="Content\dropzone\dropzone.css" />
+    <Content Include="Content\dropzone\dropzone.js" />
+    <Content Include="Content\fly-to-element\codex-fly.js" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\lazyload\scrollpagination.js" />
     <Content Include="Content\metisMenu\dist\metisMenu.css" />
     <Content Include="Content\metisMenu\dist\metisMenu.js" />
     <Content Include="Content\metisMenu\dist\metisMenu.min.css" />
@@ -296,7 +329,11 @@
     <Content Include="images\img\texture-turquoise.png" />
     <Content Include="images\img\texture-violet.png" />
     <Content Include="images\img\women.jpg" />
-    <Content Include="Scripts\app\admin\category.js" />
+    <Content Include="Scripts\app\admin\category.parent.js" />
+    <Content Include="Scripts\app\admin\category.sub.js" />
+    <Content Include="Scripts\app\admin\product.list.js" />
+    <Content Include="Scripts\app\front\product.buy.view.js" />
+    <Content Include="Scripts\app\front\product.detail.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\sb-admin-2.js" />
@@ -309,7 +346,9 @@
     </Content>
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Admin\CategoriesSub.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -378,11 +417,65 @@
     <Content Include="Content\metisMenu\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Admin\Categories.cshtml" />
+    <Content Include="Views\Admin\CategoriesParent.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Admin\EditCategory.cshtml" />
-    <Content Include="Views\Admin\NewCategory.cshtml" />
+    <Content Include="Views\Admin\EditCategoryParent.cshtml" />
+    <Content Include="Views\Admin\NewCategoryParent.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EditCategorySub.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\NewCategorySub.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductList\GetCategoryList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\app\environment.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ProductList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\NewProduct.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EditProduct.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductList\Detail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductList\GetProducts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_ContactLayout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\SignUpPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Helper\RenderLoginBar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\CheckOutCart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\CheckOutStep1.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\RenderOrderSummary.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\CheckOutStep2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\CheckOutStep3.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\CheckOutStep4.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

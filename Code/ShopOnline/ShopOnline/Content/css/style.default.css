@@ -579,6 +579,7 @@ fieldset[disabled] .btn-template-main:active,
 .btn-template-main[disabled].active,
 fieldset[disabled] .btn-template-main.active {
   background-color: #ffffff;
+    color: #38a7bb;
   border-color: #38a7bb;
 }
 .btn-template-main .badge {
@@ -2545,7 +2546,7 @@ fieldset[disabled] .btn-template-primary.active {
   overflow: hidden;
 }
 #footer .photostream div a {
-  border: solid 1px #eeeeee;
+  /* border: solid 1px #eeeeee; */
 }
 #footer .photostream div img {
   -webkit-transition: all 0.2s ease-out;
@@ -3554,4 +3555,25 @@ a.list-group-item.active > .badge,
 .yamm .dropdown.yamm-fw .dropdown-menu {
   left: 15px;
   right: 15px;
+}
+.fa-2 {
+  font-size: 2em;
+}
+.fa-3 {
+  font-size: 4em;
+}
+.fa-4 {
+  font-size: 7em;
+}
+.fa-5 {
+  font-size: 12em;
+}
+.fa-6 {
+  font-size: 20em;
+}
+.navbar ul.nav> li > a.shopping-cart {
+           padding-top: 16px;
+    padding-bottom: 16px;
+    padding-right: 20px;
+    text-decoration: inherit;
 }

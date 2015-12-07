@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "CheckOutStep1";
+    Layout = "~/Views/Shared/_ContactLayout.cshtml";
+}
+
+<div class="col-md-9 clearfix" id="checkout">
+
+    <div class="box">
+        <form method="post" action="shop-checkout2.html">
+
+            <ul class="nav nav-pills nav-justified">
+                <li class="active"><a href="#"><i class="fa fa-map-marker"></i>
+                    <br>
+                    Địa Chỉ</a>
+                </li>
+                <li class="disabled"><a href="#"><i class="fa fa-truck"></i>
+                    <br>
+                    Phương Thức Giao Hàng</a>
+                </li>
+                <li class="disabled"><a href="#"><i class="fa fa-money"></i>
+                    <br>
+                    Phương Thức Thanh Toán</a>
+                </li>
+                <li class="disabled"><a href="#"><i class="fa fa-eye"></i>
+                    <br>
+                    Xem Lại Đơn Hàng</a>
+                </li>
+            </ul>
+
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="name">Tên</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="phone">Số Điện Thoại</label>
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="street">Số Nhà, Tên Đường</label>
+                            <input type="text" class="form-control" id="street">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="district">Quận,Huyện</label>
+                            <select class="form-control" id="district"></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="city">Tỉnh,Thành Phố</label>
+                            <select class="form-control" id="city"></select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Email">Email</label>
+                            <input type="text" class="form-control" id="Email">
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <!-- /.row -->
+            </div>
+
+            <div class="box-footer">
+                <div class="pull-left">
+                    <a href="@Url.Action("CheckOutCart","Cart")" class="btn btn-default"><i class="fa fa-chevron-left"></i>Trở Về Giỏ Hàng</a>
+                </div>
+                <div class="pull-right">
+                    <a href="@Url.Action("CheckOutStep2","Cart")" class="btn btn-template-main">
+                        Phương thức giao hàng<i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /.box -->
+
+
+</div>
+<!-- /.col-md-9 -->
+@{Html.RenderAction("RenderOrderSummary", "Cart");}
