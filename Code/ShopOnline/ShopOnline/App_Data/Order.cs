@@ -21,11 +21,17 @@ namespace ShopOnline.App_Data
     
         public int OrderId { get; set; }
         public string ShippingAddress { get; set; }
-        public int UserId { get; set; }
+        public Nullable<int> UserId { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public string ShippingTelephon { get; set; }
+        public string ShippingTelephone { get; set; }
+        public System.DateTime UpdatedDate { get; set; }
+        public Nullable<int> LocationCityId { get; set; }
+        public Nullable<int> LocationDistrictId { get; set; }
+        public Nullable<int> OrderStatus { get; set; }
     
         public virtual User User { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual Location LocationCity { get; set; }
+        public virtual Location LocationDistrict { get; set; }
     }
 }

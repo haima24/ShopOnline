@@ -11,10 +11,16 @@ namespace ShopOnline.Service
     {
         public List<Product> GetAllProduct()
         {
-            var products = Context.Products.OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.UpdatedDate).ToList();
+            var products = Context.Products.OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate).ToList();
             return products;
         }
-        public bool CreateProduct(List<int> categoryIds, IEnumerable<HttpPostedFileBase> files, string code, string name, decimal? price, string shortDescription, string detailDescription)
+        public List<Product> GetSixProducts()
+        {
+            var products = Context.Products.OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate).Take(6).ToList();
+            return products;
+        }
+
+        public bool CreateProduct(List<int> categoryIds, IEnumerable<HttpPostedFileBase> files, string code, string name,bool isNew, decimal? price, string shortDescription, string detailDescription)
         {
             var product = new Product();
             product.ProductCode = code;
@@ -24,6 +30,7 @@ namespace ShopOnline.Service
             product.ProductDetailDescription = detailDescription;
             product.CreatedDate = DateTime.Now;
             product.UpdatedDate = DateTime.Now;
+            product.IsNew = isNew;
             foreach (HttpPostedFileBase file in files)
             {
                 var fName = file.FileName;
@@ -55,12 +62,16 @@ namespace ShopOnline.Service
             Context.SaveChanges();
             return product.ProductId > 0;
         }
-        public bool UpdateProduct(IEnumerable<HttpPostedFileBase> files, int id, List<int> categoryIds, string code, string name, decimal? price, string shortDescription, string detailDescription)
+        public bool UpdateProduct(IEnumerable<HttpPostedFileBase> files, int id, List<int> categoryIds, string code, string name,bool isNew, decimal? price, string shortDescription, string detailDescription)
         {
             var product = Context.Products.FirstOrDefault(x => x.ProductId == id);
             var result = false;
             if (product != null)
             {
+                if(files==null)
+                {
+                    files=new List<HttpPostedFileBase>();
+                }
                 foreach (HttpPostedFileBase file in files)
                 {
                     var fName = file.FileName;
@@ -108,6 +119,7 @@ namespace ShopOnline.Service
 
                 product.ProductCode = code;
                 product.ProductName = name;
+                product.IsNew = isNew;
                 product.Price = price;
                 product.ProductShortDescription = shortDescription;
                 product.ProductDetailDescription = detailDescription;
@@ -165,7 +177,7 @@ namespace ShopOnline.Service
                                {
                                    return p.ProductCategories.Select(k => k.CategoryId).Contains(categoryId.Value);
                                }
-                           }).Skip((page + 1)*pageSize).Take(pageSize).Any();
+                           }).OrderByDescending(x=>x.UpdatedDate).ThenByDescending(x=>x.CreatedDate).Skip((page + 1)*pageSize).Take(pageSize).Any();
             var products = Context.Products
                 .Where(delegate(Product p)
                            {
@@ -177,7 +189,7 @@ namespace ShopOnline.Service
                                {
                                    return p.ProductCategories.Select(k => k.CategoryId).Contains(categoryId.Value);
                                }
-                           }).Skip((page) * pageSize)
+                           }).OrderByDescending(x=>x.UpdatedDate).ThenByDescending(x=>x.CreatedDate).Skip((page) * pageSize)
                        .Take(pageSize); 
             return products.ToList();
         }

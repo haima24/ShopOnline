@@ -8,8 +8,7 @@
         <EntityTypeShape EntityType="ShopOnlineModel.Category" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ShopOnlineModel.Product" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="ShopOnlineModel.sysdiagram" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopOnlineModel.Config" Width="1.5" PointX="0.0384280085742604" PointY="26.063109693146828" />
-        <EntityTypeShape EntityType="ShopOnlineModel.User" Width="1.5" PointX="8.1991548874411517" PointY="25.641282033939511" />
+        <EntityTypeShape EntityType="ShopOnlineModel.User" Width="1.5" PointX="8.125" PointY="23.75" />
         <AssociationConnector Association="ShopOnlineModel.FK_Category_Category" />
         <AssociationConnector Association="ShopOnlineModel.FK_Category_User" />
         <EntityTypeShape EntityType="ShopOnlineModel.ProductImage" Width="1.5" PointX="10.418764599793946" PointY="22.002385507338861" />
@@ -17,11 +16,15 @@
         <EntityTypeShape EntityType="ShopOnlineModel.ProductCategory" Width="1.5" PointX="3.875" PointY="1.5" />
         <AssociationConnector Association="ShopOnlineModel.FK_ProductCategory_Category" />
         <AssociationConnector Association="ShopOnlineModel.FK_ProductCategory_Product" />
-        <EntityTypeShape EntityType="ShopOnlineModel.Order" Width="1.5" PointX="0.78772154859626742" PointY="5.4252357359161767" />
-        <EntityTypeShape EntityType="ShopOnlineModel.OrderDetail" Width="1.5" PointX="4.3286514879803413" PointY="9.9258976773945147" />
+        <EntityTypeShape EntityType="ShopOnlineModel.OrderDetail" Width="1.5" PointX="6.5" PointY="9.375" />
+        <AssociationConnector Association="ShopOnlineModel.FK_OrderDetail_Product" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Location" Width="1.5" PointX="1.4798013463056652" PointY="23.192814793061846" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Config" Width="1.5" PointX="6" PointY="22.75" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Order" Width="1.5" PointX="2.875" PointY="7.75" />
         <AssociationConnector Association="ShopOnlineModel.FK_Order_User" />
         <AssociationConnector Association="ShopOnlineModel.FK_OrderDetail_Order" />
-        <AssociationConnector Association="ShopOnlineModel.FK_OrderDetail_Product" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Order_Location" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Order_Location1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

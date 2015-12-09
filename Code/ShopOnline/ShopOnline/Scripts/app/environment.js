@@ -1,6 +1,6 @@
 ﻿$.formatDate = function(date) {
     var d = new Date(parseInt(date.substr(6)));
-    return moment(d).format( "DD-MM-YYYY-H:mm:ss");
+    return moment(d).format( "DD-MM-YYYY H:mm:ss");
 };
 $.convertJqueryArrayToJSArray = function(obj) {
     var arr = [];

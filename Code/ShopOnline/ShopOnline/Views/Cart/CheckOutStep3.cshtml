@@ -5,7 +5,7 @@
 <div class="col-md-9 clearfix" id="checkout">
 
     <div class="box">
-        <form>
+        <form id="form-checkout-step3" action="@Url.Action("CheckOutStep4")" method="POST">
             <ul class="nav nav-pills nav-justified">
                 <li><a href="@Url.Action("CheckOutStep1","Cart")"><i class="fa fa-map-marker"></i>
                     <br>
@@ -36,8 +36,9 @@
 
                             <div class="box-footer text-center">
 
-                                <input type="radio" name="payment" value="payment1">
+                                <input type="radio" name="payment" value="CashOnDelivery">
                             </div>
+                             <label style="margin-top: 30px;" for="payment" generated="true" class="error"></label>
                         </div>
                     </div>
                 </div>
@@ -51,9 +52,9 @@
                     <a href="@Url.Action("CheckOutStep2")" class="btn btn-default"><i class="fa fa-chevron-left"></i>Trở Lại Phương Thức Giao Hàng</a>
                 </div>
                 <div class="pull-right">
-                    <a href="@Url.Action("CheckOutStep4")" class="btn btn-template-main">
+                    <button type="submit" class="btn btn-template-main">
                         Xem Lại Đơn Hàng<i class="fa fa-chevron-right"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         </form>
@@ -64,3 +65,6 @@
 </div>
 <!-- /.col-md-9 -->
 @{Html.RenderAction("RenderOrderSummary", "Cart");}
+@section scripts{
+    <script src="@Url.Content("~/Scripts/app/front/product.buy.view.js")"></script>
+}

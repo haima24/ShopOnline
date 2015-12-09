@@ -13,7 +13,7 @@
 
     <div class="box">
 
-        <form>
+        <form id="form-checkout-step1" method="POST" action="@Url.Action("CheckOutStep1", "Cart")">
 
             <div class="table-responsive">
                 <table class="table">
@@ -38,7 +38,7 @@
                                 <td><a href="#">@product.ProductName</a>
                                 </td>
                                 <td>
-                                    <input type="number" value="@item.Quantity" class="form-control">
+                                    <input type="number" product-id="@product.ProductId" value="@item.Quantity" class="form-control quantity">
                                 </td>
                                 <td>@product.Price</td>
                                 <td>@item.TotalPrice</td>
@@ -67,14 +67,13 @@
                     @*<button class="btn btn-default"><i class="fa fa-refresh"></i>Update cart</button>*@
                     @if (Model.ItemsCount > 0)
                     {
-                        <a href="@Url.Action("CheckOutStep1","Cart")" class="btn btn-template-main">
+                        <button type="submit" class="btn btn-template-main">
                             Tiếp Tục Đơn Hàng <i class="fa fa-chevron-right"></i>
-                        </a>
+                        </button>
                     }
                     else
                     {
-                        <a disabled="disabled" class="btn btn-template-main">
-                            Tiếp Tục Đơn Hàng <i class="fa fa-chevron-right"></i>
+                        <a disabled="disabled" class="btn btn-template-main">Tiếp Tục Đơn Hàng <i class="fa fa-chevron-right"></i>
                         </a>
                     }
 
@@ -144,6 +143,7 @@
 </div>
 <!-- /.col-md-9 -->
 
-@{Html.RenderAction("RenderOrderSummary","Cart");}
+@{Html.RenderAction("RenderOrderSummary", "Cart");}
 @section scripts{
+
 }

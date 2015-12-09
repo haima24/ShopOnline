@@ -10,7 +10,7 @@
             <ul>
                 @foreach(var child in parent.Childs)
                 {
-                    <li><a class="category-sub" child-category-id="@child.CategoryId" href="#">@child.CategoryName</a>
+                    <li><a class="category-sub" child-category-id="@child.CategoryId">@child.CategoryName</a>
                     </li>
                 }
             </ul>

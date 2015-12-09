@@ -379,3 +379,14 @@ table.dataTable thead .sorting:after {
  .product-images .dz-details, .product-images .dz-error-mark , .product-images .dz-success-mark  {
      display: none;
  }
+ 
+.dropzone250.dropzone .dz-preview .dz-image {
+     width: 250px;
+    height: 100px;
+     border-radius: initial;
+ }
+.dropzone500.dropzone .dz-preview .dz-image {
+     width: 500px;
+    height: 200px;
+     border-radius: initial;
+ }

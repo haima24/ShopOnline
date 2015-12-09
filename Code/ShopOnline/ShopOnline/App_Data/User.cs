@@ -26,6 +26,11 @@ namespace ShopOnline.App_Data
         public int Role { get; set; }
         public string Address { get; set; }
         public string Telephone { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public string Email { get; set; }
+        public string RealName { get; set; }
+        public Nullable<int> LocationDistrictId { get; set; }
+        public Nullable<int> LocationCityId { get; set; }
     
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

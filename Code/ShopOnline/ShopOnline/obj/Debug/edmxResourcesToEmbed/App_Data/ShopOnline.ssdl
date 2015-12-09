@@ -2,13 +2,8 @@
 <Schema Namespace="ShopOnlineModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="ShopOnlineModelStoreContainer">
     <EntitySet Name="Category" EntityType="ShopOnlineModel.Store.Category" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Config" EntityType="ShopOnlineModel.Store.Config" store:Type="Tables" store:Schema="dbo" store:Name="Config">
-      <DefiningQuery>SELECT 
-      [Config].[ConfigId] AS [ConfigId], 
-      [Config].[ConfigCode] AS [ConfigCode], 
-      [Config].[ConfigValue] AS [ConfigValue]
-      FROM [dbo].[Config] AS [Config]</DefiningQuery>
-    </EntitySet>
+    <EntitySet Name="Config" EntityType="ShopOnlineModel.Store.Config" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Location" EntityType="ShopOnlineModel.Store.Location" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Order" EntityType="ShopOnlineModel.Store.Order" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="OrderDetail" EntityType="ShopOnlineModel.Store.OrderDetail" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Product" EntityType="ShopOnlineModel.Store.Product" store:Type="Tables" Schema="dbo" />
@@ -23,6 +18,14 @@
     <AssociationSet Name="FK_Category_User" Association="ShopOnlineModel.Store.FK_Category_User">
       <End Role="User" EntitySet="User" />
       <End Role="Category" EntitySet="Category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Location" Association="ShopOnlineModel.Store.FK_Order_Location">
+      <End Role="Location" EntitySet="Location" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Location1" Association="ShopOnlineModel.Store.FK_Order_Location1">
+      <End Role="Location" EntitySet="Location" />
+      <End Role="Order" EntitySet="Order" />
     </AssociationSet>
     <AssociationSet Name="FK_Order_User" Association="ShopOnlineModel.Store.FK_Order_User">
       <End Role="User" EntitySet="User" />
@@ -54,24 +57,29 @@
       <PropertyRef Name="CategoryId" />
     </Key>
     <Property Name="CategoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="CategoryName" Type="nvarchar(max)" />
+    <Property Name="CategoryName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CategoryLevel" Type="int" Nullable="false" />
     <Property Name="ParentCategoryId" Type="int" />
     <Property Name="CreatedUserId" Type="int" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatedDate" Type="datetime" />
   </EntityType>
-  <!--Errors Found During Generation:
-      warning 6002: The table/view 'ShopOnline.dbo.Config' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
   <EntityType Name="Config">
     <Key>
       <PropertyRef Name="ConfigId" />
-      <PropertyRef Name="ConfigCode" />
     </Key>
-    <Property Name="ConfigId" Type="int" Nullable="false" />
+    <Property Name="ConfigId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ConfigCode" Type="nvarchar" Nullable="false" MaxLength="200" />
     <Property Name="ConfigValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Name="LocationId" Type="int" Nullable="false" />
+    <Property Name="LocationName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LocationLevel" Type="int" Nullable="false" />
+    <Property Name="ParentId" Type="int" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -79,9 +87,13 @@
     </Key>
     <Property Name="OrderId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="ShippingAddress" Type="nvarchar(max)" />
-    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="ShippingTelephon" Type="nvarchar(max)" />
+    <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+    <Property Name="ShippingTelephone" Type="nvarchar(max)" />
+    <Property Name="LocationCityId" Type="int" />
+    <Property Name="LocationDistrictId" Type="int" />
+    <Property Name="OrderStatus" Type="int" />
   </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
@@ -141,10 +153,15 @@
     </Key>
     <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RealName" Type="nvarchar(max)" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" />
     <Property Name="Role" Type="int" Nullable="false" />
     <Property Name="Address" Type="nvarchar(max)" />
     <Property Name="Telephone" Type="nvarchar(max)" />
+    <Property Name="LocationDistrictId" Type="int" />
+    <Property Name="LocationCityId" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="FK_Category_Category">
     <End Role="Category" Type="ShopOnlineModel.Store.Category" Multiplicity="0..1" />
@@ -170,8 +187,32 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Order_Location">
+    <End Role="Location" Type="ShopOnlineModel.Store.Location" Multiplicity="0..1" />
+    <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="LocationCityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Location1">
+    <End Role="Location" Type="ShopOnlineModel.Store.Location" Multiplicity="0..1" />
+    <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="LocationDistrictId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Order_User">
-    <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="1" />
+    <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="0..1" />
     <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">

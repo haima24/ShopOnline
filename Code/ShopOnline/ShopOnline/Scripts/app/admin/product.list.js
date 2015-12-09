@@ -25,7 +25,7 @@
                      var count = 0;
                      $(images).each(function () {
                          if (count == 0) {
-                             imgs += '<div product-image-id='+this.ProductImageId+' class="item active"><img src=' + this.ProductImageUrl + ' width=200 height=100></div>';
+                             imgs += '<div product-image-id=' + this.ProductImageId + ' class="item active"><img src=' + this.ProductImageUrl + ' width=200 height=100></div>';
                          } else {
                              imgs += '<div product-image-id=' + this.ProductImageId + ' class=item><img src=' + this.ProductImageUrl + ' width=200 height=100></div>';
                          }
@@ -55,14 +55,24 @@
                      return $.formatDate(date);
                  }
              },
+            {
+                'data': 'IsNew',
+                'render': function (isNew) {
+                    if (isNew&&isNew==true) {
+                        return '<input type=checkbox disabled checked />';
+                    } else {
+                        return '<input type=checkbox disabled />';
+                    }
+                }
+            },
              {
                  "data": "ProductId",
                  "render": function (id, o, obj) {
                      var imgs = '';
                      $(obj.ProductImages).each(function () {
-                         imgs += '<div class=dz-image product-image-id='+this.ProductImageId+'><img src=' + this.ProductImageUrl + ' width=250 height=100><a product-image-id=' + this.ProductImageId + ' class="dz-remove exist" product-image-id=' + ' href="#" data-dz-remove="">Remove file</a></div>';
+                         imgs += '<div class=dz-image product-image-id=' + this.ProductImageId + '><img src=' + this.ProductImageUrl + ' width=250 height=100><a product-image-id=' + this.ProductImageId + ' class="dz-remove exist" product-image-id=' + ' href="#" data-dz-remove="">Remove file</a></div>';
                      });
-                     return '<button type="button" product-categories=' + obj.ProductCategories.join(',') + ' product-code=' + obj.ProductCode + ' product-price=' + obj.Price + ' product-name="' + obj.ProductName + '" productid="' + id + '" class="btn btn-primary btn-edit-product"> <i class="fa fa-edit"></i> Sửa</button>' +
+                     return '<button type="button" product-isnew='+obj.IsNew+' product-categories="' + obj.ProductCategories.join(',') + '" product-code=' + obj.ProductCode + ' product-price=' + obj.Price + ' product-name="' + obj.ProductName + '" productid="' + id + '" class="btn btn-primary btn-edit-product"> <i class="fa fa-edit"></i> Sửa</button>' +
                          '  <button type="button" productid="' + id + '" class="btn btn-danger btn-delete-product"> <i class="fa fa-remove"></i> Xóa</button>' +
                          '<div style=display:none class=product-shortdescription>' + obj.ProductShortDescription + '</div>' +
                           '<div style=display:none class=product-detaildescription>' + obj.ProductDetailDescription + '</div>' +
@@ -82,6 +92,8 @@
                 var modal = $('#modalEditProduct');
                 var btnEditCategory = $(this);
                 $('.productid', modal).val($(this).attr("productid"));
+                var productIsNew = $('.product-isnew', modal);
+                productIsNew.prop('checked', btnEditCategory.attr('product-isnew') == "true");
                 var productName = $('.product-name', modal);
                 productName.val(btnEditCategory.attr('product-name'));
                 var productCode = $('.product-code', modal);
@@ -121,6 +133,7 @@
                     var categoriesValues = categories.val();
                     var categoryIdArray = [];
                     var categoryIds = '';
+                    var isNew = productIsNew.prop('checked');
                     if (categoriesValues && categoriesValues.length > 0) {
                         categoryIdArray = categoriesValues.map(function (o, i) {
                             return parseInt(o);
@@ -128,10 +141,10 @@
                         categoryIds = $.convertJqueryArrayToJSArray(categoryIdArray).join(',');
                     }
 
-                   
+
                     var transformer = dropEditProduct;
                     transformer.options.url = '/Admin/UpdateProduct';
-                    transformer.options.params = { id: id, categoryIds: categoryIds, code: code, name: name, price: price, shortDescription: shortDescValue, detailDescription: detailDescValue },
+                    transformer.options.params = { id: id, categoryIds: categoryIds, code: code, name: name, isNew: isNew, price: price, shortDescription: shortDescValue, detailDescription: detailDescValue },
                     transformer.options.customcompletemultiplefiles = function (files, data) {
                         modal.modal('hide');
                         if (data.result) {
@@ -168,6 +181,8 @@
         var categories = $('.product-categories', modal);
         categories.val('');
         categories.multiselect('refresh');
+        var isNewBox= $('.product-isnew', modal);
+        isNewBox.removeProp('checked');
         $('.product-images', modal).empty();
         modal.modal('show');
         var shortdescriptionObj = $('.product-shortdescription', modal);
@@ -183,6 +198,7 @@
             var categoriesValues = categories.val();
             var categoryIdArray = [];
             var categoryIds = '';
+            var isNew = isNewBox.prop('checked');
             if (categoriesValues && categoriesValues.length > 0) {
                 categoryIdArray = categoriesValues.map(function (o, i) {
                     return parseInt(o);
@@ -190,7 +206,7 @@
                 categoryIds = $.convertJqueryArrayToJSArray(categoryIdArray).join(',');
             }
             var transformer = dropNewProduct;
-            transformer.options.params = { categoryIds: categoryIds, code: code, name: name, price: price, shortDescription: shortdescription, detailDescription: detaildescription },
+            transformer.options.params = { categoryIds: categoryIds, code: code, name: name, isNew: isNew, price: price, shortDescription: shortdescription, detailDescription: detaildescription },
             transformer.options.customcompletemultiplefiles = function (files, data) {
                 modal.modal('hide');
                 if (data.result) {

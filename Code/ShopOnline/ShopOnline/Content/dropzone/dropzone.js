@@ -1129,9 +1129,9 @@
         return;
       }
       queuedFiles = this.getQueuedFiles();
-      if (!(queuedFiles.length > 0)) {
-        return;
-      }
+      //if (!(queuedFiles.length > 0)) {
+      //  return;
+      //}
       if (this.options.uploadMultiple) {
         return this.processFiles(queuedFiles.slice(0, parallelUploads - processingLength));
       } else {
@@ -1282,7 +1282,7 @@
       xhr.onload = (function(_this) {
         return function(e) {
           var _ref;
-          if (files[0].status === Dropzone.CANCELED) {
+          if (files[0]&&files[0].status === Dropzone.CANCELED) {
             return;
           }
           if (xhr.readyState !== 4) {
@@ -1374,7 +1374,10 @@
         }
       }
       for (i = _m = 0, _ref5 = files.length - 1; 0 <= _ref5 ? _m <= _ref5 : _m >= _ref5; i = 0 <= _ref5 ? ++_m : --_m) {
-        formData.append(this._getParamName(i), files[i], files[i].name);
+          if (files[i]) {
+              formData.append(this._getParamName(i), files[i], files[i].name);
+          }
+         
       }
       return this.submitRequest(xhr, formData, files);
     };

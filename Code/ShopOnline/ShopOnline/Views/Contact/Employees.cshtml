@@ -1,0 +1,41 @@
+﻿@using ShopOnline.Constants
+@using ShopOnline.Extension
+@model List<ShopOnline.App_Data.Config>
+@{
+
+    var employee1 = Model.FirstOrDefault(x => x.ConfigCode == Common.Employee1);
+    var employee2 = Model.FirstOrDefault(x => x.ConfigCode == Common.Employee2);
+    var employee3 = Model.FirstOrDefault(x => x.ConfigCode == Common.Employee3);
+}
+<div class="item same-height-row clearfix">
+    <div class="image same-height-always">
+        <a href="@employee1.ConfigValue.ToSkypeCall()">
+            <img class="img-responsive" src="@Url.Content("~/images/img/Skype-icon.png")" alt="">
+        </a>
+    </div>
+    <div class="name same-height-always">
+        <h5><a href="@employee1.ConfigValue.ToSkypeCall()">@employee1.ConfigValue</a></h5>
+    </div>
+</div>
+
+<div class="item same-height-row clearfix">
+    <div class="image same-height-always">
+        <a href="@employee2.ConfigValue.ToSkypeCall()">
+            <img class="img-responsive" src="@Url.Content("~/images/img/Skype-icon.png")" alt="">
+        </a>
+    </div>
+    <div class="name same-height-always">
+        <h5><a href="@employee2.ConfigValue.ToSkypeCall()">@employee2.ConfigValue</a></h5>
+    </div>
+</div>
+
+<div class="item same-height-row clearfix">
+    <div class="image same-height-always">
+        <a href="@employee3.ConfigValue.ToSkypeCall()">
+            <img class="img-responsive" src="@Url.Content("~/images/img/Skype-icon.png")" alt="">
+        </a>
+    </div>
+    <div class="name same-height-always">
+        <h5><a href="@employee3.ConfigValue.ToSkypeCall()">@employee3.ConfigValue</a></h5>
+    </div>
+</div>

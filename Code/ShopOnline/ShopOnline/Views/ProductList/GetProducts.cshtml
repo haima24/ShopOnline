@@ -1,4 +1,5 @@
-﻿@model List<ShopOnline.Models.ProductViewModel>
+﻿@using ShopOnline.Extension
+@model List<ShopOnline.Models.ProductViewModel>
 @foreach (var product in Model)
 {
     <div class="col-md-4 col-sm-6">
@@ -11,13 +12,22 @@
             <!-- /.image -->
             <div class="text">
                 <h3><a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })">@product.ProductName</a></h3>
-                <p class="price">@product.Price</p>
+                <p class="price">@product.Price.ToSystemFormat()</p>
                 <p class="buttons">
                     <a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })" class="btn btn-default">View detail</a>
                     <a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })" class="btn btn-template-main"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                 </p>
             </div>
             <!-- /.text -->
+            @if (product.IsNew.HasValue && product.IsNew.Value)
+            {
+                <div class="ribbon new">
+                    <div class="theribbon">Mới</div>
+                    <div class="ribbon-background"></div>
+                </div>
+                <!-- /.ribbon -->
+            }
+
         </div>
         <!-- /.product -->
     </div>

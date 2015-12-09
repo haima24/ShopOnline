@@ -119,6 +119,9 @@
     <Compile Include="App_Data\Config.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\Location.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Order.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
@@ -133,6 +136,7 @@
     </Compile>
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="Constants\Common.cs" />
+    <Compile Include="Constants\CommonEnums.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
@@ -140,6 +144,7 @@
     <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\ProductListController.cs" />
     <Compile Include="Extension\ControllerExtension.cs" />
+    <Compile Include="Extension\HtmlHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -153,7 +158,9 @@
     <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\OrderDetailViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\ProductImageViewModel.cs" />
+    <Compile Include="Models\ProductListFilterViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ProductListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -178,6 +185,8 @@
     <Compile Include="Service\BaseService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\ConfigService.cs" />
+    <Compile Include="Service\LocationService.cs" />
+    <Compile Include="Service\OrderService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Service\ProductService.cs" />
   </ItemGroup>
@@ -229,6 +238,7 @@
     <Content Include="Content\css\style.red.css" />
     <Content Include="Content\css\style.turquoise.css" />
     <Content Include="Content\css\style.violet.css" />
+    <Content Include="Content\css\validate.css" />
     <Content Include="Content\dropzone\dropzone.css" />
     <Content Include="Content\dropzone\dropzone.js" />
     <Content Include="Content\fly-to-element\codex-fly.js" />
@@ -312,6 +322,7 @@
     <Content Include="images\img\product2.jpg" />
     <Content Include="images\img\product3.jpg" />
     <Content Include="images\img\product4.jpg" />
+    <Content Include="images\img\Skype-icon.png" />
     <Content Include="images\img\slide1.jpg" />
     <Content Include="images\img\slide2.jpg" />
     <Content Include="images\img\slide3.jpg" />
@@ -329,11 +340,16 @@
     <Content Include="images\img\texture-turquoise.png" />
     <Content Include="images\img\texture-violet.png" />
     <Content Include="images\img\women.jpg" />
+    <Content Include="Scripts\additional-methods.js" />
     <Content Include="Scripts\app\admin\category.parent.js" />
     <Content Include="Scripts\app\admin\category.sub.js" />
+    <Content Include="Scripts\app\admin\config.js" />
+    <Content Include="Scripts\app\admin\orders.js" />
     <Content Include="Scripts\app\admin\product.list.js" />
+    <Content Include="Scripts\app\front\general.js" />
     <Content Include="Scripts\app\front\product.buy.view.js" />
     <Content Include="Scripts\app\front\product.detail.js" />
+    <Content Include="Scripts\app\front\signup.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\sb-admin-2.js" />
@@ -476,6 +492,45 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Cart\CheckOutStep4.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Cart\CheckOutComplete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\RenderUserPanel.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ConfigLogo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ConfigContact.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\Contact.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Helper\GetSixImages.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\Employees.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\OrdersNewIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ViewOrderDetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\OrdersProcessingIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\OrdersProcessedIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\OrdersDisabledIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

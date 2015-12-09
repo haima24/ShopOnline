@@ -20,10 +20,10 @@ namespace ShopOnline.Controllers
             _productService=new ProductService();
         }
       
-        public ActionResult Index()
+        public ActionResult Index(ProductListFilterViewModel filterModel)
         {
-           
-            return View();
+            
+            return View(filterModel);
         }
         public ActionResult GetProducts(int page,int pageSize,int? categoryId)
         {
@@ -43,7 +43,7 @@ namespace ShopOnline.Controllers
                    categoryViewModel.CategoryId = x.CategoryId;
                    categoryViewModel.CategoryName = x.CategoryName;
                    categoryViewModel.Childs =
-                       x.Childs.Select(k => new CategoryViewModel() { CategoryId = k.CategoryId, CategoryName = k.CategoryName }).ToList();
+                       x.Childs.Where(k=>k.ProductCategories.Any()).Select(k => new CategoryViewModel() { CategoryId = k.CategoryId, CategoryName = k.CategoryName }).ToList();
                    categoryViewModel.ProductCount = x.Childs.SelectMany(k => k.ProductCategories.Select(o=>o.ProductId)).Distinct().Count();
                    return categoryViewModel;
                });

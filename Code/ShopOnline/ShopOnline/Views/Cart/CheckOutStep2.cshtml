@@ -6,7 +6,7 @@
  <div class="col-md-9 clearfix" id="checkout">
 
                         <div class="box">
-                            <form>
+                            <form id="form-checkout-step2" action="@Url.Action("CheckOutStep3","Cart")" method="POST">
                                 <ul class="nav nav-pills nav-justified">
                                     <li><a href="@Url.Action("CheckOutStep1","Cart")"><i class="fa fa-map-marker"></i><br>Địa Chỉ</a>
                                     </li>
@@ -29,8 +29,9 @@
 
                                                 <div class="box-footer text-center">
 
-                                                    <input type="radio" name="delivery" value="deliveryHome">
+                                                    <input id="shipping-delivery" type="radio" name="delivery" value="Shipping">
                                                 </div>
+                                                <label style="margin-top: 30px;" for="delivery" generated="true" class="error"></label>
                                             </div>
                                         </div>
                                        
@@ -45,8 +46,8 @@
                                         <a href="@Url.Action("CheckOutStep1","Cart")" class="btn btn-default"><i class="fa fa-chevron-left"></i>Trở Lại Điền Địa Chỉ</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="@Url.Action("CheckOutStep3","Cart")" class="btn btn-template-main">Phương Thức Thanh Toán<i class="fa fa-chevron-right"></i>
-                                        </a>
+                                        <button type="submit" class="btn btn-template-main">Phương Thức Thanh Toán<i class="fa fa-chevron-right"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -58,3 +59,6 @@
                     <!-- /.col-md-9 -->
 
 @{Html.RenderAction("RenderOrderSummary", "Cart");}
+@section scripts{
+    <script src="@Url.Content("~/Scripts/app/front/product.buy.view.js")"></script>
+}

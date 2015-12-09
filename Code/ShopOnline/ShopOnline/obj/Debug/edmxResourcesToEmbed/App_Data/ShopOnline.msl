@@ -42,18 +42,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Configs">
-      <EntityTypeMapping TypeName="ShopOnlineModel.Config">
-        <MappingFragment StoreEntitySet="Config">
-          <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
-          <ScalarProperty Name="ConfigCode" ColumnName="ConfigCode" />
-          <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="ShopOnlineModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="LocationCityId" ColumnName="LocationCityId" />
+          <ScalarProperty Name="LocationDistrictId" ColumnName="LocationDistrictId" />
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Telephone" ColumnName="Telephone" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="Role" ColumnName="Role" />
@@ -81,17 +77,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Orders">
-      <EntityTypeMapping TypeName="ShopOnlineModel.Order">
-        <MappingFragment StoreEntitySet="Order">
-          <ScalarProperty Name="ShippingTelephon" ColumnName="ShippingTelephon" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="OrderDetails">
       <EntityTypeMapping TypeName="ShopOnlineModel.OrderDetail">
         <MappingFragment StoreEntitySet="OrderDetail">
@@ -100,6 +85,40 @@
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
           <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="ShopOnlineModel.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="LocationLevel" ColumnName="LocationLevel" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Configs">
+      <EntityTypeMapping TypeName="ShopOnlineModel.Config">
+        <MappingFragment StoreEntitySet="Config">
+          <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
+          <ScalarProperty Name="ConfigCode" ColumnName="ConfigCode" />
+          <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="ShopOnlineModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+          <ScalarProperty Name="LocationDistrictId" ColumnName="LocationDistrictId" />
+          <ScalarProperty Name="LocationCityId" ColumnName="LocationCityId" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="ShippingTelephone" ColumnName="ShippingTelephone" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

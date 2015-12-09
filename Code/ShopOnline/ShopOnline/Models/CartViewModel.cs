@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using ShopOnline.Constants;
 
 namespace ShopOnline.Models
 {
@@ -32,5 +34,16 @@ namespace ShopOnline.Models
                 return result;
             }
         }
+
+        public string Name { get; set; }
+        public string Telephone { get; set; }
+        public string Street { get; set; }
+        public string Email { get; set; }
+        public DeliveryMethods Delivery { get; set; }
+        public PaymentMethods Payment { get; set; }
+        public int? CityId { get; set; }
+        public int? DistrictId { get; set; }
+        public List<SelectListItem> CitySource { get; set; }
+        public List<SelectListItem> DistrictSource { get; set; }
     }
 }

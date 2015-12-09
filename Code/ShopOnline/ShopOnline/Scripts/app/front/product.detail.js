@@ -1,6 +1,11 @@
 ﻿$(function () {
     var pageSize = 3;
     var filters = new Object();
+    var filterCategory = $('#FilterCategoryId').val();
+    if (filterCategory) {
+        filters.categoryId = filterCategory;
+    }
+    
     var pagingData = function (pSize, passedObj) {
         $('#products').empty();
         $('#products').scrollPagination({
@@ -25,6 +30,8 @@
                 //}
                 if (isLastPage) {
                     $('#btn-load-more').attr('disabled', 'disabled');
+                } else {
+                    $('#btn-load-more').removeAttr('disabled');
                 }
             }
         });

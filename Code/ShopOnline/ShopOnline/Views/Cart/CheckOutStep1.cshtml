@@ -2,11 +2,11 @@
     ViewBag.Title = "CheckOutStep1";
     Layout = "~/Views/Shared/_ContactLayout.cshtml";
 }
-
+@model ShopOnline.Models.CartViewModel
 <div class="col-md-9 clearfix" id="checkout">
 
     <div class="box">
-        <form method="post" action="shop-checkout2.html">
+        <form id="form-checkout-step1" method="post" action="@Url.Action("CheckOutStep2","Cart")">
 
             <ul class="nav nav-pills nav-justified">
                 <li class="active"><a href="#"><i class="fa fa-map-marker"></i>
@@ -32,13 +32,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="name">Tên</label>
-                            <input type="text" class="form-control" id="name">
+                            <input type="text" name="name" value="@Model.Name" class="form-control" id="name">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="phone">Số Điện Thoại</label>
-                            <input type="text" class="form-control" id="phone">
+                            <input type="text" name="telephone" value="@Model.Telephone" class="form-control" id="phone">
                         </div>
                     </div>
                 </div>
@@ -48,21 +48,22 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="street">Số Nhà, Tên Đường</label>
-                            <input type="text" class="form-control" id="street">
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-3">
-                        <div class="form-group">
-                            <label for="district">Quận,Huyện</label>
-                            <select class="form-control" id="district"></select>
+                            <input type="text" name="street" value="@Model.Street" class="form-control" id="street">
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <div class="form-group">
                             <label for="city">Tỉnh,Thành Phố</label>
-                            <select class="form-control" id="city"></select>
+                            @Html.DropDownList("city",Model.CitySource,string.Empty,new {@id="city",@class="form-control"})
                         </div>
                     </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="district">Quận,Huyện</label>
+                            @Html.DropDownList("district",Model.DistrictSource,string.Empty,new {@id="district",@class="form-control"})
+                        </div>
+                    </div>
+                    
                 </div>
                 <!-- /.row -->
 
@@ -71,7 +72,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="Email">Email</label>
-                            <input type="text" class="form-control" id="Email">
+                            <input type="text" value="@Model.Email" name="email" class="form-control" id="Email">
                         </div>
                     </div>
                     
@@ -85,9 +86,9 @@
                     <a href="@Url.Action("CheckOutCart","Cart")" class="btn btn-default"><i class="fa fa-chevron-left"></i>Trở Về Giỏ Hàng</a>
                 </div>
                 <div class="pull-right">
-                    <a href="@Url.Action("CheckOutStep2","Cart")" class="btn btn-template-main">
+                    <button type="submit" class="btn btn-template-main">
                         Phương thức giao hàng<i class="fa fa-chevron-right"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         </form>
@@ -98,3 +99,6 @@
 </div>
 <!-- /.col-md-9 -->
 @{Html.RenderAction("RenderOrderSummary", "Cart");}
+@section scripts{
+    <script src="@Url.Content("~/Scripts/app/front/product.buy.view.js")"></script>
+}

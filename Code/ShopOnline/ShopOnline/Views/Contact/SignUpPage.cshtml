@@ -3,30 +3,57 @@
     Layout = "~/Views/Shared/_ContactLayout.cshtml";
     ViewBag.PageTitle = "Đăng Ký/ Đăng Nhập";
 }
-
+@model List<ShopOnline.App_Data.Location>
 <div class="col-md-6">
                         <div class="box">
                             <h2 class="text-uppercase">Tạo Tài Khoản Mới</h2>
 
                             <p class="lead">Bạn chưa đăng ký tài khoản?</p>
                             @*<p>text</p>*@
-                            <p class="text-muted">Nếu có thắc mắc <a href="@Url.Action("Index","Contact")">liên hệ chúng tôi</a>, chúng tôi sẵn sàng hỗ trợ bạn 24/7.</p>
+                            <p class="text-muted">Nếu có thắc mắc hãy liên hệ với chúng tôi, hỗ trợ bạn 24/7, sdt: @{Html.RenderAction("GetConfigByCode", "Helper", new { code = "Phone" });}.</p>
 
                             <hr>
 
-                            <form action="/Contact/SignUp" method="post">
+                            <form action="/Contact/SignUp" id="sign-up-form" method="post">
                                 <div class="form-group">
-                                    <label for="name-signup">Tài khoản</label>
+                                    <label for="name-signup">Tài khoản <span class="force">*</span></label>
                                     <input name="signUpUserName" type="text" class="form-control" id="name-signup">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email-signup">Email</label>
-                                    <input type="text" class="form-control" id="email-signup">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password-signup">Mật Khẩu</label>
+                                    <label for="password-signup">Mật Khẩu <span class="force">*</span></label>
                                     <input name="signUpPassWord" type="password" class="form-control" id="password-signup">
                                 </div>
+                                <div class="form-group">
+                                    <label for="realname-signup">Tên</label>
+                                    <input name="signUpRealName" type="text" class="form-control" id="realname-signup">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email-signup">Email</label>
+                                    <input name="signUpEmail" type="text" class="form-control" id="email-signup">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone-signup">Số Điện Thoại</label>
+                                    <input name="signUpPhone" type="text" class="form-control" id="phone-signup">
+                                </div>
+                                <div class="form-group">
+                                    <label for="street-signup">Số Nhà, Tên Đường</label>
+                                    <input name="signUpStreet" type="text" class="form-control" id="street-signup">
+                                </div>
+                                 <div class="form-group">
+                                    <label for="street-signup">Tỉnh, Thành Phố</label>
+                                     <select name="signUpCity" class="form-control" id="city-signup">
+                                         <option></option>
+                                         @foreach(var location in Model)
+                                         {
+                                             <option value="@location.LocationId">@location.LocationName</option>
+                                         }
+                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="street-signup">Quận Huyện</label>
+                                    <select name="signUpDistrict" class="form-control" disabled="disabled" id="district-signup"></select>
+                                </div>
+                               
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-template-main"><i class="fa fa-user-md"></i> Đăng Ký</button>
                                 </div>
@@ -43,18 +70,21 @@
 
                             <hr>
 
-                            <form action="/Contact/SignIn" method="post">
+                            <form action="/Contact/Login" id="sign-in-form" method="post">
                                 <div class="form-group">
                                     <label for="name-signin">Tài Khoản</label>
-                                    <input type="text" class="form-control" id="name-signin">
+                                    <input name="signInUsername" type="text" class="form-control" id="name-signin">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-signin">Mật Khẩu</label>
-                                    <input type="password" class="form-control" id="password-signin">
+                                    <input name="signInPassword" type="password" class="form-control" id="password-signin">
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-template-main"><i class="fa fa-sign-in"></i> Log in</button>
+                                    <button  type="submit" class="btn btn-template-main"><i class="fa fa-sign-in"></i> Đăng Nhập</button>
                                 </div>
                             </form>
                         </div>
                     </div>
+@section scripts{
+    <script src="@Url.Content("~/Scripts/app/front/signup.js")"></script>
+}

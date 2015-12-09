@@ -940,6 +940,7 @@ fieldset[disabled] .btn-template-primary.active {
 }
 .panel.sidebar-menu ul.nav.category-menu li a {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
+    cursor: pointer;
 }
 .panel.sidebar-menu ul.nav ul {
   list-style: none;
@@ -2448,7 +2449,7 @@ fieldset[disabled] .btn-template-primary.active {
 #checkout .table tbody tr td input,
 #basket .table tbody tr td input,
 #customer-order .table tbody tr td input {
-  width: 50px;
+  width: 75px;
   text-align: right;
 }
 #checkout .table tbody tr td img,

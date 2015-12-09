@@ -7,13 +7,8 @@
     <Schema Namespace="ShopOnlineModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="ShopOnlineModelStoreContainer">
           <EntitySet Name="Category" EntityType="ShopOnlineModel.Store.Category" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Config" EntityType="ShopOnlineModel.Store.Config" store:Type="Tables" store:Schema="dbo" store:Name="Config">
-            <DefiningQuery>SELECT 
-      [Config].[ConfigId] AS [ConfigId], 
-      [Config].[ConfigCode] AS [ConfigCode], 
-      [Config].[ConfigValue] AS [ConfigValue]
-      FROM [dbo].[Config] AS [Config]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Config" EntityType="ShopOnlineModel.Store.Config" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Location" EntityType="ShopOnlineModel.Store.Location" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Order" EntityType="ShopOnlineModel.Store.Order" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OrderDetail" EntityType="ShopOnlineModel.Store.OrderDetail" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Product" EntityType="ShopOnlineModel.Store.Product" store:Type="Tables" Schema="dbo" />
@@ -28,6 +23,14 @@
           <AssociationSet Name="FK_Category_User" Association="ShopOnlineModel.Store.FK_Category_User">
             <End Role="User" EntitySet="User" />
             <End Role="Category" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Location" Association="ShopOnlineModel.Store.FK_Order_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Location1" Association="ShopOnlineModel.Store.FK_Order_Location1">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_User" Association="ShopOnlineModel.Store.FK_Order_User">
             <End Role="User" EntitySet="User" />
@@ -59,24 +62,29 @@
             <PropertyRef Name="CategoryId" />
           </Key>
           <Property Name="CategoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="nvarchar(max)" />
+          <Property Name="CategoryName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CategoryLevel" Type="int" Nullable="false" />
           <Property Name="ParentCategoryId" Type="int" />
           <Property Name="CreatedUserId" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'ShopOnline.dbo.Config' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="Config">
           <Key>
             <PropertyRef Name="ConfigId" />
-            <PropertyRef Name="ConfigCode" />
           </Key>
-          <Property Name="ConfigId" Type="int" Nullable="false" />
+          <Property Name="ConfigId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ConfigCode" Type="nvarchar" Nullable="false" MaxLength="200" />
           <Property Name="ConfigValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="LocationName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LocationLevel" Type="int" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -84,9 +92,13 @@
           </Key>
           <Property Name="OrderId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ShippingAddress" Type="nvarchar(max)" />
-          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="ShippingTelephon" Type="nvarchar(max)" />
+          <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ShippingTelephone" Type="nvarchar(max)" />
+          <Property Name="LocationCityId" Type="int" />
+          <Property Name="LocationDistrictId" Type="int" />
+          <Property Name="OrderStatus" Type="int" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -146,10 +158,15 @@
           </Key>
           <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RealName" Type="nvarchar(max)" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Telephone" Type="nvarchar(max)" />
+          <Property Name="LocationDistrictId" Type="int" />
+          <Property Name="LocationCityId" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_Category_Category">
           <End Role="Category" Type="ShopOnlineModel.Store.Category" Multiplicity="0..1" />
@@ -175,8 +192,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Order_Location">
+          <End Role="Location" Type="ShopOnlineModel.Store.Location" Multiplicity="0..1" />
+          <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="LocationCityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Location1">
+          <End Role="Location" Type="ShopOnlineModel.Store.Location" Multiplicity="0..1" />
+          <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="LocationDistrictId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Order_User">
-          <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="1" />
+          <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="0..1" />
           <End Role="Order" Type="ShopOnlineModel.Store.Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -255,7 +296,6 @@
           <EntitySet Name="Categories" EntityType="ShopOnlineModel.Category" />
           <EntitySet Name="Products" EntityType="ShopOnlineModel.Product" />
           <EntitySet Name="sysdiagrams" EntityType="ShopOnlineModel.sysdiagram" />
-          <EntitySet Name="Configs" EntityType="ShopOnlineModel.Config" />
           <EntitySet Name="Users" EntityType="ShopOnlineModel.User" />
           <AssociationSet Name="FK_Category_Category" Association="ShopOnlineModel.FK_Category_Category">
             <End Role="Category" EntitySet="Categories" />
@@ -279,8 +319,14 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductCategory" EntitySet="ProductCategories" />
           </AssociationSet>
-          <EntitySet Name="Orders" EntityType="ShopOnlineModel.Order" />
           <EntitySet Name="OrderDetails" EntityType="ShopOnlineModel.OrderDetail" />
+          <AssociationSet Name="FK_OrderDetail_Product" Association="ShopOnlineModel.FK_OrderDetail_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <EntitySet Name="Locations" EntityType="ShopOnlineModel.Location" />
+          <EntitySet Name="Configs" EntityType="ShopOnlineModel.Config" />
+          <EntitySet Name="Orders" EntityType="ShopOnlineModel.Order" />
           <AssociationSet Name="FK_Order_User" Association="ShopOnlineModel.FK_Order_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Order" EntitySet="Orders" />
@@ -289,9 +335,13 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderDetail_Product" Association="ShopOnlineModel.FK_OrderDetail_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          <AssociationSet Name="FK_Order_Location" Association="ShopOnlineModel.FK_Order_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Location1" Association="ShopOnlineModel.FK_Order_Location1">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
@@ -299,7 +349,7 @@
             <PropertyRef Name="CategoryId" />
           </Key>
           <Property Name="CategoryId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Type="Int32" Name="ParentCategoryId" />
@@ -339,15 +389,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="Config">
-          <Key>
-            <PropertyRef Name="ConfigId" />
-            <PropertyRef Name="ConfigCode" />
-          </Key>
-          <Property Type="Int32" Name="ConfigId" Nullable="false" />
-          <Property Type="String" Name="ConfigCode" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ConfigValue" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
@@ -360,6 +401,11 @@
           <Property Type="String" Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Telephone" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK_Order_User" FromRole="User" ToRole="Order" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Email" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RealName" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="LocationDistrictId" />
+          <Property Type="Int32" Name="LocationCityId" />
         </EntityType>
         <Association Name="FK_Category_Category">
           <End Type="ShopOnlineModel.Category" Role="Category" Multiplicity="0..1" />
@@ -440,18 +486,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="OrderId" />
-          </Key>
-          <Property Type="Int32" Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="ShippingAddress" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="UserId" Nullable="false" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
-          <Property Type="String" Name="ShippingTelephon" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="User" Relationship="ShopOnlineModel.FK_Order_User" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="OrderDetails" Relationship="ShopOnlineModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
-        </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
             <PropertyRef Name="OrderDetailId" />
@@ -461,11 +495,60 @@
           <Property Type="Int32" Name="ProductId" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" Scale="4" />
           <Property Type="Int32" Name="Quantity" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="ShopOnlineModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
           <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_OrderDetail_Product" FromRole="OrderDetail" ToRole="Product" />
+          <NavigationProperty Name="Order" Relationship="ShopOnlineModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_OrderDetail_Product">
+          <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ShopOnlineModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Type="Int32" Name="LocationId" Nullable="false" />
+          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="LocationLevel" Nullable="false" />
+          <Property Type="Int32" Name="ParentId" />
+          <NavigationProperty Name="Orders" Relationship="ShopOnlineModel.FK_Order_Location" FromRole="Location" ToRole="Order" />
+          <NavigationProperty Name="Orders1" Relationship="ShopOnlineModel.FK_Order_Location1" FromRole="Location" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Config">
+          <Key>
+            <PropertyRef Name="ConfigId" />
+          </Key>
+          <Property Type="Int32" Name="ConfigId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ConfigCode" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ConfigValue" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Type="Int32" Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ShippingAddress" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="UserId" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="ShippingTelephone" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="ShopOnlineModel.FK_Order_User" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="OrderDetails" Relationship="ShopOnlineModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="LocationCityId" />
+          <Property Type="Int32" Name="LocationDistrictId" />
+          <NavigationProperty Name="LocationCity" Relationship="ShopOnlineModel.FK_Order_Location" FromRole="Order" ToRole="Location" />
+          <NavigationProperty Name="LocationDistrict" Relationship="ShopOnlineModel.FK_Order_Location1" FromRole="Order" ToRole="Location" />
+          <Property Type="Int32" Name="OrderStatus" />
         </EntityType>
         <Association Name="FK_Order_User">
-          <End Type="ShopOnlineModel.User" Role="User" Multiplicity="1" />
+          <End Type="ShopOnlineModel.User" Role="User" Multiplicity="0..1" />
           <End Type="ShopOnlineModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -488,15 +571,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderDetail_Product">
-          <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="ShopOnlineModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+        <Association Name="FK_Order_Location">
+          <End Type="ShopOnlineModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="ShopOnlineModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ProductId" />
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
             </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="ProductId" />
+            <Dependent Role="Order">
+              <PropertyRef Name="LocationCityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Location1">
+          <End Type="ShopOnlineModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="ShopOnlineModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="LocationDistrictId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -547,18 +642,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Configs">
-            <EntityTypeMapping TypeName="ShopOnlineModel.Config">
-              <MappingFragment StoreEntitySet="Config">
-                <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
-                <ScalarProperty Name="ConfigCode" ColumnName="ConfigCode" />
-                <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ShopOnlineModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="LocationCityId" ColumnName="LocationCityId" />
+                <ScalarProperty Name="LocationDistrictId" ColumnName="LocationDistrictId" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
@@ -586,17 +677,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="ShopOnlineModel.Order">
-              <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="ShippingTelephon" ColumnName="ShippingTelephon" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="OrderDetails">
             <EntityTypeMapping TypeName="ShopOnlineModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetail">
@@ -605,6 +685,40 @@
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="LocationLevel" ColumnName="LocationLevel" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configs">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Config">
+              <MappingFragment StoreEntitySet="Config">
+                <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
+                <ScalarProperty Name="ConfigCode" ColumnName="ConfigCode" />
+                <ScalarProperty Name="ConfigId" ColumnName="ConfigId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="LocationDistrictId" ColumnName="LocationDistrictId" />
+                <ScalarProperty Name="LocationCityId" ColumnName="LocationCityId" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="ShippingTelephone" ColumnName="ShippingTelephone" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

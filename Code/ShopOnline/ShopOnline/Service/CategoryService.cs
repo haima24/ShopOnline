@@ -10,11 +10,11 @@ namespace ShopOnline.Service
     {
         public List<Category>  GetParentCategories()
         {
-            return Context.Categories.Where(x=>x.CategoryLevel==0).OrderByDescending(x=>x.CreatedDate).ThenByDescending(x=>x.UpdatedDate).ToList();
+            return Context.Categories.Where(x=>x.CategoryLevel==0).OrderByDescending(x=>x.UpdatedDate).ThenByDescending(x=>x.CreatedDate).ToList();
         }
         public List<Category> GetSubCategories()
         {
-            return Context.Categories.Where(x => x.CategoryLevel == 1).OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.UpdatedDate).ToList();
+            return Context.Categories.Where(x => x.CategoryLevel == 1).OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate).ToList();
         }
         public bool UpdateParentCategory(int id,string name)
         {
