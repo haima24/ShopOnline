@@ -1,4 +1,5 @@
-﻿@model ShopOnline.Models.CartViewModel
+﻿@using ShopOnline.Extension
+@model ShopOnline.Models.CartViewModel
 <div class="col-md-3">
     <div class="box" id="order-summary">
         <div class="box-header">
@@ -11,7 +12,7 @@
                 <tbody>
                     <tr>
                         <td>Tổng Cộng Giá Tiền Đơn Hàng</td>
-                        <th>@Model.Total</th>
+                        <th>@Model.Total.ToSystemFormat()</th>
                     </tr>
                     <tr>
                         <td>Phí Giao Hàng</td>
@@ -23,7 +24,7 @@
                     </tr>
                     <tr class="total">
                         <td>Tổng Cộng</td>
-                        <th>@Model.Total</th>
+                        <th>@Model.Total.ToSystemFormat()</th>
                     </tr>
                 </tbody>
             </table>

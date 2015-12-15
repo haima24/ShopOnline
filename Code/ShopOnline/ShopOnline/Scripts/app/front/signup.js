@@ -3,12 +3,16 @@
         rules: {
             signUpUserName: "required",
             signUpPassWord: "required",
-            signUpEmail:"email"
+            signUpEmail: "email",
+            signUpPassWordConfirm: {
+                equalTo: "#signUpPassWord"
+            }
         },
         messages: {
             signUpUserName: "Vui lòng nhập tên tài khoản",
             signUpPassWord: "Vui lòng nhập mật khẩu",
-            signUpEmail:"Địa chỉ email không hợp lệ"
+            signUpEmail: "Địa chỉ email không hợp lệ",
+            signUpPassWordConfirm:"Mật Khẩu xác nhận không trùng khớp"
         }
     });
     $('#sign-in-form').validate({
@@ -17,8 +21,8 @@
             signInPassword: "required"
         },
         messages: {
-            signUpUserName: "Vui lòng nhập tên tài khoản",
-            signUpPassWord: "Vui lòng nhập mật khẩu"
+            signInUsername: "Vui lòng nhập tên tài khoản",
+            signInPassword: "Vui lòng nhập mật khẩu"
         }
     });
     $('#city-signup').on('change', function () {
@@ -33,9 +37,9 @@
                 if (data.result) {
                     $('#district-signup').removeAttr('disabled');
                     $('#district-signup').empty();
-                    if (data.dictricts) {
+                    if (data.dictrictsModel) {
                         $('#district-signup').append($('<option>'));
-                        $.each(data.dictricts, function(i, o) {
+                        $.each(data.dictrictsModel, function (i, o) {
                             $('#district-signup').append($('<option value=' + o.LocationId + '>' + o.LocationName + '</option>'));
                         });
                     }

@@ -2,6 +2,7 @@
     ViewBag.Title = "CheckOutStep4";
     Layout = "~/Views/Shared/_ContactLayout.cshtml";
 }
+@using ShopOnline.Extension
 @model ShopOnline.Models.CartViewModel
 <div class="col-md-9 clearfix" id="checkout">
 
@@ -50,8 +51,8 @@
                                     <td><a href="#">@product.ProductName</a>
                                     </td>
                                     <td>@item.Quantity</td>
-                                    <td>@product.Price</td>
-                                    <td>@item.TotalPrice</td>
+                                    <td>@product.Price.ToSystemFormat()</td>
+                                    <td>@item.TotalPrice.ToSystemFormat()</td>
                                 </tr>
                             }
 
@@ -59,7 +60,7 @@
                         <tfoot>
                             <tr>
                                 <th colspan="4">Tổng Cộng</th>
-                                <th>@Model.Total</th>
+                                <th>@Model.Total.ToSystemFormat()</th>
                             </tr>
                         </tfoot>
                     </table>

@@ -18,6 +18,12 @@ namespace ShopOnline.Service
             var config = Context.Configs.FirstOrDefault(x => x.ConfigCode == Common.Logo);
             if (config != null)
             {
+                //remove old file
+                var oldPath = HttpContext.Current.Server.MapPath(config.ConfigValue);
+                if (File.Exists(oldPath))
+                {
+                    File.Delete(oldPath);
+                }
                 var fName = file.FileName;
                 var fNameIndex = fName.LastIndexOf('.');
                 fName = fName.Insert(fNameIndex, "_" + DateTime.Now.Ticks.ToString());

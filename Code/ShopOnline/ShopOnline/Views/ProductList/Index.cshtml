@@ -5,6 +5,8 @@
 }
 @model ShopOnline.Models.ProductListFilterViewModel
 @Html.HiddenFor(x=>x.FilterCategoryId)
+@Html.HiddenFor(x=>x.FilterColorIds)
+@Html.HiddenFor(x=>x.FilterBrandIds)
 @*<p class="text-muted lead">In our Ladies department we offer wide selection of the best products we have found and carefully selected worldwide. Pellentesque habitant morbi tristique senectus et netuss.</p>*@
 
                         <div id="products" class="row products">
@@ -38,7 +40,7 @@
                                 </li>
                             </ul>*@
 </div>
-<@*div class="row">
+@*<div class="row">
 
                             <div class="col-md-12 banner">
                                 <a href="#">

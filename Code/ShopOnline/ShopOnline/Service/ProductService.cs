@@ -20,17 +20,22 @@ namespace ShopOnline.Service
             return products;
         }
 
-        public bool CreateProduct(List<int> categoryIds, IEnumerable<HttpPostedFileBase> files, string code, string name,bool isNew, decimal? price, string shortDescription, string detailDescription)
+        public bool CreateProduct(List<int> categoryIds,int? brandId,List<int> colorIds, IEnumerable<HttpPostedFileBase> files, string code, string name, bool isNew, decimal? price, string shortDescription, string detailDescription)
         {
             var product = new Product();
             product.ProductCode = code;
             product.ProductName = name;
             product.Price = price;
+            product.BrandId = brandId;
             product.ProductShortDescription = shortDescription;
             product.ProductDetailDescription = detailDescription;
             product.CreatedDate = DateTime.Now;
             product.UpdatedDate = DateTime.Now;
             product.IsNew = isNew;
+            if(files==null)
+            {
+                files=new List<HttpPostedFileBase>();
+            }
             foreach (HttpPostedFileBase file in files)
             {
                 var fName = file.FileName;
@@ -58,19 +63,29 @@ namespace ShopOnline.Service
                 }
 
             }
+            if (colorIds != null)
+            {
+                foreach (var colorId in colorIds)
+                {
+                    var productColor = new ProductColor();
+                    productColor.ColorId = colorId;
+                    product.ProductColors.Add(productColor);
+                }
+
+            }
             Context.Products.Add(product);
             Context.SaveChanges();
             return product.ProductId > 0;
         }
-        public bool UpdateProduct(IEnumerable<HttpPostedFileBase> files, int id, List<int> categoryIds, string code, string name,bool isNew, decimal? price, string shortDescription, string detailDescription)
+        public bool UpdateProduct(IEnumerable<HttpPostedFileBase> files, int id, List<int> categoryIds, int? brandId, List<int> colorIds, string code, string name, bool isNew, decimal? price, string shortDescription, string detailDescription)
         {
             var product = Context.Products.FirstOrDefault(x => x.ProductId == id);
             var result = false;
             if (product != null)
             {
-                if(files==null)
+                if (files == null)
                 {
-                    files=new List<HttpPostedFileBase>();
+                    files = new List<HttpPostedFileBase>();
                 }
                 foreach (HttpPostedFileBase file in files)
                 {
@@ -116,7 +131,34 @@ namespace ShopOnline.Service
                         }
                     }
                 }
-
+                if (colorIds != null)
+                {
+                    var currentColorIds = product.ProductColors.Select(x => x.ColorId).ToList();
+                    foreach (var colorId in colorIds)
+                    {
+                        if (!currentColorIds.Contains(colorId))
+                        {
+                            var productColor = new ProductColor();
+                            productColor.ColorId = colorId;
+                            productColor.ProductId = id;
+                            product.ProductColors.Add(productColor);
+                        }
+                    }
+                    foreach (var currentColorId in currentColorIds)
+                    {
+                        if (!colorIds.Contains(currentColorId))
+                        {
+                            var productColor =
+                                product.ProductColors.FirstOrDefault(x => x.ColorId == currentColorId);
+                            if (productColor != null)
+                            {
+                                product.ProductColors.Remove(productColor);
+                                Context.ProductColors.Remove(productColor);
+                            }
+                        }
+                    }
+                }
+                product.BrandId = brandId;
                 product.ProductCode = code;
                 product.ProductName = name;
                 product.IsNew = isNew;
@@ -148,6 +190,13 @@ namespace ShopOnline.Service
                     product.ProductCategories.Remove(arrayProductCategories[i]);
                     Context.ProductCategories.Remove(arrayProductCategories[i]);
                 }
+                count = product.ProductColors.Count;
+                var arrayProductColors = product.ProductColors.ToArray();
+                for (int i = 0; i < count; i++)
+                {
+                    product.ProductColors.Remove(arrayProductColors[i]);
+                    Context.ProductColors.Remove(arrayProductColors[i]);
+                }
                 Context.Products.Remove(product);
                 result = Context.SaveChanges() > 0;
             }
@@ -164,33 +213,74 @@ namespace ShopOnline.Service
             return product;
         }
 
-        public List<Product> GetProductsByCondition(int page, int pageSize, out bool isLastPage, int? categoryId)
+        public List<Product> GetProductsByCondition(int page, int pageSize, out bool isLastPage, int? categoryId,int? parentCategoryId,List<int> brandIds,List<int> colorIds )
         {
+            Func<Product, bool> whereClause = delegate(Product p)
+                                  {
+                                      
+                                      if (!categoryId.HasValue)
+                                      {
+                                          if (!parentCategoryId.HasValue)
+                                          {
+                                              return true;
+                                          }
+                                          else
+                                          {
+                                              return
+                                                  p.ProductCategories.Select(x => x.Category.ParentCategoryId).Contains(
+                                                      parentCategoryId.Value);
+                                          }
+                                      }
+                                      else
+                                      {
+                                          return p.ProductCategories.Select(k => k.CategoryId).Contains(categoryId.Value);
+                                      }
+                                  };
+            Func<Product, bool> whereBrandClause = delegate(Product p)
+            {
+                if(brandIds!=null&&brandIds.Count!=0)
+                {
+                    if(p.BrandId.HasValue)
+                    {
+                        return brandIds.Contains(p.BrandId.Value);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                   
+                }
+                else
+                {
+                    return true;
+                }
+
+            };
+            Func<Product, bool> whereColorsClause = delegate(Product p)
+                                                        {
+                                                            if(colorIds!=null)
+                                                            {
+                                                                if(colorIds.Count==0)
+                                                                {
+                                                                    return true;
+                                                                }
+                                                                else
+                                                                {
+                                                                    var productColors = p.ProductColors.Select(x => x.ColorId).Distinct().ToList();
+                                                                    return productColors.Any(colorIds.Contains);
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                return true;
+                                                            }
+                                                           
+                                                        };
             isLastPage = !Context.Products
-                .Where(delegate(Product p)
-                           {
-                               if (!categoryId.HasValue)
-                               {
-                                   return true;
-                               }
-                               else
-                               {
-                                   return p.ProductCategories.Select(k => k.CategoryId).Contains(categoryId.Value);
-                               }
-                           }).OrderByDescending(x=>x.UpdatedDate).ThenByDescending(x=>x.CreatedDate).Skip((page + 1)*pageSize).Take(pageSize).Any();
+                .Where(whereClause).Where(whereBrandClause).Where(whereColorsClause).OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate).Skip((page + 1) * pageSize).Take(pageSize).Any();
             var products = Context.Products
-                .Where(delegate(Product p)
-                           {
-                               if (!categoryId.HasValue)
-                               {
-                                   return true;
-                               }
-                               else
-                               {
-                                   return p.ProductCategories.Select(k => k.CategoryId).Contains(categoryId.Value);
-                               }
-                           }).OrderByDescending(x=>x.UpdatedDate).ThenByDescending(x=>x.CreatedDate).Skip((page) * pageSize)
-                       .Take(pageSize); 
+                .Where(whereClause).Where(whereBrandClause).Where(whereColorsClause).OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate).Skip((page) * pageSize)
+                       .Take(pageSize);
             return products.ToList();
         }
         public bool DeleteProductImage(int productImageId)
@@ -199,7 +289,15 @@ namespace ShopOnline.Service
             var productImage = Context.ProductImages.FirstOrDefault(x => x.ProductImageId == productImageId);
             if (productImage != null)
             {
+
+                //remove old file
+                var oldPath = HttpContext.Current.Server.MapPath(productImage.ProductImageUrl);
+                if (File.Exists(oldPath))
+                {
+                    File.Delete(oldPath);
+                }
                 Context.ProductImages.Remove(productImage);
+
                 result = Context.SaveChanges() > 0;
             }
             return result;

@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_ContactLayout.cshtml";
     ViewBag.PageTitle = "Kiểm Tra Giỏ Hàng";
 }
+@using ShopOnline.Extension
 @model ShopOnline.Models.CartViewModel
 <div class="col-md-12">
     <p class="text-muted lead">Hiện đang có @(Model.ItemsCount) món hàng trong giỏ</p>
@@ -38,11 +39,11 @@
                                 <td><a href="#">@product.ProductName</a>
                                 </td>
                                 <td>
-                                    <input type="number" product-id="@product.ProductId" value="@item.Quantity" class="form-control quantity">
+                                    <input type="number" min="1" product-id="@product.ProductId" value="@item.Quantity" class="form-control quantity">
                                 </td>
-                                <td>@product.Price</td>
-                                <td>@item.TotalPrice</td>
-                                <td><a href="#"><i class="fa fa-trash-o"></i></a>
+                                <td>@product.Price.ToSystemFormat()</td>
+                                <td class="line-total">@item.TotalPrice.ToSystemFormat()</td>
+                                <td><a product-id="@product.ProductId" class="remove-line-cart"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
                         }
@@ -51,7 +52,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="4">Tổng Cộng</th>
-                            <th colspan="2">@Model.Total</th>
+                            <th  id="tableTotal" colspan="2">@Model.Total.ToSystemFormat()</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -145,5 +146,5 @@
 
 @{Html.RenderAction("RenderOrderSummary", "Cart");}
 @section scripts{
-
+    <script src="@Url.Content("~/Scripts/app/front/product.buy.cart.update.js")"></script>
 }

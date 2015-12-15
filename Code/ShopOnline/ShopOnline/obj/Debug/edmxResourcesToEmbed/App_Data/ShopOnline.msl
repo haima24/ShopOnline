@@ -17,6 +17,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="ShopOnlineModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
           <ScalarProperty Name="IsNew" ColumnName="IsNew" />
           <ScalarProperty Name="IsSaleOff" ColumnName="IsSaleOff" />
           <ScalarProperty Name="SaleOffPrice" ColumnName="SaleOffPrice" />
@@ -119,6 +120,36 @@
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Colors">
+      <EntityTypeMapping TypeName="ShopOnlineModel.Color">
+        <MappingFragment StoreEntitySet="Color">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ColorValue" ColumnName="ColorValue" />
+          <ScalarProperty Name="ColorName" ColumnName="ColorName" />
+          <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductBrands">
+      <EntityTypeMapping TypeName="ShopOnlineModel.ProductBrand">
+        <MappingFragment StoreEntitySet="ProductBrand">
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductColors">
+      <EntityTypeMapping TypeName="ShopOnlineModel.ProductColor">
+        <MappingFragment StoreEntitySet="ProductColor">
+          <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ProductColorId" ColumnName="ProductColorId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

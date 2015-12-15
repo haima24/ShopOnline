@@ -12,19 +12,56 @@ namespace ShopOnline.Controllers
 {
     public class AdminController : Controller
     {
+        private int AdminId { get; set; }
         private readonly CategoryService _categoryService = null;
         private readonly ProductService _productService = null;
         private readonly ConfigService _configService = null;
         private readonly OrderService _orderService = null;
         private readonly UserService _userService = null;
+        private readonly ColorService _colorService = null;
+        private readonly BrandService _brandService = null;
         public AdminController()
         {
+            _colorService = new ColorService();
             _categoryService = new CategoryService();
             _productService = new ProductService();
             _configService = new ConfigService();
             _orderService = new OrderService();
             _userService = new UserService();
+            _brandService = new BrandService();
         }
+        private bool CheckAuthentication()
+        {
+            var result = false;
+            if (Request.Cookies.AllKeys.Contains(Common.UserCookieRemember))
+            {
+                var cookie = Request.Cookies[Common.UserCookieRemember];
+                if (cookie != null)
+                {
+                    var adminId = cookie.Value;
+                    var id = 0;
+                    if (int.TryParse(adminId, out id))
+                    {
+                        Session[Common.AdminIdKey] = id;
+                        AdminId = id;
+                    }
+
+                }
+
+            }
+            var userObj = Session[Common.AdminIdKey];
+            if (userObj != null)
+            {
+                var uId = 0;
+                int.TryParse(userObj.ToString(), out uId);
+                if (uId > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var actionName = filterContext.ActionDescriptor.ActionName;
@@ -32,16 +69,7 @@ namespace ShopOnline.Controllers
             var result = false;
             if ((actionName.ToLower() != "index" && actionName.ToLower() != "login") && controllerName.ToLower() == "admin")
             {
-                var userObj = Session[Common.AdminIdKey];
-                if (userObj != null)
-                {
-                    var uId = 0;
-                    int.TryParse(userObj.ToString(), out uId);
-                    if (uId > 0)
-                    {
-                        result = true;
-                    }
-                }
+                result = CheckAuthentication();
                 if (!result)
                 {
                     filterContext.Result = RedirectToAction("Index");
@@ -52,20 +80,40 @@ namespace ShopOnline.Controllers
         }
         public ActionResult Index()
         {
+            if (CheckAuthentication())
+            {
+                return RedirectToAction("ProductList", "Admin");
+            }
+
             return View();
         }
         public ActionResult Logout()
         {
             Session.Remove(Common.AdminIdKey);
+            if (Request.Cookies.AllKeys.Contains(Common.UserCookieRemember))
+            {
+                var cookie = Request.Cookies[Common.UserCookieRemember];
+                if (cookie != null)
+                {
+                    cookie.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(cookie);
+                }
+
+            }
             return RedirectToAction("Index");
         }
 
-        public ActionResult Login(string adminLoginName, string adminLoginPassword)
+        public ActionResult Login(string adminLoginName, string adminLoginPassword, bool rememberme)
         {
             var login = _userService.CheckAdmin(adminLoginName, adminLoginPassword);
             if (login.UserId > 0)
             {
                 Session[Common.AdminIdKey] = login.UserId;
+                //add to cookie for remember
+                var cookie = new HttpCookie(Common.UserCookieRemember);
+                cookie.Expires = DateTime.Now.AddDays(Common.CookieRememberDays);
+                cookie.Value = login.UserId.ToString();
+                Response.Cookies.Add(cookie);
                 return RedirectToAction("ProductList", "Admin");
             }
             else
@@ -97,7 +145,7 @@ namespace ShopOnline.Controllers
         }
         public ActionResult CreateParentCategory(string categoryName)
         {
-            var result = _categoryService.CreateParentCategory(categoryName);
+            var result = _categoryService.CreateParentCategory(AdminId, categoryName);
             return Json(new { result });
         }
         public ActionResult EditParentCategory(int id, string categoryName)
@@ -113,7 +161,7 @@ namespace ShopOnline.Controllers
 
         public ActionResult CreateSubCategory(int parentId, string categoryName)
         {
-            var result = _categoryService.CreateSubCategory(parentId, categoryName);
+            var result = _categoryService.CreateSubCategory(AdminId, parentId, categoryName);
             return Json(new { result });
         }
         public ActionResult EditSubCategory(int id, int parentId, string categoryName)
@@ -131,8 +179,13 @@ namespace ShopOnline.Controllers
         #region Product
         public ActionResult ProductList()
         {
-            var categories = _categoryService.GetSubCategories().Select(x => new CategoryViewModel() { CategoryId = x.CategoryId, CategoryName = x.CategoryName, ParentCategoryId = x.ParentCategoryId, ParentCategoryName = x.Parent.CategoryName });
-            return View(categories);
+            var productInfo = new ProductInfoViewModel();
+            productInfo.Categories=_categoryService.GetSubCategories().Select(x => new CategoryViewModel() { CategoryId = x.CategoryId, CategoryName = x.CategoryName, ParentCategoryId = x.ParentCategoryId, ParentCategoryName = x.Parent.CategoryName });
+            var brands = _brandService.GetBrands();
+            productInfo.Brands = AutoMapper.Mapper.Map<List<ProductBrandViewModel>>(brands);
+            var colors = _colorService.GetColors();
+            productInfo.Colors = AutoMapper.Mapper.Map<List<ColorViewModel>>(colors);
+            return View(productInfo);
         }
         public ActionResult GetProductList()
         {
@@ -140,6 +193,7 @@ namespace ShopOnline.Controllers
             var productsViewModel = AutoMapper.Mapper.Map<List<ProductViewModel>>(products);
             foreach (var productViewModel in productsViewModel)
             {
+                productViewModel.ProductImageDisplay.ProductImageUrl = Url.Content(productViewModel.ProductImageDisplay.ProductImageUrl);
                 var productImages = productViewModel.ProductImages;
                 foreach (var productImage in productImages)
                 {
@@ -150,25 +204,35 @@ namespace ShopOnline.Controllers
         }
         [ValidateInput(false)]
         [HttpPost]
-        public ActionResult CreateProduct(IEnumerable<HttpPostedFileBase> files, string categoryIds, string code, string name, bool isNew, decimal? price, string shortDescription, string detailDescription)
+        public ActionResult CreateProduct(IEnumerable<HttpPostedFileBase> files, string categoryIds, int? brandId, string colorIds, string code, string name, bool isNew, decimal? price, string shortDescription, string detailDescription)
         {
             var ids = new List<int>();
             if (!string.IsNullOrEmpty(categoryIds))
             {
                 ids = categoryIds.Split(',').Select(int.Parse).ToList();
             }
-            var result = _productService.CreateProduct(ids, files, code, name, isNew, price, shortDescription, detailDescription);
+            var colorIdValues = new List<int>();
+            if(!string.IsNullOrEmpty(colorIds))
+            {
+                colorIdValues = colorIds.Split(',').Select(int.Parse).ToList();
+            }
+            var result = _productService.CreateProduct(ids, brandId, colorIdValues, files, code, name, isNew, price, shortDescription, detailDescription);
             return Json(new { result });
         }
         [ValidateInput(false)]
-        public ActionResult UpdateProduct(IEnumerable<HttpPostedFileBase> files, int id, string categoryIds, string code, string name, bool isNew, decimal? price, string shortDescription, string detailDescription)
+        public ActionResult UpdateProduct(IEnumerable<HttpPostedFileBase> files, int id, string categoryIds, int? brandId, string colorIds, string code, string name, bool isNew, decimal? price, string shortDescription, string detailDescription)
         {
             var ids = new List<int>();
             if (!string.IsNullOrEmpty(categoryIds))
             {
                 ids = categoryIds.Split(',').Select(int.Parse).ToList();
             }
-            var result = _productService.UpdateProduct(files, id, ids, code, name, isNew, price, shortDescription, detailDescription);
+            var colorIdValues = new List<int>();
+            if (!string.IsNullOrEmpty(colorIds))
+            {
+                colorIdValues = colorIds.Split(',').Select(int.Parse).ToList();
+            }
+            var result = _productService.UpdateProduct(files, id, ids,brandId,colorIdValues, code, name, isNew, price, shortDescription, detailDescription);
             return Json(new { result });
         }
         public ActionResult DeleteProduct(int id)
@@ -310,6 +374,64 @@ namespace ShopOnline.Controllers
         public ActionResult OrderToNew(int orderId)
         {
             var result = _orderService.UpdateOrderStatus(orderId, Common.OrderStatusNew);
+            return Json(new { result });
+        }
+        #endregion
+
+        #region Brands
+        public ActionResult BrandListIndex()
+        {
+            return View();
+        }
+        public ActionResult BrandList()
+        {
+            var brands = _brandService.GetBrands();
+            var brandsModal = AutoMapper.Mapper.Map<List<ProductBrandViewModel>>(brands);
+            return Json(new { data = brandsModal }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult CreateBrand(string brandName)
+        {
+            var result = _brandService.CreateBrand(brandName);
+            return Json(new { result });
+        }
+        public ActionResult EditBrand(int brandId, string brandName)
+        {
+            var result = _brandService.UpdateBrand(brandId, brandName);
+            return Json(new { result });
+        }
+        public ActionResult DeleteBrand(int brandId)
+        {
+            var result = _brandService.DeleteBrand(brandId);
+            return Json(new { result });
+        }
+
+        #endregion
+
+        #region Color
+
+        public ActionResult ColorListIndex()
+        {
+            return View();
+        }
+        public ActionResult ColorList()
+        {
+            var colors = _colorService.GetColors();
+            return Json(new {data = colors}, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CreateColor(string name,string value)
+        {
+            var result = _colorService.CreateColor(name,value);
+            return Json(new { result });
+        }
+        public ActionResult EditColor(int colorId, string name,string value)
+        {
+            var result = _colorService.UpdateColor(colorId, name,value);
+            return Json(new { result });
+        }
+        public ActionResult DeleteColor(int colorId)
+        {
+            var result = _colorService.DeleteColor(colorId);
             return Json(new { result });
         }
         #endregion

@@ -19,6 +19,7 @@ namespace ShopOnline.App_Data
             this.ProductImages = new HashSet<ProductImage>();
             this.ProductCategories = new HashSet<ProductCategory>();
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.ProductColors = new HashSet<ProductColor>();
         }
     
         public int ProductId { get; set; }
@@ -32,9 +33,12 @@ namespace ShopOnline.App_Data
         public Nullable<decimal> SaleOffPrice { get; set; }
         public Nullable<bool> IsSaleOff { get; set; }
         public Nullable<bool> IsNew { get; set; }
+        public Nullable<int> BrandId { get; set; }
     
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ProductBrand ProductBrand { get; set; }
+        public virtual ICollection<ProductColor> ProductColors { get; set; }
     }
 }

@@ -3578,3 +3578,6 @@ a.list-group-item.active > .badge,
     padding-right: 20px;
     text-decoration: inherit;
 }
+a.remove-line-cart {
+    cursor: pointer;
+}

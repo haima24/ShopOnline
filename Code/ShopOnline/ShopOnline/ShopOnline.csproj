@@ -116,6 +116,9 @@
     <Compile Include="App_Data\Category.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\Color.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Config.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
@@ -126,6 +129,12 @@
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Data\OrderDetail.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\ProductBrand.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\ProductColor.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Data\ProductImage.cs">
@@ -154,12 +163,16 @@
     <Compile Include="App_Data\ProductCategory.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ColorViewModel.cs" />
+    <Compile Include="Models\ProductBrandViewModel.cs" />
     <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\LocationViewModel.cs" />
     <Compile Include="Models\OrderDetailViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\ProductImageViewModel.cs" />
+    <Compile Include="Models\ProductInfoViewModel.cs" />
     <Compile Include="Models\ProductListFilterViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ProductListModel.cs" />
@@ -185,6 +198,8 @@
     <Compile Include="Service\BaseService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\ConfigService.cs" />
+    <Compile Include="Service\BrandService.cs" />
+    <Compile Include="Service\ColorService.cs" />
     <Compile Include="Service\LocationService.cs" />
     <Compile Include="Service\OrderService.cs" />
     <Compile Include="Service\UserService.cs" />
@@ -209,6 +224,15 @@
     <Content Include="Content\bootstrap\js\jquery.js" />
     <Content Include="Content\bootstrap\js\moment.js" />
     <Content Include="Content\bootstrap\js\npm.js" />
+    <Content Include="Content\colorpicker\css\bootstrap-colorpicker.css" />
+    <Content Include="Content\colorpicker\css\bootstrap-colorpicker.min.css" />
+    <Content Include="Content\colorpicker\img\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="Content\colorpicker\img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="Content\colorpicker\img\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="Content\colorpicker\img\bootstrap-colorpicker\hue.png" />
+    <Content Include="Content\colorpicker\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="Content\colorpicker\js\bootstrap-colorpicker.js" />
+    <Content Include="Content\colorpicker\js\bootstrap-colorpicker.min.js" />
     <Content Include="Content\component\js\bootstrap-hover-dropdown.js" />
     <Content Include="Content\component\js\bootstrap.min.js" />
     <Content Include="Content\component\js\front.js" />
@@ -245,6 +269,7 @@
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\lazyload\scrollpagination.js" />
+    <Content Include="Content\mask\jquery.mask.js" />
     <Content Include="Content\metisMenu\dist\metisMenu.css" />
     <Content Include="Content\metisMenu\dist\metisMenu.js" />
     <Content Include="Content\metisMenu\dist\metisMenu.min.css" />
@@ -322,6 +347,7 @@
     <Content Include="images\img\product2.jpg" />
     <Content Include="images\img\product3.jpg" />
     <Content Include="images\img\product4.jpg" />
+    <Content Include="images\img\productimagecomingsoon.png" />
     <Content Include="images\img\Skype-icon.png" />
     <Content Include="images\img\slide1.jpg" />
     <Content Include="images\img\slide2.jpg" />
@@ -341,15 +367,19 @@
     <Content Include="images\img\texture-violet.png" />
     <Content Include="images\img\women.jpg" />
     <Content Include="Scripts\additional-methods.js" />
+    <Content Include="Scripts\app\admin\brands.js" />
     <Content Include="Scripts\app\admin\category.parent.js" />
     <Content Include="Scripts\app\admin\category.sub.js" />
+    <Content Include="Scripts\app\admin\colors.js" />
     <Content Include="Scripts\app\admin\config.js" />
     <Content Include="Scripts\app\admin\orders.js" />
     <Content Include="Scripts\app\admin\product.list.js" />
     <Content Include="Scripts\app\front\general.js" />
+    <Content Include="Scripts\app\front\product.buy.cart.update.js" />
     <Content Include="Scripts\app\front\product.buy.view.js" />
     <Content Include="Scripts\app\front\product.detail.js" />
     <Content Include="Scripts\app\front\signup.js" />
+    <Content Include="Scripts\app\front\user.orders.history.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\sb-admin-2.js" />
@@ -531,6 +561,39 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\OrderHistory.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\ViewOrderDetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\ViewEditOrderInfo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\BrandListIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\NewBrand.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EditBrand.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Helper\RenderBrands.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ColorListIndex.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\NewColor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EditColor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Helper\RenderColors.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

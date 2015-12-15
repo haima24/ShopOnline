@@ -13,6 +13,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+        <link rel="stylesheet" href="@Url.Content("~/Content/colorpicker/css/bootstrap-colorpicker.css")">
     <!-- MetisMenu CSS -->
     <link href="@Url.Content("~/Content/metisMenu/dist/metisMenu.css")" rel="stylesheet" />
     <!-- DataTables CSS -->
@@ -50,7 +51,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.Action("ProductList","Admin")">Akai Admin v2.0</a>
+                <a class="navbar-brand" href="@Url.Action("ProductList", "Admin")">Akai Admin v2.0</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -63,8 +64,8 @@
                         <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        
-                        <li><a href="@Url.Action("Logout","Admin")"><i class="fa fa-sign-out fa-fw"></i>Đăng Xuất</a>
+
+                        <li><a href="@Url.Action("Logout", "Admin")"><i class="fa fa-sign-out fa-fw"></i>Đăng Xuất</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -100,7 +101,7 @@
                                 <li>
                                     <a href="@Url.Action("OrdersProcessedIndex", "Admin")">Đã Xử Lý</a>
                                 </li>
-                                  <li>
+                                <li>
                                     <a href="@Url.Action("OrdersDisabledIndex", "Admin")">Đã Hủy</a>
                                 </li>
                             </ul>
@@ -119,6 +120,12 @@
                         </li>
                         <li>
                             <a href="@Url.Action("ProductList", "Admin")"><i class="fa fa-cubes"></i>Sản Phẩm</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("BrandListIndex", "Admin")"><i class="fa fa-windows"></i>Nhãn Hiệu</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ColorListIndex", "Admin")"><i class="fa fa-paint-brush"></i>Màu Sắc</a>
                         </li>
                     </ul>
                 </div>
@@ -149,6 +156,10 @@
     <script src="@Url.Content("~/Content/bootstrap/js/dataTables.bootstrap.js")"></script>
     <script src="@Url.Content("~/Content/bootstrap/js/bootstrap-multiselect.js")"></script>
     <script src="@Url.Content("~/Content/bootstrap/js/moment.js")"></script>
+        <script src="@Url.Content("~/Content/colorpicker/js/bootstrap-colorpicker.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/additional-methods.js")"></script>
+    <script src="@Url.Content("~/Content/mask/jquery.mask.js")"></script>
     <script src="@Url.Content("~/Content/summernote/summernote.js")"></script>
     <script src="@Url.Content("~/Content/dropzone/dropzone.js")"></script>
     <!-- Custom Theme JavaScript -->

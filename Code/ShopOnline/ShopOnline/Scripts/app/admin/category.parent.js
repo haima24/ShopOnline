@@ -29,6 +29,7 @@
                 var modal = $('#modalEditCategory');
                 var btnEditCategory = $(this);
                 var categoryName = $('.categoryname', modal);
+                var form = categoryName.closest('form');
                 var currentName = btnEditCategory.closest('tr').find('.td-categoryname');
                 categoryName.val(currentName.text());
                 $('.categoryid', modal).val($(this).attr('categoryid'));
@@ -36,12 +37,15 @@
                 var saveEditCategory = function () {
                     var id = $('.categoryid', modal).val();
                     var name = categoryName.val();
-                    $.post('/Admin/EditParentCategory', { id: id, categoryName: name }, function (data) {
-                        modal.modal('hide');
-                        if (data.result) {
-                            table.ajax.reload();
-                        }
-                    });
+                    if (form.valid()) {
+                        $.post('/Admin/EditParentCategory', { id: id, categoryName: name }, function (data) {
+                            modal.modal('hide');
+                            if (data.result) {
+                                table.ajax.reload();
+                            }
+                        });
+                    }
+                    
                 };
                 modal.on('hidden.bs.modal', function(e) {
                     $("#saveEditCategory").off('click');
@@ -67,18 +71,23 @@
     });
     $('#btnCreateCategory').on('click', function () {
         var modal = $('#modalNewCategory');
+        
         var categoryName = $('.categoryname', modal);
+        var form = categoryName.closest('form');
         categoryName.val('');
         modal.modal('show');
         var saveNewCategory = function () {
-            var name = categoryName.val();
-            $.post('/Admin/CreateParentCategory', { categoryName: name }, function (data) {
-                modal.modal('hide');
-                if (data.result) {
-                    table.ajax.reload();
-                }
-               
-            });
+            if (form.valid()) {
+                var name = categoryName.val();
+                $.post('/Admin/CreateParentCategory', { categoryName: name }, function (data) {
+                    modal.modal('hide');
+                    if (data.result) {
+                        table.ajax.reload();
+                    }
+
+                });
+            }
+            
         };
         modal.on('hidden.bs.modal', function (e) {
             $('#saveNewCategory').off('click');

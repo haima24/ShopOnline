@@ -5,7 +5,14 @@
     if (filterCategory) {
         filters.categoryId = filterCategory;
     }
-    
+    var filterColor = $('#FilterColorIds').val();
+    if (filterColor) {
+        filters.colorIds = filterColor;
+    }
+    var filterBrands = $('#FilterBrandIds').val();
+    if (filterBrands) {
+        filters.brandIds = filterBrands;
+    }
     var pagingData = function (pSize, passedObj) {
         $('#products').empty();
         $('#products').scrollPagination({
@@ -40,14 +47,56 @@
         pagingData(pageSize, filters);
     };
     searchProducts();
+    $('#btn-filter-color-clear,#btn-filter-brand-clear').on('click', function (e) {
+        e.preventDefault();
+        var inputs = $(this).closest('.panel.sidebar-menu').find('input');
+        inputs.prop('checked', false);
+    });
     $('#category-menu .category-sub').on('click', function (e) {
         e.preventDefault();
         var categoryId = $(this).attr('child-category-id');
+        filters.parentCategoryId = null;
         filters.categoryId = categoryId;
+        searchProducts();
+    });
+    $('#btn-filter-brand').on('click', function (e) {
+        e.preventDefault();
+        var brandIds = '';
+        $('#form-filter-brand .filter-brand:checked').each(function (i,o) {
+            if (i == 0) {
+                brandIds += $(this).attr('brand-id');
+            } else {
+                brandIds += "," + $(this).attr('brand-id');
+            }
+            
+        });
+        filters.brandIds = brandIds;
+        searchProducts();
+    });
+    $('#btn-filter-color').on('click', function (e) {
+        e.preventDefault();
+        var colorIds = '';
+        $('#form-filter-color .filter-color:checked').each(function (i, o) {
+            if (i == 0) {
+                colorIds += $(this).attr('color-id');
+            } else {
+                colorIds += "," + $(this).attr('color-id');
+            }
+           
+        });
+        filters.colorIds = colorIds;
+        searchProducts();
+    });
+    $('#category-menu .category-parent').on('click', function (e) {
+        e.preventDefault();
+        var categoryId = $(this).attr('parent-category-id');
+        filters.parentCategoryId = categoryId;
+        filters.categoryId = null;
         searchProducts();
     });
     $('#category-all').on('click', function (e) {
         e.preventDefault();
+        filters.parentCategoryId = null;
         filters.categoryId = null;
         searchProducts();
     });

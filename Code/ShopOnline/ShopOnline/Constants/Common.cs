@@ -19,6 +19,8 @@ namespace ShopOnline.Constants
         public const string UserIdKey = "!QAZ2wsx";
         public const string UserNameKey = "#EDC4rfv";
         public const string UserCartKey = "@WSX3edc";
+        public const string UserCookieRemember = "#@!ewqDSA";
+        public const int CookieRememberDays = 7;
 
         public const string AdminIdKey = "!@#$%qwert";
 
@@ -28,5 +30,6 @@ namespace ShopOnline.Constants
         public const int OrderStatusProcessing = 1;
         public const int OrderStatusProcessed = 2;
         public const int OrderStatusDisabled = 3;
+        public const string CommingSoonImage = "~/images/img/productimagecomingsoon.png";
     }
 }

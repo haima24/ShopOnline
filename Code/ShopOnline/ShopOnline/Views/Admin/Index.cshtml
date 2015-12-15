@@ -41,7 +41,7 @@
                         <h3 class="panel-title">Vui Lòng Đăng Nhập</h3>
                     </div>
                     <div class="panel-body">
-                        <form action="/Admin/Login" role="form">
+                        <form id="admin-login-form" action="/Admin/Login" role="form">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Tài Khoản" name="adminLoginName" type="text" autofocus>
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Ghi Nhớ
+                                        <input id="remember" name="remember" type="checkbox">Ghi Nhớ
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
@@ -76,7 +76,15 @@
     <!-- DataTables JavaScript -->
     <!-- Custom Theme JavaScript -->
     <script src="@Url.Content("~/Scripts/sb-admin-2.js")"></script>
-
+    <script>
+        $(function () {
+            $('#admin-login-form').submit(function () {
+                $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "rememberme").val($('#remember').prop('checked')).appendTo($(this));
+            });
+        });
+    </script>
 </body>
 
 </html>

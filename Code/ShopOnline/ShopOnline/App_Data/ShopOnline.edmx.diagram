@@ -25,6 +25,12 @@
         <AssociationConnector Association="ShopOnlineModel.FK_OrderDetail_Order" />
         <AssociationConnector Association="ShopOnlineModel.FK_Order_Location" />
         <AssociationConnector Association="ShopOnlineModel.FK_Order_Location1" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Color" Width="1.5" PointX="5.75" PointY="12.375" />
+        <EntityTypeShape EntityType="ShopOnlineModel.ProductBrand" Width="1.5" PointX="11" PointY="14.25" />
+        <EntityTypeShape EntityType="ShopOnlineModel.ProductColor" Width="1.5" PointX="14" PointY="15.75" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductColor_Color" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Product_ProductBrand" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductColor_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

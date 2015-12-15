@@ -55,8 +55,9 @@ _________________________________________________________ -->
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-5 contact">
-                            <p class="hidden-sm hidden-xs">Liên hệ với chúng tôi qua @{Html.RenderAction("GetConfigByCode", "Helper", new { code = "Phone" });} hoặc @{Html.RenderAction("GetConfigByCode", "Helper", new { code = "Email" });}</p>
-                            <p class="hidden-md hidden-lg"><a href="#" data-animate-hover="pulse"><i class="fa fa-phone"></i></a>  <a href="#" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
+                            <p class="hidden-sm hidden-xs">Liên hệ với chúng tôi qua @{Html.RenderAction("GetConfigByCode", "Helper", new { code = "Phone" });}hoặc @{Html.RenderAction("GetConfigByCode", "Helper", new { code = "Email" });}</p>
+                            <p class="hidden-md hidden-lg">
+                                <a href="#" data-animate-hover="pulse"><i class="fa fa-phone"></i></a><a href="#" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
                             </p>
                         </div>
                         <div class="col-xs-7">
@@ -68,8 +69,8 @@ _________________________________________________________ -->
                             </div>
 
                             <div class="login">
-                               @{Html.RenderAction("RenderLoginBar","Helper");}
-                               
+                                @{Html.RenderAction("RenderLoginBar", "Helper");}
+
                             </div>
 
                         </div>
@@ -89,8 +90,8 @@ _________________________________________________________ -->
                     <div class="container">
                         <div class="navbar-header">
 
-                            <a class="navbar-brand home" href="@Url.Action("Index","ProductList")">
-                                <img src="@Url.Content(Html.Action("GetConfigByCode", "Helper", new { code = "Logo" }).ToString())" width="187" height="42" alt="Universal logo" class="hidden-xs hidden-sm">
+                            <a class="navbar-brand home" href="@Url.Action("Index", "ProductList")">
+                                <img src="@Url.Content(Html.Action("GetConfigByCode", "Helper", new { code = "Logo" }).ToString())" width="180" height="55"  alt="Universal logo" class="hidden-xs hidden-sm">
                                 <img src="@Url.Content(Html.Action("GetConfigByCode", "Helper", new { code = "Logo" }).ToString())"  width="110" height="47" alt="Universal logo" class="visible-xs visible-sm"><span class="sr-only">ShopSi - Trang Chủ</span>
                             </a>
                             <div class="navbar-buttons">
@@ -106,14 +107,14 @@ _________________________________________________________ -->
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">
-                                    <a id="cart-anchor" href="@Url.Action("CheckOutCart","Cart")" class="dropdown-toggle shopping-cart"><i class="fa fa-shopping-cart fa-2"></i><span id="cart-counter">@{Html.RenderAction("CountCart","Cart");}</span></a>
-                                   
+                                    <a id="cart-anchor" href="@Url.Action("CheckOutCart", "Cart")" class="dropdown-toggle shopping-cart"><i class="fa fa-shopping-cart fa-2"></i><span id="cart-counter">@{Html.RenderAction("CountCart", "Cart");}</span></a>
+
                                 </li>
                                 <li class="dropdown active">
-                                    <a href="@Url.Action("Index","ProductList")" class="dropdown-toggle">Trang Chủ</a>
-                                   
+                                    <a href="@Url.Action("Index", "ProductList")" class="dropdown-toggle">Trang Chủ</a>
+
                                 </li>
-                                @{Html.RenderAction("RenderUserPanel","Contact");}
+                                @{Html.RenderAction("RenderUserPanel", "Contact");}
                             </ul>
 
                         </div>
@@ -128,9 +129,9 @@ _________________________________________________________ -->
                                     <input type="text" class="form-control" placeholder="Search">
                                     <span class="input-group-btn">
 
-                    <button type="submit" class="btn btn-template-main"><i class="fa fa-search"></i></button>
+                                        <button type="submit" class="btn btn-template-main"><i class="fa fa-search"></i></button>
 
-                </span>
+                                    </span>
                                 </div>
                             </form>
 
@@ -170,13 +171,13 @@ _________________________________________________________ -->
                             </div>
 
                             <p class="text-center">
-                                <button type="button" id="btn-login-ajax" class="btn btn-template-main"><i class="fa fa-sign-in"></i> Đăng Nhập</button>
+                                <button type="button" id="btn-login-ajax" class="btn btn-template-main"><i class="fa fa-sign-in"></i>Đăng Nhập</button>
                             </p>
 
                         </form>
 
                         <p class="text-center text-muted">Bạn chưa có tài khoản</p>
-                        <p class="text-center text-muted"><a href="@Url.Action("SignUpPage","Contact")"><strong>Đăng Ký Ngay</strong></a></p>
+                        <p class="text-center text-muted"><a href="@Url.Action("SignUpPage", "Contact")"><strong>Đăng Ký Ngay</strong></a></p>
 
                     </div>
                 </div>
@@ -193,7 +194,7 @@ _________________________________________________________ -->
                     </div>
                     <div class="col-md-5">
                         <ul class="breadcrumb">
-                            <li><a href="@Url.Action("Index","ProductList")">Trang Chủ</a>
+                            <li><a href="@Url.Action("Index", "ProductList")">Trang Chủ</a>
                             </li>
                             <li>@ViewBag.PageTitle</li>
                         </ul>
@@ -223,7 +224,7 @@ _________________________________________________________ -->
                             </div>
 
                             <div class="panel-body">
-                                @{Html.RenderAction("GetCategoryList","ProductList");}
+                                @{Html.RenderAction("GetCategoryList", "ProductList");}
 
                             </div>
                         </div>
@@ -232,36 +233,17 @@ _________________________________________________________ -->
 
                             <div class="panel-heading">
                                 <h3 class="panel-title">Nhãn Hiệu</h3>
-                                <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
+                                <a id="btn-filter-brand-clear" class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i><span class="hidden-sm">Clear</span></a>
                             </div>
 
                             <div class="panel-body">
 
-                                <form>
+                                <form id="form-filter-brand">
                                     <div class="form-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Armani (10)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Versace (12)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Carlo Bruni (15)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox">Jack Honey (14)
-                                            </label>
-                                        </div>
+                                        @{Html.RenderAction("RenderBrands", "Helper");}
                                     </div>
 
-                                    <button class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i> Apply</button>
+                                    <button id="btn-filter-brand" class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i>Apply</button>
 
                                 </form>
 
@@ -272,41 +254,17 @@ _________________________________________________________ -->
 
                             <div class="panel-heading">
                                 <h3 class="panel-title clearfix">Màu Sắc</h3>
-                                <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
+                                <a id="btn-filter-color-clear" class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i><span class="hidden-sm">Clear</span></a>
                             </div>
 
                             <div class="panel-body">
 
-                                <form>
+                                <form id="form-filter-color">
                                     <div class="form-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour white"></span> White (14)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour blue"></span> Blue (10)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour green"></span> Green (20)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour yellow"></span> Yellow (13)
-                                            </label>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> <span class="colour red"></span> Red (10)
-                                            </label>
-                                        </div>
+                                        @{Html.RenderAction("RenderColors", "Helper");}
                                     </div>
 
-                                    <button class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i> Apply</button>
+                                    <button id="btn-filter-color" class="btn btn-default btn-sm btn-template-main"><i class="fa fa-pencil"></i>Apply</button>
 
                                 </form>
 
@@ -315,7 +273,7 @@ _________________________________________________________ -->
 
                         <!-- *** MENUS AND FILTERS END *** -->
 
-                     @*   <div class="banner">
+                        @*   <div class="banner">
                             <a href="shop-category.html">
                                 <img src="@Url.Content("~/images/img/banner.jpg")" alt="sales 2014" class="img-responsive">
                             </a>
@@ -357,7 +315,7 @@ _________________________________________________________ -->
                     <h3>Bạn có muốn trở thành nhà cung cấp?</h3>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <a href="@Url.Action("Contact","Contact")" class="btn btn-template-transparent-primary">Liên hệ ngay</a>
+                    <a href="@Url.Action("Contact", "Contact")" class="btn btn-template-transparent-primary">Liên hệ ngay</a>
                 </div>
             </div>
         </div>
@@ -387,16 +345,15 @@ _________________________________________________________ -->
 
                             <span class="input-group-btn">
 
-                        <button id="btn-subscribe" class="btn btn-default" type="button"><i class="fa fa-send"></i></button>
+                                <button id="btn-subscribe" class="btn btn-default" type="button"><i class="fa fa-send"></i></button>
 
-                    </span>
+                            </span>
 
                         </div>
                         <!-- /input-group -->
                     </form>
 
                     <hr class="hidden-md hidden-lg hidden-sm">
-
                 </div>
                 <!-- /.col-md-3 -->
 
@@ -405,11 +362,10 @@ _________________________________________________________ -->
                     <h4>Trực Tuyến</h4>
 
                     <div class="blog-entries">
-                        @{Html.RenderAction("Employees","Contact");}
+                        @{Html.RenderAction("Employees", "Contact");}
                     </div>
 
                     <hr class="hidden-md hidden-lg">
-
                 </div>
                 <!-- /.col-md-3 -->
 
@@ -417,12 +373,11 @@ _________________________________________________________ -->
 
                     <h4>Liên Hệ</h4>
 
-                  @Html.Raw(Html.Action("GetConfigByCode", "Helper", new { code = "Address" }).ToString())
+                    @Html.Raw(Html.Action("GetConfigByCode", "Helper", new { code = "Address" }).ToString())
 
-                    <a href="@Url.Action("Contact","Contact")" class="btn btn-small btn-template-main">Liên Hệ Với Chúng Tôi</a>
+                    <a href="@Url.Action("Contact", "Contact")" class="btn btn-small btn-template-main">Liên Hệ Với Chúng Tôi</a>
 
                     <hr class="hidden-md hidden-lg hidden-sm">
-
                 </div>
                 <!-- /.col-md-3 -->
 
@@ -433,7 +388,7 @@ _________________________________________________________ -->
                     <h4>Hình Ảnh</h4>
 
                     <div class="photostream">
-                       @{Html.RenderAction("GetSixImages","Helper");}
+                        @{Html.RenderAction("GetSixImages", "Helper");}
                     </div>
 
                 </div>
@@ -452,7 +407,8 @@ _________________________________________________________ -->
             <div class="container">
                 <div class="col-md-12">
                     <p class="pull-left">&copy; 2015 - shopsi.com</p>
-                    <p class="pull-right">Trang Web được thiết kế bởi <a href="http://facebook.com/minhtu2803">&copy;Akai777</a>
+                    <p class="pull-right">
+                        Trang Web được thiết kế bởi <a href="http://facebook.com/minhtu2803">&copy;Akai777</a>
                         <!-- Not removing these links is part of the licence conditions of the template. Thanks for understanding :) -->
                     </p>
 
@@ -479,13 +435,17 @@ _________________________________________________________ -->
     <script src="@Url.Content("~/Content/component/js/waypoints.min.js")"></script>
     <script src="@Url.Content("~/Content/component/js/jquery.counterup.min.js")"></script>
     <script src="@Url.Content("~/Content/component/js/jquery.parallax-1.1.3.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/dataTables.bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/moment.js")"></script>
+
     <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
     <script src="@Url.Content("~/Scripts/additional-methods.js")"></script>
-         <script src="@Url.Content("~/Scripts/app/environment.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/environment.js")"></script>
     <script src="@Url.Content("~/Content/fly-to-element/codex-fly.js")"></script>
     <script src="@Url.Content("~/Content/component/js/front.js")"></script>
-   <script src="@Url.Content("~/Scripts/app/front/general.js")"></script>
-    
+    <script src="@Url.Content("~/Scripts/app/front/general.js")"></script>
+
     @RenderSection("scripts", required: false)
 
 

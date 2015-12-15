@@ -13,4 +13,19 @@
     $('#btn-subscribe').on('click', function () {
         alert('Chức năng đang được xây dựng');
     });
+    $('#btn-change-pass').on('click', function () {
+        var form = $(this).closest('form');
+        if (form.valid()) {
+            var oldPass = $('#changeOldPass').val();
+            var newPass = $('#changeNewPass').val();
+            $.post('/Contact/ChangePassword', { oldPass: oldPass, newPass: newPass }, function (data) {
+                if (data.result) {
+                    alert('Đổi Mật Khẩu Thành Công');
+                    $('#user-changepass-modal').modal('hide');
+                } else {
+                    alert('Mật Khẩu Cũ Không Chính Xác');
+                }
+            });
+        }
+    });
 });

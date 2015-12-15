@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using ShopOnline.Constants;
+using ShopOnline.Extension;
 using ShopOnline.Models;
 using ShopOnline.Service;
 
@@ -141,7 +142,7 @@ namespace ShopOnline.Controllers
             }
             var userCityId = user.LocationCityId;
             var userDistrictId = user.LocationDistrictId;
-            var cities = _locationService.GetCities().Select(x => new SelectListItem() {Selected = false,Value = x.LocationId.ToString(), Text = x.LocationName }).ToList();
+            var cities = _locationService.GetCities().Select(x => new SelectListItem() { Selected = false, Value = x.LocationId.ToString(), Text = x.LocationName }).ToList();
             int? cityFilterValue = cart.CityId.HasValue
                                       ? cart.CityId
                                       : (userCityId.HasValue ? userCityId : null);
@@ -155,17 +156,17 @@ namespace ShopOnline.Controllers
             int? districtFilterValue = cart.DistrictId.HasValue
                                            ? cart.DistrictId
                                            : (userDistrictId.HasValue ? userDistrictId : null);
-            var districts = _locationService.GetDistricts(cityFilterValue ?? 0).Select(x => new SelectListItem() {Selected = false,Value = x.LocationId.ToString(), Text = x.LocationName }).ToList();;
+            var districts = _locationService.GetDistricts(cityFilterValue ?? 0).Select(x => new SelectListItem() { Selected = false, Value = x.LocationId.ToString(), Text = x.LocationName }).ToList(); 
             foreach (var selectListItem in districts)
             {
-                if(selectListItem.Value == districtFilterValue.ToString())
+                if (selectListItem.Value == districtFilterValue.ToString())
                 {
                     selectListItem.Selected = true;
                 }
             }
             cart.CitySource = cities;
             cart.DistrictSource = districts;
-          
+
             return View(cart);
         }
         public ActionResult CheckOutStep2(string name, string telephone, string street, string email, int? city, int? district)
@@ -201,6 +202,38 @@ namespace ShopOnline.Controllers
             var isOrder = _orderService.CreateOrder(userId, cart);
             Session.Remove(Common.UserCartKey);
             return View();
+        }
+        public ActionResult UpdateQuantity(int productId, int quantity)
+        {
+            var cart = GetCart();
+            var result = false;
+            decimal? totalLine = 0;
+            decimal? totalAll = 0;
+            var detail = cart.OrderDetails.FirstOrDefault(x => x.Product.ProductId == productId);
+            if (detail != null)
+            {
+                result = true;
+                detail.Quantity = quantity;
+                totalLine = detail.TotalPrice;
+                totalAll = cart.Total;
+            }
+            SaveCart(cart);
+            return Json(new { result, totalLine = totalLine.ToSystemFormat(), totalAll = totalAll.ToSystemFormat(), itemsCount = cart.ItemsCount });
+        }
+        public ActionResult RemoveLineCart(int productId)
+        {
+            var cart = GetCart();
+            var result = false;
+            decimal? totalAll = 0;
+            var detail = cart.OrderDetails.FirstOrDefault(x => x.Product.ProductId == productId);
+            if (detail != null)
+            {
+                result = true;
+                cart.OrderDetails.Remove(detail);
+                totalAll = cart.Total;
+            }
+            SaveCart(cart);
+            return Json(new { result, totalAll = totalAll.ToSystemFormat(), itemsCount = cart.ItemsCount });
         }
     }
 }

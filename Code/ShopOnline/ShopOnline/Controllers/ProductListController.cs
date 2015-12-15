@@ -25,10 +25,20 @@ namespace ShopOnline.Controllers
             
             return View(filterModel);
         }
-        public ActionResult GetProducts(int page,int pageSize,int? categoryId)
+        public ActionResult GetProducts(int page,int pageSize,int? categoryId,int? parentCategoryId,string brandIds,string colorIds)
         {
+            var brandIdValues = new List<int>();
+            if (!string.IsNullOrEmpty(brandIds))
+            {
+                brandIdValues = brandIds.Split(',').Select(int.Parse).ToList();
+            }
+            var colorIdValues = new List<int>();
+            if (!string.IsNullOrEmpty(colorIds))
+            {
+                colorIdValues = colorIds.Split(',').Select(int.Parse).ToList();
+            }
             var isLastPage = false;
-            var products = _productService.GetProductsByCondition(page, pageSize, out isLastPage, categoryId);
+            var products = _productService.GetProductsByCondition(page, pageSize, out isLastPage, categoryId, parentCategoryId,brandIdValues,colorIdValues);
             var productsModel = AutoMapper.Mapper.Map<List<ProductViewModel>>(products);
             var html = this.RenderPartialViewToString("GetProducts", productsModel);
             return Json(new {isLastPage, html});

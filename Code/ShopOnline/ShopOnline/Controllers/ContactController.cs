@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using ShopOnline.App_Data;
 using ShopOnline.Constants;
+using ShopOnline.Extension;
+using ShopOnline.Models;
 using ShopOnline.Service;
 
 namespace ShopOnline.Controllers
@@ -14,11 +16,13 @@ namespace ShopOnline.Controllers
         private readonly UserService _userService;
         private readonly LocationService _locationService;
         private readonly ConfigService _configService;
+        private readonly OrderService _orderService;
         public ContactController()
         {
             _userService = new UserService();
             _locationService = new LocationService();
             _configService = new ConfigService();
+            _orderService=new OrderService();
         }
 
         public ActionResult Logout()
@@ -73,7 +77,8 @@ namespace ShopOnline.Controllers
         public ActionResult GetDistricts(int locationId)
         {
             var dictricts = _locationService.GetDistricts(locationId);
-            return Json(new { result = true, dictricts });
+            var dictrictsModel = AutoMapper.Mapper.Map<List<LocationViewModel>>(dictricts);
+            return Json(new { result = true, dictrictsModel });
         }
         public ActionResult RenderUserPanel()
         {
@@ -91,6 +96,65 @@ namespace ShopOnline.Controllers
             var employee2 = _configService.GetConfig(Common.Employee2);
             var employee3 = _configService.GetConfig(Common.Employee3);
             return PartialView(new List<Config>() {employee1, employee2, employee3});
+        }
+        public ActionResult ChangePassword(string oldPass,string newPass)
+        {
+            var result = _userService.ChangePassword(this.UserId??0,oldPass,newPass);
+            return Json(new {result});
+        }
+        public ActionResult OrderHistory()
+        {
+            return View();
+        }
+        public ActionResult OrderHistoryList()
+        {
+            var orders = _userService.GetOrdersByUserId(UserId ?? 0);
+            var ordersModel = AutoMapper.Mapper.Map<List<OrderViewModel>>(orders);
+            return Json(new { data = ordersModel }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ViewOrderDetails(int orderId)
+        {
+            var order = _orderService.GetOrder(orderId);
+            var orderViewModel = AutoMapper.Mapper.Map<OrderViewModel>(order);
+            var html = this.RenderPartialViewToString("ViewOrderDetails", orderViewModel);
+            return Json(new { result = true, html });
+        }
+        public ActionResult ViewEditOrderInfo(int orderId)
+        {
+            var order = _userService.GetOrderByUserIdAndOrderId(UserId??0,orderId);
+            var orderViewModel = AutoMapper.Mapper.Map<OrderViewModel>(order);
+            int? cityFilterValue = orderViewModel.LocationCityId;
+            var cities = _locationService.GetCities().Select(x => new SelectListItem() { Selected = false, Value = x.LocationId.ToString(), Text = x.LocationName }).ToList();
+            foreach (var selectListItem in cities)
+            {
+                if (selectListItem.Value == cityFilterValue.ToString())
+                {
+                    selectListItem.Selected = true;
+                }
+            }
+            orderViewModel.CitySource = cities;
+            int? districtFilterValue = orderViewModel.LocationDistrictId;
+            var districts = _locationService.GetDistricts(cityFilterValue ?? 0).Select(x => new SelectListItem() { Selected = false, Value = x.LocationId.ToString(), Text = x.LocationName }).ToList();
+            foreach (var selectListItem in districts)
+            {
+                if (selectListItem.Value == districtFilterValue.ToString())
+                {
+                    selectListItem.Selected = true;
+                }
+            }
+            orderViewModel.DistrictSource = districts;
+            var html = this.RenderPartialViewToString("ViewEditOrderInfo", orderViewModel);
+            return Json(new { result = true, html });
+        }
+        public ActionResult OrderToDisabled(int orderId)
+        {
+            var result = _userService.UpdateOrderStatus(UserId??0,orderId, Common.OrderStatusDisabled);
+            return Json(new { result });
+        }
+        public ActionResult SaveEditOrderInfo(int orderId, string address, int? cityId, int? districtId, string phone)
+        {
+            var result = _userService.UpdateOrderInfo(UserId ?? 0, orderId, address,cityId,districtId,phone);
+            return Json(new { result });
         }
     }
 }

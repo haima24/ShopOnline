@@ -51,6 +51,21 @@
       <End Role="Location" EntitySet="Locations" />
       <End Role="Order" EntitySet="Orders" />
     </AssociationSet>
+    <EntitySet Name="Colors" EntityType="ShopOnlineModel.Color" />
+    <EntitySet Name="ProductBrands" EntityType="ShopOnlineModel.ProductBrand" />
+    <EntitySet Name="ProductColors" EntityType="ShopOnlineModel.ProductColor" />
+    <AssociationSet Name="FK_ProductColor_Color" Association="ShopOnlineModel.FK_ProductColor_Color">
+      <End Role="Color" EntitySet="Colors" />
+      <End Role="ProductColor" EntitySet="ProductColors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductBrand" Association="ShopOnlineModel.FK_Product_ProductBrand">
+      <End Role="ProductBrand" EntitySet="ProductBrands" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductColor_Product" Association="ShopOnlineModel.FK_ProductColor_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProductColor" EntitySet="ProductColors" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Category">
     <Key>
@@ -86,6 +101,9 @@
     <Property Type="Boolean" Name="IsSaleOff" />
     <Property Type="Boolean" Name="IsNew" />
     <NavigationProperty Name="OrderDetails" Relationship="ShopOnlineModel.FK_OrderDetail_Product" FromRole="Product" ToRole="OrderDetail" />
+    <Property Type="Int32" Name="BrandId" />
+    <NavigationProperty Name="ProductBrand" Relationship="ShopOnlineModel.FK_Product_ProductBrand" FromRole="Product" ToRole="ProductBrand" />
+    <NavigationProperty Name="ProductColors" Relationship="ShopOnlineModel.FK_ProductColor_Product" FromRole="Product" ToRole="ProductColor" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -300,6 +318,73 @@
       </Principal>
       <Dependent Role="Order">
         <PropertyRef Name="LocationDistrictId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="ColorId" />
+    </Key>
+    <Property Type="Int32" Name="ColorId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ColorName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ColorValue" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+    <Property Type="DateTime" Name="UpdatedDate" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ProductColors" Relationship="ShopOnlineModel.FK_ProductColor_Color" FromRole="Color" ToRole="ProductColor" />
+  </EntityType>
+  <EntityType Name="ProductBrand">
+    <Key>
+      <PropertyRef Name="BrandId" />
+    </Key>
+    <Property Type="Int32" Name="BrandId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="BrandName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+    <Property Type="DateTime" Name="UpdatedDate" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Products" Relationship="ShopOnlineModel.FK_Product_ProductBrand" FromRole="ProductBrand" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductColor">
+    <Key>
+      <PropertyRef Name="ProductColorId" />
+    </Key>
+    <Property Type="Int32" Name="ProductColorId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ProductId" Nullable="false" />
+    <Property Type="Int32" Name="ColorId" Nullable="false" />
+    <NavigationProperty Name="Color" Relationship="ShopOnlineModel.FK_ProductColor_Color" FromRole="ProductColor" ToRole="Color" />
+    <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_ProductColor_Product" FromRole="ProductColor" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_ProductColor_Color">
+    <End Type="ShopOnlineModel.Color" Role="Color" Multiplicity="1" />
+    <End Type="ShopOnlineModel.ProductColor" Role="ProductColor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Color">
+        <PropertyRef Name="ColorId" />
+      </Principal>
+      <Dependent Role="ProductColor">
+        <PropertyRef Name="ColorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductBrand">
+    <End Type="ShopOnlineModel.ProductBrand" Role="ProductBrand" Multiplicity="0..1" />
+    <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductBrand">
+        <PropertyRef Name="BrandId" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="BrandId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductColor_Product">
+    <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ShopOnlineModel.ProductColor" Role="ProductColor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="ProductColor">
+        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

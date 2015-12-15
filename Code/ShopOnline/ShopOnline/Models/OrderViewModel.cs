@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ShopOnline.Models
 {
@@ -16,6 +17,9 @@ namespace ShopOnline.Models
         public Nullable<int> LocationCityId { get; set; }
         public Nullable<int> LocationDistrictId { get; set; }
         public Nullable<int> OrderStatus { get; set; }
+        public List<SelectListItem> CitySource { get; set; }
+        public List<SelectListItem> DistrictSource { get; set; }
+        public string OriginalAddress { get; set; }
 
         public List<OrderDetailViewModel> OrderDetails { get; set; }
         public decimal? Total

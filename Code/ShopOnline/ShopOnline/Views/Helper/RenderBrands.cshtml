@@ -1,0 +1,9 @@
+﻿@model List<ShopOnline.Models.ProductBrandViewModel>
+@foreach (var item in Model)
+{
+    <div class="checkbox">
+        <label>
+            <input class="filter-brand" brand-id="@item.BrandId" type="checkbox"> @item.BrandName <span>(@item.ProductCount)</span>
+        </label>
+    </div>
+}

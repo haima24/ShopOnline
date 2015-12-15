@@ -23,8 +23,8 @@ E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\System.Web.Razo
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\System.Web.WebPages.xml
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\System.Web.WebPages.Deployment.xml
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\System.Web.WebPages.Razor.xml
-E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\obj\Debug\ShopOnline.csprojResolveAssemblyReference.cache
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\obj\Debug\ShopOnline.dll
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\obj\Debug\ShopOnline.pdb
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\AutoMapper.dll
 E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\bin\AutoMapper.xml
+E:\Projects\ShopOnline\ShopOnline\Code\ShopOnline\ShopOnline\obj\Debug\ShopOnline.csprojResolveAssemblyReference.cache

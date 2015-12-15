@@ -1,4 +1,32 @@
 ﻿$(function () {
+    $('#btn-filter-brand').on('click', function (e) {
+        e.preventDefault();
+        var brandIds = '';
+        $('#form-filter-brand .filter-brand:checked').each(function (i,o) {
+            if (i == 0) {
+                brandIds += 'FilterBrandIds='+$(this).attr('brand-id');
+            } else {
+                brandIds += "&FilterBrandIds=" + $(this).attr('brand-id');
+            }
+
+        });
+        window.location.href = "/ProductList/Index?" + brandIds;
+       
+    });
+    $('#btn-filter-color').on('click', function (e) {
+        e.preventDefault();
+        var colorIds = '';
+        $('#form-filter-color .filter-color:checked').each(function (i, o) {
+            if (i == 0) {
+                colorIds += 'FilterColorIds='+$(this).attr('color-id');
+            } else {
+                colorIds += "&FilterColorIds=" + $(this).attr('color-id');
+            }
+
+        });
+        window.location.href = "/ProductList/Index?" +  colorIds ;
+       
+    });
     $('#category-menu .category-sub').on('click', function (e) {
         e.preventDefault();
         var categoryId = $(this).attr('child-category-id');
@@ -31,9 +59,9 @@
                 if (data.result) {
                     $('#district').removeAttr('disabled');
                     $('#district').empty();
-                    if (data.dictricts) {
+                    if (data.dictrictsModel) {
                         $('#district').append($('<option>'));
-                        $.each(data.dictricts, function (i, o) {
+                        $.each(data.dictrictsModel, function (i, o) {
                             $('#district').append($('<option value=' + o.LocationId + '>' + o.LocationName + '</option>'));
                         });
                     }

@@ -71,7 +71,7 @@
             });
             $('.btn-disable-order').on('click', function () {
                 var orderId = $(this).attr('order-id');
-                $.post('/Admin/OrderToDisable', { orderId: orderId }, function (data) {
+                $.post('/Admin/OrderToDisabled', { orderId: orderId }, function (data) {
                     if (data.result) {
                         alert('Đã hủy đơn hàng');
                         table.ajax.reload();

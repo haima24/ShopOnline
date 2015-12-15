@@ -11,15 +11,29 @@ $.convertJqueryArrayToJSArray = function(obj) {
 };
 
 var oLanguage = {
-    "sSearch": "Tìm Kiếm:"
+    "sSearch": "Tìm Kiếm:",
+    "oPaginate": {
+        "sNext": "Trang Kế",
+        "sPrevious": "Trang Trước"
+    },
+    "sInfo": "Đang hiện từ _START_ tới _END_ trong tổng số _TOTAL_",
+    "sInfoEmpty": "",
+    "sEmptyTable": "Không có dữ liệu",
+    "sLengthMenu": "Hiện _MENU_ dòng thông tin",
+    "sLoadingRecords": "Đang tải dữ liệu..."
 };
-var toolbar = [
-    //[groupname, [button list]]
-
-    ['style', ['bold', 'italic', 'underline', 'clear']],
-    ['font', ['strikethrough', 'superscript', 'subscript']],
-    ['fontsize', ['fontsize']],
-    ['color', ['color']],
-    ['para', ['ul', 'ol', 'paragraph']],
-    ['height', ['height']]
-];
+var summernoteProductSetting = {
+    height: 150,
+    toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        // ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'hr']]
+    ]
+};

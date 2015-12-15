@@ -13,7 +13,7 @@ namespace ShopOnline.Extension
         }
         public static string ToSystemFormat(this decimal? value)
         {
-            return string.Format("{0:#,###} đ", value);
+            return string.Format("{0:#,##0} đ", value??0);
         }
     }
 }

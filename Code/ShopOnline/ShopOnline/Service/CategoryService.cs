@@ -41,7 +41,7 @@ namespace ShopOnline.Service
             }
             return category != null && result > 0;
         }
-        public bool CreateParentCategory(string name)
+        public bool CreateParentCategory(int userId,string name)
         {
             var category = new Category();
             category.CategoryName = name;
@@ -53,7 +53,7 @@ namespace ShopOnline.Service
             Context.SaveChanges();
             return category.CategoryId > 0;
         }
-        public bool CreateSubCategory(int parentId,string name)
+        public bool CreateSubCategory(int userId,int parentId,string name)
         {
             var category = new Category();
             category.ParentCategoryId = parentId;
@@ -72,6 +72,13 @@ namespace ShopOnline.Service
             var category = Context.Categories.FirstOrDefault(x => x.CategoryId == id);
             if(category!=null)
             {
+                var count = category.ProductCategories.Count;
+                var arrayProductCategories = category.ProductCategories.ToArray();
+                for (int i = 0; i < count; i++)
+                {
+                    category.ProductCategories.Remove(arrayProductCategories[i]);
+                    Context.ProductCategories.Remove(arrayProductCategories[i]);
+                }
                 Context.Categories.Remove(category);
                 result = Context.SaveChanges();
             }

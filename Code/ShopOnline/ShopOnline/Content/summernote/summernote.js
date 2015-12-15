@@ -5386,7 +5386,7 @@
             $imageUrl = $dialog.find('.note-image-url'),
             $imageBtn = $dialog.find('.note-image-btn');
 
-        $imageDialog.one('shown.bs.modal', function () {
+          $imageDialog.one('shown.bs.modal', function () {
           // Cloning imageInput to clear element.
           $imageInput.replaceWith($imageInput.clone()
             .on('change', function () {
@@ -5415,8 +5415,11 @@
             toggleBtn($imageBtn, url);
           }).val('').trigger('focus');
           bindEnterKey($imageUrl, $imageBtn);
-        }).one('hidden.bs.modal', function () {
-          $imageInput.off('change');
+          }).one('hidden.bs.modal', function () {
+              if ($(this).parent().closest('.modal').length > 0) {
+                  $('body').addClass('modal-open');
+              }
+              $imageInput.off('change');
           $imageUrl.off('keyup paste keypress');
           $imageBtn.off('click');
 

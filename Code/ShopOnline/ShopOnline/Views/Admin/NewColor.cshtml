@@ -1,0 +1,43 @@
+﻿<div class="modal fade" id="modalNewColor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Tạo Màu</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel">
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form role="form">
+                                    <div class="form-group">
+                                        <label>Tên Màu</label>
+                                        <input name="colorName" class="form-control color-name required" data-msg-required='Tên Màu Không Được Để Trống' placeholder="Nhập Tên Màu">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Màu Sắc</label>
+                                        <div class="input-group colorValuePlaceHoder">
+                                            <input style="display: none;" name="colorValue" class="form-control color-value required" data-msg-required='Vui Lòng Chọn Màu'>
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>
+                                        <label id="colorValue-error" class="error" for="colorValue"></label>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.col-lg-6 (nested) -->
+
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" id="saveNewColor" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>

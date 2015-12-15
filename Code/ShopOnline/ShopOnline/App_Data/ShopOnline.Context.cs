@@ -35,5 +35,8 @@ namespace ShopOnline.App_Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Config> Configs { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Color> Colors { get; set; }
+        public DbSet<ProductBrand> ProductBrands { get; set; }
+        public DbSet<ProductColor> ProductColors { get; set; }
     }
 }
