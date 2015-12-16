@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "ConfigLogo";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@model ShopOnline.App_Data.Config
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Cấu Hình Chung</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Logo
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                @if(!string.IsNullOrEmpty(Model.ConfigValue))
+                {
+                    <form id="logoDropzone" class="dropzone dropzone250"><img width="250" height="100" src="@Url.Content(Model.ConfigValue)" /></form>
+                }else
+                {
+                    <form id="logoDropzone" class="dropzone dropzone250"></form>
+                }
+                
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+   
+</div>
+<!-- /.row -->
+@section styles
+{
+    <link href="@Url.Content("~/Content/dropzone/dropzone.css")" rel="stylesheet" />
+}
+@section scripts
+{
+    <script src="@Url.Content("~/Content/dropzone/dropzone.js")"></script>
+    <script src="@Url.Content("~/Scripts/app/admin/config.js")"></script>
+}

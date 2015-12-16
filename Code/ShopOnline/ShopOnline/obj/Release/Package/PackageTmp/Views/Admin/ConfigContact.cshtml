@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "ConfigContact";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using ShopOnline.Constants
+@model List<ShopOnline.App_Data.Config>
+@{
+    var contact = Model.FirstOrDefault(x => x.ConfigCode == Common.Contact);
+    var address = Model.FirstOrDefault(x => x.ConfigCode == Common.Address);
+    var phone = Model.FirstOrDefault(x => x.ConfigCode == Common.Phone);
+    var email = Model.FirstOrDefault(x => x.ConfigCode == Common.Email);
+    var intro = Model.FirstOrDefault(x => x.ConfigCode == Common.Intro);
+    var employee1 = Model.FirstOrDefault(x => x.ConfigCode == Common.Employee1);
+    var employee2 = Model.FirstOrDefault(x => x.ConfigCode == Common.Employee2);
+    var employee3 = Model.FirstOrDefault(x => x.ConfigCode == Common.Employee3);
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Liên Hệ</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+                Số Điện Thoại
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+             <p>
+                    <button type="button" id="btnSavePhone" class="btn btn-primary">Lưu</button>
+                </p>
+                <input type="text" id="configPhone" value="@phone.ConfigValue" />
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Địa chỉ
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+             <p>
+                    <button type="button" id="btnSaveAddress" class="btn btn-primary">Lưu</button>
+                </p>
+                <div id="configAddress">@Html.Raw(address.ConfigValue)</div>
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Email
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <p>
+                    <button type="button" id="btnSaveEmail" class="btn btn-primary">Lưu</button>
+                </p>
+                <input type="text" id="configEmail" value="@email.ConfigValue" />
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Nhân viên liên hệ
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+             <p>
+                    <button type="button" id="btnSaveEmployee" class="btn btn-primary">Lưu</button>
+                </p>
+                <input type="text" id="configEmployee1" value="@employee1.ConfigValue" />
+                <input type="text" id="configEmployee2" value="@employee2.ConfigValue" />
+                <input type="text" id="configEmployee3" value="@employee3.ConfigValue" />
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                Giới Thiệu
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+             <p>
+                    <button type="button" id="btnSaveIntro" class="btn btn-primary">Lưu</button>
+                </p>
+                <input type="text" id="configIntro" style="width: 100%;" value="@intro.ConfigValue" />
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Chỉnh Sửa Thông Tin Liên Hệ
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <p>
+                    <button type="button" id="btnSaveContact" class="btn btn-primary">Lưu</button>
+                </p>
+                <div id="configContact">@Html.Raw(contact.ConfigValue)</div>
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+   
+</div>
+<!-- /.row -->
+
+
+@section scripts
+{
+   <script src="@Url.Content("~/Scripts/app/admin/config.js")"></script>
+}

@@ -1,0 +1,9 @@
+﻿@model List<ShopOnline.Models.ProductViewModel>
+@foreach (var item in Model)
+{
+    <div>
+        <a href="@Url.Action("Detail","ProductList",new{id=item.ProductId})">
+            <img src="@Url.Content(item.ProductImageDisplay.ProductImageUrl)" class="img-responsive" alt="#">
+        </a>
+    </div>
+}

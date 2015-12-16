@@ -416,7 +416,8 @@ namespace ShopOnline.Controllers
         public ActionResult ColorList()
         {
             var colors = _colorService.GetColors();
-            return Json(new {data = colors}, JsonRequestBehavior.AllowGet);
+            var colorsModel = AutoMapper.Mapper.Map<List<ColorViewModel>>(colors);
+            return Json(new { data = colorsModel }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CreateColor(string name,string value)

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ShopOnline.Models.CategoryViewModel>
+<ul id="category-menu" class="nav nav-pills nav-stacked category-menu">
+     <li>
+        <a id="category-all" href="#">Tất cả</a>
+    </li>
+    @foreach(var parent in Model)
+    {
+        <li>
+            <a class="category-parent" parent-category-id="@parent.CategoryId" href="#">@parent.CategoryName<span class="badge pull-right">@parent.ProductCount</span></a>
+            <ul>
+                @foreach(var child in parent.Childs)
+                {
+                    <li><a class="category-sub" child-category-id="@child.CategoryId">@child.CategoryName</a>
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+   
+</ul>

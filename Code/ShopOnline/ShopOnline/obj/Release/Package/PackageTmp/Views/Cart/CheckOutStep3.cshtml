@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "CheckOutStep3";
+    Layout = "~/Views/Shared/_ContactLayout.cshtml";
+}
+<div class="col-md-9 clearfix" id="checkout">
+
+    <div class="box">
+        <form id="form-checkout-step3" action="@Url.Action("CheckOutStep4")" method="POST">
+            <ul class="nav nav-pills nav-justified">
+                <li><a href="@Url.Action("CheckOutStep1","Cart")"><i class="fa fa-map-marker"></i>
+                    <br>
+                    Địa Chỉ</a>
+                </li>
+                <li><a href="@Url.Action("CheckOutStep2","Cart")"><i class="fa fa-truck"></i>
+                    <br>
+                    Phương Thức Giao Hàng</a>
+                </li>
+                <li class="active"><a href="#"><i class="fa fa-money"></i>
+                    <br>
+                    Phương Thức Thanh Toán</a>
+                </li>
+                <li class="disabled"><a href="#"><i class="fa fa-eye"></i>
+                    <br>
+                    Xem Lại Đơn Hàng</a>
+                </li>
+            </ul>
+
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="box payment-method">
+
+                            <h4>Trả Tiền Khi Nhận Hàng</h4>
+
+                            <p>Bạn trả tiền khi đã nhận được hàng.</p>
+
+                            <div class="box-footer text-center">
+
+                                <input type="radio" name="payment" value="CashOnDelivery">
+                            </div>
+                             <label style="margin-top: 30px;" for="payment" generated="true" class="error"></label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.content -->
+
+            <div class="box-footer">
+                <div class="pull-left">
+                    <a href="@Url.Action("CheckOutStep2")" class="btn btn-default"><i class="fa fa-chevron-left"></i>Trở Lại Phương Thức Giao Hàng</a>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-template-main">
+                        Xem Lại Đơn Hàng<i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /.box -->
+
+
+</div>
+<!-- /.col-md-9 -->
+@{Html.RenderAction("RenderOrderSummary", "Cart");}
+@section scripts{
+    <script src="@Url.Content("~/Scripts/app/front/product.buy.view.js")"></script>
+}

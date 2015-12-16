@@ -1,0 +1,150 @@
+﻿@{
+    ViewBag.Title = "Kiểm Tra Giỏ Hàng";
+    Layout = "~/Views/Shared/_ContactLayout.cshtml";
+    ViewBag.PageTitle = "Kiểm Tra Giỏ Hàng";
+}
+@using ShopOnline.Extension
+@model ShopOnline.Models.CartViewModel
+<div class="col-md-12">
+    <p class="text-muted lead">Hiện đang có @(Model.ItemsCount) món hàng trong giỏ</p>
+</div>
+
+
+<div class="col-md-9 clearfix" id="basket">
+
+    <div class="box">
+
+        <form id="form-checkout-step1" method="POST" action="@Url.Action("CheckOutStep1", "Cart")">
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Giá</th>
+                            <th colspan="2">Tổng Cộng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            var product = item.Product;
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <img src="@Url.Content(product.ProductImageDisplay.ProductImageUrl)" alt="@product.ProductName">
+                                    </a>
+                                </td>
+                                <td><a href="#">@product.ProductName</a>
+                                </td>
+                                <td>
+                                    <input type="number" min="1" product-id="@product.ProductId" value="@item.Quantity" class="form-control quantity">
+                                </td>
+                                <td>@product.Price.ToSystemFormat()</td>
+                                <td class="line-total">@item.TotalPrice.ToSystemFormat()</td>
+                                <td><a product-id="@product.ProductId" class="remove-line-cart"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4">Tổng Cộng</th>
+                            <th  id="tableTotal" colspan="2">@Model.Total.ToSystemFormat()</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+            <!-- /.table-responsive -->
+
+            <div class="box-footer">
+                <div class="pull-left">
+                    <a href="@Url.Action("Index", "ProductList")" class="btn btn-default"><i class="fa fa-chevron-left"></i>Trở lại xem hàng</a>
+                </div>
+                <div class="pull-right">
+                    @*<button class="btn btn-default"><i class="fa fa-refresh"></i>Update cart</button>*@
+                    @if (Model.ItemsCount > 0)
+                    {
+                        <button type="submit" class="btn btn-template-main">
+                            Tiếp Tục Đơn Hàng <i class="fa fa-chevron-right"></i>
+                        </button>
+                    }
+                    else
+                    {
+                        <a disabled="disabled" class="btn btn-template-main">Tiếp Tục Đơn Hàng <i class="fa fa-chevron-right"></i>
+                        </a>
+                    }
+
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    <!-- /.box -->
+
+    @*<div class="row">
+        <div class="col-md-3">
+            <div class="box text-uppercase">
+                <h3>You may also like these products</h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="product">
+                <div class="image">
+                    <a href="shop-detail.html">
+                        <img src="img/product2.jpg" alt="" class="img-responsive image1">
+                    </a>
+                </div>
+                <div class="text">
+                    <h3><a href="shop-detail.html">Fur coat</a></h3>
+                    <p class="price">$143</p>
+
+                </div>
+            </div>
+            <!-- /.product -->
+        </div>
+
+        <div class="col-md-3">
+            <div class="product">
+                <div class="image">
+                    <a href="shop-detail.html">
+                        <img src="img/product3.jpg" alt="" class="img-responsive image1">
+                    </a>
+                </div>
+                <div class="text">
+                    <h3><a href="shop-detail.html">Fur coat</a></h3>
+                    <p class="price">$143</p>
+                </div>
+            </div>
+            <!-- /.product -->
+        </div>
+
+        <div class="col-md-3">
+            <div class="product">
+                <div class="image">
+                    <a href="shop-detail.html">
+                        <img src="img/product1.jpg" alt="" class="img-responsive image1">
+                    </a>
+                </div>
+                <div class="text">
+                    <h3><a href="shop-detail.html">Fur coat</a></h3>
+                    <p class="price">$143</p>
+                </div>
+            </div>
+            <!-- /.product -->
+        </div>
+
+    </div>*@
+
+</div>
+<!-- /.col-md-9 -->
+
+@{Html.RenderAction("RenderOrderSummary", "Cart");}
+@section scripts{
+    <script src="@Url.Content("~/Scripts/app/front/product.buy.cart.update.js")"></script>
+}

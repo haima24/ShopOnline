@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "CheckOutComplete";
+    Layout = "~/Views/Shared/_ContactLayout.cshtml";
+}
+
+<div class="col-md-9 clearfix" id="checkout">
+
+    <div class="col-md-12">
+
+        <div class="heading">
+            <h2>Đơn hàng của bạn đã được đặt mua thành công</h2>
+        </div>
+
+        <p class="lead">
+            Cảm ơn bạn đã đặt hàng. Sẽ có nhân viên liên hệ và giao sản phẩm cho bạn
+        </p>
+        <div class="box-footer">
+            <div class="pull-left">
+                <a href="#" disabled="disabled" class="btn btn-default">Tự trở về trang chủ trong <span id="counter"></span> giây</a>
+            </div>
+            <div class="pull-right">
+                <a href="@Url.Action("Index","ProductList")" class="btn btn-template-main">
+                    Trở về trang chủ<i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.col-md-9 -->
+@{Html.RenderAction("RenderOrderSummary", "Cart");}
+@section scripts{
+    <script>
+        $(function () {
+            var time = 5;
+            setInterval(function () {
+                $('#counter').html(time);
+                time--;
+                if (time <= 0) {
+                    window.location.href = "/ProductList/Index";
+                    return;
+                }
+            }, 1000);
+        });
+    </script>
+}

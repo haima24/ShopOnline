@@ -1,0 +1,42 @@
+﻿@if (ViewBag.IsUserLoggedIn)
+{
+    <li class="dropdown">
+        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>Cá Nhân <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+             <li><a href="@Url.Action("OrderHistory", "Contact")">Lịch Sử Đặt Hàng</a>
+            </li>
+            <li><a href="#" data-toggle="modal" data-target="#user-changepass-modal">Đổi Mật Khẩu</a>
+            </li>
+            <li><a href="@Url.Action("Logout", "Contact")">Đăng Xuất</a>
+            </li>
+        </ul>
+    </li>
+    <div class="modal fade" id="user-changepass-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="Login">Đổi Mật Khẩu</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" name="changeOldPass" data-msg-required="Vui Lòng Nhập Mật Khẩu Cũ" class="form-control required" id="changeOldPass" placeholder="Mật Khẩu Cũ">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="changeNewPass" data-msg-required="Vui Lòng Nhập Mật Khẩu Mới" class="form-control required" id="changeNewPass" placeholder="Mật Khẩu Mới">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="changeNewPassConfirm" data-msg-equalto="Mật Khẩu Xác Nhận Không Khớp" equalto="#changeNewPass" class="form-control" id="changeNewPassConfirm" placeholder="Xác Nhận Mật Khẩu Mới">
+                        </div>
+                        <p class="text-center">
+                            <button type="button" id="btn-change-pass" class="btn btn-template-main"><i class="fa fa-sign-in"></i>Đồng Ý</button>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

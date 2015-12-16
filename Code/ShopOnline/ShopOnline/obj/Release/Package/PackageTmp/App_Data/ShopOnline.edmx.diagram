@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="866dbb23f9d043c8ac6776a86ce3cc98" Name="Diagram1">
+        <EntityTypeShape EntityType="ShopOnlineModel.Category" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Product" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopOnlineModel.sysdiagram" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopOnlineModel.User" Width="1.5" PointX="8.125" PointY="23.75" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Category_Category" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Category_User" />
+        <EntityTypeShape EntityType="ShopOnlineModel.ProductImage" Width="1.5" PointX="10.418764599793946" PointY="22.002385507338861" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductImage_Product" />
+        <EntityTypeShape EntityType="ShopOnlineModel.ProductCategory" Width="1.5" PointX="3.875" PointY="1.5" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductCategory_Category" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductCategory_Product" />
+        <EntityTypeShape EntityType="ShopOnlineModel.OrderDetail" Width="1.5" PointX="6.5" PointY="9.375" />
+        <AssociationConnector Association="ShopOnlineModel.FK_OrderDetail_Product" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Location" Width="1.5" PointX="1.4798013463056652" PointY="23.192814793061846" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Config" Width="1.5" PointX="6" PointY="22.75" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Order" Width="1.5" PointX="2.875" PointY="7.75" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Order_User" />
+        <AssociationConnector Association="ShopOnlineModel.FK_OrderDetail_Order" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Order_Location" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Order_Location1" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Color" Width="1.5" PointX="5.75" PointY="12.375" />
+        <EntityTypeShape EntityType="ShopOnlineModel.ProductBrand" Width="1.5" PointX="11" PointY="14.25" />
+        <EntityTypeShape EntityType="ShopOnlineModel.ProductColor" Width="1.5" PointX="14" PointY="15.75" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductColor_Color" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Product_ProductBrand" />
+        <AssociationConnector Association="ShopOnlineModel.FK_ProductColor_Product" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

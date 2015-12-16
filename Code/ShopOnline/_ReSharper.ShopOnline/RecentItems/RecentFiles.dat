@@ -1,5 +1,8 @@
 ﻿<RecentFiles>
   <RecentFiles>
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:CategoriesParent.cshtml" caret="0" fromTop="0" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:EditCategoryParent.cshtml" caret="0" fromTop="0" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:NewCategoryParent.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Contact/f:OrderHistory.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Contact/f:ViewEditOrderInfo.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:NewCategorySub.cshtml" caret="0" fromTop="0" />
@@ -17,23 +20,18 @@
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:CategoriesSub.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:ProductList/f:GetCategoryList.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Cart/f:CheckOutComplete.cshtml" caret="0" fromTop="0" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:ProductList/f:Detail.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Cart/f:CheckOutStep4.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Cart/f:RenderOrderSummary.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:ConfigContact.cshtml" caret="0" fromTop="0" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:OrdersDisabledIndex.cshtml" caret="0" fromTop="0" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:ProductList/f:Index.cshtml" caret="298" fromTop="8" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Scripts/d:app/d:admin/f:product.list.js" caret="0" fromTop="0" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Scripts/d:app/d:front/f:product.buy.view.js" caret="99" fromTop="0" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Helper/f:RenderColors.cshtml" caret="0" fromTop="0" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Shared/f:_Layout.cshtml" caret="12214" fromTop="7" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Controllers/f:ProductListController.cs" caret="919" fromTop="14" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Shared/f:_ContactLayout.cshtml" caret="0" fromTop="0" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Scripts/d:app/d:front/f:product.detail.js" caret="2543" fromTop="13" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:EditProduct.cshtml" caret="2254" fromTop="14" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Shared/f:_Layout.cshtml" caret="0" fromTop="0" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:ProductList/f:Index.cshtml" caret="92" fromTop="3" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:ProductList/f:Detail.cshtml" caret="145" fromTop="3" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:App_Start/f:AutoMapperConfig.cs" caret="3486" fromTop="49" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Controllers/f:AdminController.cs" caret="17544" fromTop="10" />
   </RecentFiles>
   <RecentEdits>
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Service/f:ColorService.cs" caret="1523" fromTop="14" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Service/f:CategoryService.cs" caret="3181" fromTop="16" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:NewBrand.cshtml" caret="442" fromTop="5" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Shared/f:AdminLayout.cshtml" caret="7773" fromTop="19" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:NewColor.cshtml" caret="1714" fromTop="12" />
@@ -46,9 +44,7 @@
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Models/f:ProductInfoViewModel.cs" caret="374" fromTop="11" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Content/d:css/f:sb-admin-2.css" caret="7060" fromTop="17" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:EditProduct.cshtml" caret="3033" fromTop="13" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:NewProduct.cshtml" caret="2437" fromTop="13" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Models/f:ProductViewModel.cs" caret="1068" fromTop="15" />
-    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Controllers/f:AdminController.cs" caret="8228" fromTop="10" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:App_Start/f:AutoMapperConfig.cs" caret="3789" fromTop="14" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Models/f:ProductBrandViewModel.cs" caret="420" fromTop="13" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:ProductList.cshtml" caret="1110" fromTop="8" />
@@ -62,5 +58,9 @@
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:ProductList/f:Index.cshtml" caret="298" fromTop="8" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Shared/f:_Layout.cshtml" caret="12214" fromTop="7" />
     <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Scripts/d:app/d:front/f:product.detail.js" caret="2543" fromTop="13" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/f:Web.config" caret="3141" fromTop="11" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:Admin/f:NewProduct.cshtml" caret="2437" fromTop="10" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Views/d:ProductList/f:Detail.cshtml" caret="145" fromTop="3" />
+    <File id="2214F8C8-166D-45B5-B1C3-C1288750768C/d:Controllers/f:AdminController.cs" caret="17544" fromTop="10" />
   </RecentEdits>
 </RecentFiles>
