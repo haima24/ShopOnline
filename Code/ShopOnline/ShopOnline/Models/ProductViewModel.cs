@@ -25,5 +25,6 @@ namespace ShopOnline.Models
         public List<int> ProductColors { get; set; }
         public List<string> ColorCodes { get; set; } 
         public int? BrandId { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
     }
 }

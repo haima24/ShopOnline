@@ -31,6 +31,10 @@
         <AssociationConnector Association="ShopOnlineModel.FK_ProductColor_Color" />
         <AssociationConnector Association="ShopOnlineModel.FK_Product_ProductBrand" />
         <AssociationConnector Association="ShopOnlineModel.FK_ProductColor_Product" />
+        <EntityTypeShape EntityType="ShopOnlineModel.Comment" Width="1.5" PointX="11.625" PointY="18.875" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Comment_Comment" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Comment_Product" />
+        <AssociationConnector Association="ShopOnlineModel.FK_Comment_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

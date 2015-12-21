@@ -14,8 +14,8 @@
                 <h3><a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })">@product.ProductName</a></h3>
                 <p class="price">@product.Price.ToSystemFormat()</p>
                 <p class="buttons">
-                    <a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })" class="btn btn-default">View detail</a>
-                    <a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })" class="btn btn-template-main"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    <a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })" class="btn btn-default">Xem Chi Tiết</a>
+                    <a product-id="@product.ProductId" class="btn btn-template-main pointer add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm Vào Giỏ Hàng</a>
                 </p>
             </div>
             <!-- /.text -->

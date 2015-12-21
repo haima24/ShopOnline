@@ -1,0 +1,14 @@
+﻿@model int?
+@if (Model.HasValue)
+{
+    <form>
+        <div class="form-group">
+            <label for="message-comment">Bình Luận</label>
+            <textarea id="message-comment" class="form-control required" data-msg-required="Vui Lòng Nhập Bình Luận" placeholder="Thêm Bình Luận..."></textarea>
+            <br />
+            <div class="col-sm-12 text-right">
+                <button type="button" id="btn-post-comment" class="btn btn-template-main"><i class="fa fa-envelope-o"></i>Đăng</button>
+            </div>
+        </div>
+    </form>
+}

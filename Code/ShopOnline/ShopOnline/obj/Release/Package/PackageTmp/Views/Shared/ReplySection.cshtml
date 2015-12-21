@@ -1,0 +1,7 @@
+﻿@using ShopOnline.Extension
+@model ShopOnline.Models.CommentViewModel
+<div>
+    <h5 class="text-uppercase">@Model.CommentUserName</h5>
+    <p class="posted"><i class="fa fa-clock-o"></i>@Model.CommentDate.ToFullDateFormat()</p>
+    <p>@Model.CommentDetail</p>
+</div>

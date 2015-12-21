@@ -8,6 +8,7 @@
         <EntityContainer Name="ShopOnlineModelStoreContainer">
           <EntitySet Name="Category" EntityType="ShopOnlineModel.Store.Category" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Color" EntityType="ShopOnlineModel.Store.Color" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Comment" EntityType="ShopOnlineModel.Store.Comment" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Config" EntityType="ShopOnlineModel.Store.Config" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Location" EntityType="ShopOnlineModel.Store.Location" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Order" EntityType="ShopOnlineModel.Store.Order" store:Type="Tables" Schema="dbo" />
@@ -26,6 +27,18 @@
           <AssociationSet Name="FK_Category_User" Association="ShopOnlineModel.Store.FK_Category_User">
             <End Role="User" EntitySet="User" />
             <End Role="Category" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Comment" Association="ShopOnlineModel.Store.FK_Comment_Comment">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="Comment1" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Product" Association="ShopOnlineModel.Store.FK_Comment_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_User" Association="ShopOnlineModel.Store.FK_Comment_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Comment" EntitySet="Comment" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Location" Association="ShopOnlineModel.Store.FK_Order_Location">
             <End Role="Location" EntitySet="Location" />
@@ -93,6 +106,17 @@
           <Property Name="ColorValue" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CommentDetail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CommentDate" Type="datetime" Nullable="false" />
+          <Property Name="CommentUserId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="ParentCommentId" Type="int" />
         </EntityType>
         <EntityType Name="Config">
           <Key>
@@ -232,6 +256,42 @@
             </Principal>
             <Dependent Role="Category">
               <PropertyRef Name="CreatedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Comment">
+          <End Role="Comment" Type="ShopOnlineModel.Store.Comment" Multiplicity="0..1" />
+          <End Role="Comment1" Type="ShopOnlineModel.Store.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="CommentId" />
+            </Principal>
+            <Dependent Role="Comment1">
+              <PropertyRef Name="ParentCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Product">
+          <End Role="Product" Type="ShopOnlineModel.Store.Product" Multiplicity="0..1" />
+          <End Role="Comment" Type="ShopOnlineModel.Store.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_User">
+          <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="1" />
+          <End Role="Comment" Type="ShopOnlineModel.Store.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CommentUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -437,6 +497,19 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductColor" EntitySet="ProductColors" />
           </AssociationSet>
+          <EntitySet Name="Comments" EntityType="ShopOnlineModel.Comment" />
+          <AssociationSet Name="FK_Comment_Comment" Association="ShopOnlineModel.FK_Comment_Comment">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Comment1" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Product" Association="ShopOnlineModel.FK_Comment_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_User" Association="ShopOnlineModel.FK_Comment_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -475,6 +548,7 @@
           <Property Type="Int32" Name="BrandId" />
           <NavigationProperty Name="ProductBrand" Relationship="ShopOnlineModel.FK_Product_ProductBrand" FromRole="Product" ToRole="ProductBrand" />
           <NavigationProperty Name="ProductColors" Relationship="ShopOnlineModel.FK_ProductColor_Product" FromRole="Product" ToRole="ProductColor" />
+          <NavigationProperty Name="Comments" Relationship="ShopOnlineModel.FK_Comment_Product" FromRole="Product" ToRole="Comment" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -503,6 +577,7 @@
           <Property Type="String" Name="RealName" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="LocationDistrictId" />
           <Property Type="Int32" Name="LocationCityId" />
+          <NavigationProperty Name="Comments" Relationship="ShopOnlineModel.FK_Comment_User" FromRole="User" ToRole="Comment" />
         </EntityType>
         <Association Name="FK_Category_Category">
           <End Type="ShopOnlineModel.Category" Role="Category" Multiplicity="0..1" />
@@ -759,6 +834,57 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Type="Int32" Name="CommentId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CommentDetail" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CommentDate" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="CommentUserId" Nullable="false" />
+          <Property Type="Int32" Name="ProductId" />
+          <Property Type="Int32" Name="ParentCommentId" />
+          <NavigationProperty Name="ChildsComment" Relationship="ShopOnlineModel.FK_Comment_Comment" FromRole="Comment" ToRole="Comment1" />
+          <NavigationProperty Name="ParentComment" Relationship="ShopOnlineModel.FK_Comment_Comment" FromRole="Comment1" ToRole="Comment" />
+          <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_Comment_Product" FromRole="Comment" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="ShopOnlineModel.FK_Comment_User" FromRole="Comment" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Comment_Comment">
+          <End Type="ShopOnlineModel.Comment" Role="Comment" Multiplicity="0..1" />
+          <End Type="ShopOnlineModel.Comment" Role="Comment1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="CommentId" />
+            </Principal>
+            <Dependent Role="Comment1">
+              <PropertyRef Name="ParentCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Product">
+          <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="ShopOnlineModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_User">
+          <End Type="ShopOnlineModel.User" Role="User" Multiplicity="1" />
+          <End Type="ShopOnlineModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CommentUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -914,6 +1040,18 @@
                 <ScalarProperty Name="ColorId" ColumnName="ColorId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="ProductColorId" ColumnName="ProductColorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="ShopOnlineModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="ParentCommentId" ColumnName="ParentCommentId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CommentUserId" ColumnName="CommentUserId" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="CommentDetail" ColumnName="CommentDetail" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

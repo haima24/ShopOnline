@@ -1,0 +1,37 @@
+﻿@using ShopOnline.Extension
+@model ShopOnline.Models.CommentViewModel
+<div class="row comment">
+
+                <div class="col-sm-12">
+                    <h5 class="text-uppercase">@Model.CommentUserName</h5>
+                    <p class="posted"><i class="fa fa-clock-o"></i>@Model.CommentDate.ToFullDateFormat()</p>
+                    <p>@Model.CommentDetail</p>
+                    @{
+                        var userId = ViewBag.UserId as int?;
+                        if (userId.HasValue)
+                        {
+                              <div class="col-sm-11 pull-right" class="reply">
+                        <p class="reply">
+                            <a class="btn-reply pointer" parent-id="@Model.CommentId"><i class="fa fa-reply"></i>Trả Lời</a>
+                        </p>
+                        <div class="reply-container">
+                            <textarea name="messageComment" class="form-control required message-reply" data-msg-required="Vui Lòng Nhập Bình Luận" placeholder="Thêm Bình Luận..."></textarea>
+                            <div class="reply-action">
+                                <button class="btn btn-default btn-reply-cancel">Hủy</button>
+                                <button type="button" parent-id="@Model.CommentId" class="btn btn-template-main btn-reply-post">Trả Lời</button>
+                            </div>
+                        </div>
+                        <div class="replys">
+                            @foreach (var reply in Model.ChildsComment)
+                            {
+                                <h5 class="text-uppercase">@reply.CommentUserName</h5>
+                                <p class="posted"><i class="fa fa-clock-o"></i>@reply.CommentDate.ToFullDateFormat()</p>
+                                <p>@reply.CommentDetail</p>
+                            }
+                        </div>
+                    </div>
+                        }
+                    }
+                  
+                </div>
+            </div>

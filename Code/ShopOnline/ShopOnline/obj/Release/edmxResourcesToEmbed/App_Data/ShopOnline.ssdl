@@ -3,6 +3,7 @@
   <EntityContainer Name="ShopOnlineModelStoreContainer">
     <EntitySet Name="Category" EntityType="ShopOnlineModel.Store.Category" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Color" EntityType="ShopOnlineModel.Store.Color" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comment" EntityType="ShopOnlineModel.Store.Comment" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Config" EntityType="ShopOnlineModel.Store.Config" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Location" EntityType="ShopOnlineModel.Store.Location" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Order" EntityType="ShopOnlineModel.Store.Order" store:Type="Tables" Schema="dbo" />
@@ -21,6 +22,18 @@
     <AssociationSet Name="FK_Category_User" Association="ShopOnlineModel.Store.FK_Category_User">
       <End Role="User" EntitySet="User" />
       <End Role="Category" EntitySet="Category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_Comment" Association="ShopOnlineModel.Store.FK_Comment_Comment">
+      <End Role="Comment" EntitySet="Comment" />
+      <End Role="Comment1" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_Product" Association="ShopOnlineModel.Store.FK_Comment_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_User" Association="ShopOnlineModel.Store.FK_Comment_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Comment" EntitySet="Comment" />
     </AssociationSet>
     <AssociationSet Name="FK_Order_Location" Association="ShopOnlineModel.Store.FK_Order_Location">
       <End Role="Location" EntitySet="Location" />
@@ -88,6 +101,17 @@
     <Property Name="ColorValue" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
     <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="CommentId" />
+    </Key>
+    <Property Name="CommentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CommentDetail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CommentDate" Type="datetime" Nullable="false" />
+    <Property Name="CommentUserId" Type="int" Nullable="false" />
+    <Property Name="ProductId" Type="int" />
+    <Property Name="ParentCommentId" Type="int" />
   </EntityType>
   <EntityType Name="Config">
     <Key>
@@ -227,6 +251,42 @@
       </Principal>
       <Dependent Role="Category">
         <PropertyRef Name="CreatedUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_Comment">
+    <End Role="Comment" Type="ShopOnlineModel.Store.Comment" Multiplicity="0..1" />
+    <End Role="Comment1" Type="ShopOnlineModel.Store.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="CommentId" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="ParentCommentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_Product">
+    <End Role="Product" Type="ShopOnlineModel.Store.Product" Multiplicity="0..1" />
+    <End Role="Comment" Type="ShopOnlineModel.Store.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_User">
+    <End Role="User" Type="ShopOnlineModel.Store.User" Multiplicity="1" />
+    <End Role="Comment" Type="ShopOnlineModel.Store.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="CommentUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -216,6 +216,8 @@
                 $.post('/Admin/DeleteProduct', { id: productid }, function (data) {
                     if (data.result) {
                         table.ajax.reload();
+                    } else {
+                        alert('Sản phẩm này đã được đặt hàng, không thể xóa.');
                     }
                 });
             });

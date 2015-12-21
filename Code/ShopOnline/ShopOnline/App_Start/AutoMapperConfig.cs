@@ -12,6 +12,19 @@ namespace ShopOnline.App_Start
     {
         public static void RegisterMappings()
         {
+            AutoMapper.Mapper.CreateMap<Comment, CommentViewModel>()
+                  .ForMember(dest => dest.ChildsComment,
+                       opts => opts.MapFrom(s => s.ChildsComment.OrderByDescending(x=>x.CommentDate)))
+                 .ForMember(dest => dest.CommentUserName,
+                       opts => opts.ResolveUsing(s =>
+                                                     {
+                                                         var name = s.User.UserName;
+                                                         if(!string.IsNullOrEmpty(s.User.RealName))
+                                                         {
+                                                             name = s.User.RealName;
+                                                         }
+                                                         return name;
+                                                     }));
             AutoMapper.Mapper.CreateMap<ProductBrand, ProductBrandViewModel>()
                  .ForMember(dest => dest.ProductCount,
                        opts => opts.MapFrom(s => s.Products.Count));
@@ -59,8 +72,10 @@ namespace ShopOnline.App_Start
                                                          }
                                                      }))
                                                      .ForMember(dest => dest.ColorCodes,
-                       opts => opts.MapFrom(s => s.ProductColors.Select(x=>x.Color.ColorValue)))
-                .ForMember(dest => dest.ProductImages,
+                       opts => opts.MapFrom(s => s.ProductColors.Select(x => x.Color.ColorValue)))
+                .ForMember(dest => dest.Comments,
+                       opts => opts.MapFrom(s => s.Comments.OrderByDescending(x=>x.CommentDate)))
+                       .ForMember(dest => dest.ProductImages,
                        opts => opts.MapFrom(s => s.ProductImages))
                         .ForMember(dest => dest.ProductColors,
                        opts => opts.MapFrom(s => s.ProductColors.Select(x => x.ColorId)))

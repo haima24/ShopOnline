@@ -63,6 +63,7 @@ namespace ShopOnline.Controllers
         {
             var product = _productService.GetProductById(id);
             var productModel = AutoMapper.Mapper.Map<ProductViewModel>(product);
+            ViewBag.UserId = UserId;
             return View(productModel);
         }
     }

@@ -1,4 +1,17 @@
 ﻿$(function () {
+    var bindAddToCart = function (elements) {
+        $('.product a.add-to-cart',elements).on('click', function (e) {
+            e.preventDefault();
+            var itemImg = $(this).closest('.product');
+            var productId = $(this).attr('product-id');
+            $.post('/Cart/AddToCart', { productId: productId }, function (data) {
+                if (data.result) {
+                    flyToElement(itemImg, $('#cart-anchor'));
+                    $('#cart-counter').html("(" + data.currentCount + ")");
+                }
+            });
+        });
+    };
     var pageSize = 9;
     var filters = new Object();
     var filterCategory = $('#FilterCategoryId').val();
@@ -28,13 +41,7 @@
                 //$('#loading').fadeIn();
             },
             'afterLoad': function(elementsLoaded, isLastPage) { // after loading content, you can use this function to animate your new elements
-                //$('#loading').fadeOut();
-                //var i = 0;
-                //$(elementsLoaded).fadeInWithDelay();
-                //if ($('#content').children().size() > 100){ // if more than 100 results already loaded, then stop pagination (only for testing)
-                //    $('#nomoreresults').fadeIn();
-                //    $('#content').stopScrollPagination();
-                //}
+                bindAddToCart(elementsLoaded);
                 if (isLastPage) {
                     $('#btn-load-more').attr('disabled', 'disabled');
                 } else {
@@ -100,4 +107,5 @@
         filters.categoryId = null;
         searchProducts();
     });
+    
 });

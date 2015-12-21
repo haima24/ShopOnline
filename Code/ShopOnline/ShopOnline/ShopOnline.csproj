@@ -119,6 +119,9 @@
     <Compile Include="App_Data\Color.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\Comment.cs">
+      <DependentUpon>ShopOnline.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Config.cs">
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
@@ -148,6 +151,7 @@
     <Compile Include="Constants\CommonEnums.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\BaseFrontController.cs" />
     <Compile Include="Controllers\HelperController.cs" />
@@ -164,6 +168,7 @@
       <DependentUpon>ShopOnline.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ColorViewModel.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\ProductBrandViewModel.cs" />
     <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
@@ -200,6 +205,7 @@
     <Compile Include="Service\ConfigService.cs" />
     <Compile Include="Service\BrandService.cs" />
     <Compile Include="Service\ColorService.cs" />
+    <Compile Include="Service\CommentService.cs" />
     <Compile Include="Service\LocationService.cs" />
     <Compile Include="Service\OrderService.cs" />
     <Compile Include="Service\UserService.cs" />
@@ -597,6 +603,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\ShopOnline.pubxml" />
+    <Content Include="Views\Comment\RenderCommentSection.cshtml" />
+    <Content Include="Views\Comment\RenderSignUpToCommentLink.cshtml" />
+    <Content Include="Views\Comment\CommentBlock.cshtml" />
+    <Content Include="Views\Shared\ReplySection.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -4,7 +4,7 @@
         var pass = $('#login-modal #password_modal').val();
         $.post('/Contact/LoginAjax', { signInUserName: name, signInPassword: pass }, function(data) {
             if (data.result) {
-                window.location.href = "/ProductList/Index";
+                window.location.reload();
             } else {
                 alert('Sai tên đăng nhập hoặc mật khẩu');
             }

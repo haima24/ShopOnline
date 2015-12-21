@@ -38,5 +38,6 @@ namespace ShopOnline.App_Data
         public DbSet<Color> Colors { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

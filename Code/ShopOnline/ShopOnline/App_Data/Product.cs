@@ -20,6 +20,7 @@ namespace ShopOnline.App_Data
             this.ProductCategories = new HashSet<ProductCategory>();
             this.OrderDetails = new HashSet<OrderDetail>();
             this.ProductColors = new HashSet<ProductColor>();
+            this.Comments = new HashSet<Comment>();
         }
     
         public int ProductId { get; set; }
@@ -40,5 +41,6 @@ namespace ShopOnline.App_Data
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ProductBrand ProductBrand { get; set; }
         public virtual ICollection<ProductColor> ProductColors { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

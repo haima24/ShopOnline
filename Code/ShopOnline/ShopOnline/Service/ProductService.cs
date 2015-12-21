@@ -176,6 +176,11 @@ namespace ShopOnline.Service
             var result = false;
             if (product != null)
             {
+                if(product.OrderDetails.Count > 0)
+                {
+                    result = false;
+                    return result;
+                }
                 var count = product.ProductImages.Count;
                 var arrayProductImage = product.ProductImages.ToArray();
                 for (int i = 0; i < count; i++)

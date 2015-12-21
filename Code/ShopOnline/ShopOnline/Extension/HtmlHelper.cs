@@ -15,5 +15,9 @@ namespace ShopOnline.Extension
         {
             return string.Format("{0:#,##0} đ", value??0);
         }
+        public static string ToFullDateFormat(this DateTime value)
+        {
+            return value.ToString("dd/MM/yyyy HH:mm:ss");
+        }
     }
 }

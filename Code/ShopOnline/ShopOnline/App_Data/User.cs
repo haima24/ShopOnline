@@ -18,6 +18,7 @@ namespace ShopOnline.App_Data
         {
             this.Categories = new HashSet<Category>();
             this.Orders = new HashSet<Order>();
+            this.Comments = new HashSet<Comment>();
         }
     
         public int UserId { get; set; }
@@ -34,5 +35,6 @@ namespace ShopOnline.App_Data
     
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

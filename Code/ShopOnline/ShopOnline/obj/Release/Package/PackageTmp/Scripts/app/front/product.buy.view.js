@@ -1,4 +1,48 @@
 ﻿$(function () {
+    $('#comments .btn-reply-post').on('click', function (e) {
+        var comment = $(this).closest('.comment');
+        var replyContainer = comment.find('.reply-container');
+        var textObj = replyContainer.find('.message-reply');
+        var text = textObj.val();
+        var parentId = $(this).attr('parent-id');
+        $.post('/Comment/Reply', {parentId:parentId, text: text }, function (data) {
+            if(data.result) {
+                replyContainer.slideToggle("slow", function () {
+                    comment.find('.replys').prepend(data.html);
+                    textObj.val('');
+                });
+            }
+        });
+      
+    });
+    $('#comments .btn-reply').on('click', function(e) {
+        var replyContainer = $(this).closest('.comment').find('.reply-container');
+        replyContainer.slideToggle("slow");
+    });
+    $('#comments .btn-reply-cancel').on('click', function (e) {
+        var replyContainer = $(this).closest('.comment').find('.reply-container');
+        replyContainer.slideToggle("slow", function () {
+            replyContainer.find('.message-comment').val('');
+        });
+    });
+    $('#btn-post-comment').on('click', function(e) {
+        e.preventDefault();
+        var btnPost = $(this);
+        var commentContainer = $('#comments-container');
+        var form = btnPost.closest('form');
+        if (form.valid()) {
+            var commentDetail = $('#message-comment').val();
+            var productId = btnPost.closest('#comments').attr('product-id');
+            $.post('/Comment/CreateComment', { detail: commentDetail, productId: productId }, function (data) {
+                if (data.result) {
+                    commentContainer.prepend(data.html);
+                    $('#comment-count').html(data.commentCount);
+                    commentDetail.val('');
+                }
+            });
+        }
+       
+    });
     $('#btn-filter-brand').on('click', function (e) {
         e.preventDefault();
         var brandIds = '';

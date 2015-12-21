@@ -66,6 +66,19 @@
       <End Role="Product" EntitySet="Products" />
       <End Role="ProductColor" EntitySet="ProductColors" />
     </AssociationSet>
+    <EntitySet Name="Comments" EntityType="ShopOnlineModel.Comment" />
+    <AssociationSet Name="FK_Comment_Comment" Association="ShopOnlineModel.FK_Comment_Comment">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="Comment1" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_Product" Association="ShopOnlineModel.FK_Comment_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_User" Association="ShopOnlineModel.FK_Comment_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Category">
     <Key>
@@ -104,6 +117,7 @@
     <Property Type="Int32" Name="BrandId" />
     <NavigationProperty Name="ProductBrand" Relationship="ShopOnlineModel.FK_Product_ProductBrand" FromRole="Product" ToRole="ProductBrand" />
     <NavigationProperty Name="ProductColors" Relationship="ShopOnlineModel.FK_ProductColor_Product" FromRole="Product" ToRole="ProductColor" />
+    <NavigationProperty Name="Comments" Relationship="ShopOnlineModel.FK_Comment_Product" FromRole="Product" ToRole="Comment" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -132,6 +146,7 @@
     <Property Type="String" Name="RealName" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Type="Int32" Name="LocationDistrictId" />
     <Property Type="Int32" Name="LocationCityId" />
+    <NavigationProperty Name="Comments" Relationship="ShopOnlineModel.FK_Comment_User" FromRole="User" ToRole="Comment" />
   </EntityType>
   <Association Name="FK_Category_Category">
     <End Type="ShopOnlineModel.Category" Role="Category" Multiplicity="0..1" />
@@ -385,6 +400,57 @@
       </Principal>
       <Dependent Role="ProductColor">
         <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="CommentId" />
+    </Key>
+    <Property Type="Int32" Name="CommentId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CommentDetail" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="CommentDate" Nullable="false" Precision="3" />
+    <Property Type="Int32" Name="CommentUserId" Nullable="false" />
+    <Property Type="Int32" Name="ProductId" />
+    <Property Type="Int32" Name="ParentCommentId" />
+    <NavigationProperty Name="ChildsComment" Relationship="ShopOnlineModel.FK_Comment_Comment" FromRole="Comment" ToRole="Comment1" />
+    <NavigationProperty Name="ParentComment" Relationship="ShopOnlineModel.FK_Comment_Comment" FromRole="Comment1" ToRole="Comment" />
+    <NavigationProperty Name="Product" Relationship="ShopOnlineModel.FK_Comment_Product" FromRole="Comment" ToRole="Product" />
+    <NavigationProperty Name="User" Relationship="ShopOnlineModel.FK_Comment_User" FromRole="Comment" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Comment_Comment">
+    <End Type="ShopOnlineModel.Comment" Role="Comment" Multiplicity="0..1" />
+    <End Type="ShopOnlineModel.Comment" Role="Comment1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="CommentId" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="ParentCommentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_Product">
+    <End Type="ShopOnlineModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="ShopOnlineModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_User">
+    <End Type="ShopOnlineModel.User" Role="User" Multiplicity="1" />
+    <End Type="ShopOnlineModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="CommentUserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
