@@ -9,7 +9,23 @@ namespace ShopOnline.Service
 {
     public class CommentService : BaseService
     {
-        
+        public  List<Comment> GetComments(int page, int pageSize, out bool isLastPage,out int count,int productId)
+        {
+            var comments = new List<Comment>();
+            var product = Context.Products.FirstOrDefault(x => x.ProductId == productId);
+            count = 0;
+            isLastPage = true;
+            if(product!=null)
+            {
+                count = product.Comments.Count;
+                isLastPage = !product.Comments
+                    .OrderByDescending(x => x.CommentDate).Skip((page + 1) * pageSize).Take(pageSize).Any();
+                comments = product.Comments
+                                .OrderByDescending(x => x.CommentDate).Skip((page)*pageSize).Take(pageSize).ToList();
+            }
+            return comments;
+        }
+
         public Comment CreateComment(string detail,int userId,int? productId,int? parentCommentId)
         {
             var comment = new Comment();

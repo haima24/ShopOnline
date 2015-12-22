@@ -1,11 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Chi Tiết Sản Phẩm: " + Model.ProductName;
+    ViewBag.Title = "Chi Tiết Sản Phẩm: " + Model.ProductName + " - hangtotgiasi.com";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.PageTitle = "Chi Tiết Sản Phẩm: " + Model.ProductName;
 }
 
 @using ShopOnline.Extension
 @model ShopOnline.Models.ProductViewModel
+@Html.HiddenFor(x=>x.ProductId)
 <p class="lead">@Html.Raw(Model.ProductShortDescription)</p>
 <p class="goToDescription">
     <a href="#details" class="scroll-to text-uppercase">Đi đến thông tin chi tiết sản phẩm</a>
@@ -85,45 +86,12 @@
 <div class="box" id="comments" product-id="@Model.ProductId">
     @{Html.RenderAction("RenderCommentSection", "Comment");}
 
-    <h4 class="text-uppercase"><span id="comment-count">@Model.Comments.Count</span> Bình Luận @{Html.RenderAction("RenderSignUpToCommentLink", "Comment");}</h4>
+    <h4 class="text-uppercase"><span id="comment-count">0</span> Bình Luận @{Html.RenderAction("RenderSignUpToCommentLink", "Comment");}</h4>
     <div id="comments-container">
-        @foreach (var comment in Model.Comments)
-        {
-            <div class="row comment">
-
-                <div class="col-sm-12">
-                    <h5 class="text-uppercase">@comment.CommentUserName</h5>
-                    <p class="posted"><i class="fa fa-clock-o"></i>@comment.CommentDate.ToFullDateFormat()</p>
-                    <p>@comment.CommentDetail</p>
-                    @{
-                        var userId = ViewBag.UserId as int?;
-                        if(userId.HasValue)
-                        {
-                             <div class="col-sm-11 pull-right" class="reply">
-                        <p class="reply">
-                            <a class="btn-reply pointer" parent-id="@comment.CommentId"><i class="fa fa-reply"></i>Trả Lời</a>
-                        </p>
-                        <div class="reply-container">
-                            <textarea name="messageComment" class="form-control required message-reply" data-msg-required="Vui Lòng Nhập Bình Luận" placeholder="Thêm Bình Luận..."></textarea>
-                            <div class="reply-action">
-                                <button class="btn btn-default btn-reply-cancel">Hủy</button>
-                                <button type="button" parent-id="@comment.CommentId" class="btn btn-template-main btn-reply-post">Trả Lời</button>
-                            </div>
-                        </div>
-                        <div class="replys">
-                            @foreach (var reply in comment.ChildsComment)
-                            {
-                                @Html.Partial("ReplySection",reply)
-                            }
-                        </div>
-                    </div>
-                        }
-                    }
-                   
-                </div>
-            </div>
-        }
     </div>
+    <p class="goToDescription">
+    <a id="view-more-comment" class="pointer">Xem Thêm Bình Luận</a>
+</p>
 </div>
 @* <div class="box social" id="product-social">
                             <h4>Show it to your friends</h4>
@@ -247,5 +215,6 @@
 
 </div>*@
 @section scripts{
+    <script src="@Url.Content("~/Content/lazyload/scrollpagination.js")"></script>
     <script src="@Url.Content("~/Scripts/app/front/product.buy.view.js")"></script>
 }

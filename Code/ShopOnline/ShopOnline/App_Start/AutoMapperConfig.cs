@@ -14,15 +14,20 @@ namespace ShopOnline.App_Start
         {
             AutoMapper.Mapper.CreateMap<Comment, CommentViewModel>()
                   .ForMember(dest => dest.ChildsComment,
-                       opts => opts.MapFrom(s => s.ChildsComment.OrderByDescending(x=>x.CommentDate)))
+                       opts => opts.MapFrom(s => s.ChildsComment.OrderByDescending(x => x.CommentDate)))
                  .ForMember(dest => dest.CommentUserName,
                        opts => opts.ResolveUsing(s =>
                                                      {
-                                                         var name = s.User.UserName;
-                                                         if(!string.IsNullOrEmpty(s.User.RealName))
+                                                         var name = string.Empty;
+                                                         if (s.User != null)
                                                          {
-                                                             name = s.User.RealName;
+                                                             name = s.User.UserName;
+                                                             if (!string.IsNullOrEmpty(s.User.RealName))
+                                                             {
+                                                                 name = s.User.RealName;
+                                                             }
                                                          }
+
                                                          return name;
                                                      }));
             AutoMapper.Mapper.CreateMap<ProductBrand, ProductBrandViewModel>()
@@ -74,7 +79,7 @@ namespace ShopOnline.App_Start
                                                      .ForMember(dest => dest.ColorCodes,
                        opts => opts.MapFrom(s => s.ProductColors.Select(x => x.Color.ColorValue)))
                 .ForMember(dest => dest.Comments,
-                       opts => opts.MapFrom(s => s.Comments.OrderByDescending(x=>x.CommentDate)))
+                       opts => opts.MapFrom(s => s.Comments.OrderByDescending(x => x.CommentDate)))
                        .ForMember(dest => dest.ProductImages,
                        opts => opts.MapFrom(s => s.ProductImages))
                         .ForMember(dest => dest.ProductColors,

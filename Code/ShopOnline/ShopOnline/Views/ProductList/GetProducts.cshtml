@@ -5,16 +5,16 @@
     <div class="col-md-4 col-sm-6">
         <div class="product">
             <div class="image" style="height: 262px;">
-                <a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })">
+                <a href="@Url.RouteUrl("NewDetail", new {id =product.ProductId, text =Html.ToFriendlyUrl(product.ProductName)})">
                     <img src="@Url.Content(product.ProductImageDisplay.ProductImageUrl)" alt="" class="img-responsive">
                 </a>
             </div>
             <!-- /.image -->
             <div class="text">
-                <h3><a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })">@product.ProductName</a></h3>
+                <h3><a href="@Url.RouteUrl("NewDetail", new {id =product.ProductId, text =Html.ToFriendlyUrl(product.ProductName)})">@product.ProductName</a></h3>
                 <p class="price">@product.Price.ToSystemFormat()</p>
                 <p class="buttons">
-                    <a href="@Url.Action("Detail", "ProductList", new { id = product.ProductId })" class="btn btn-default">Xem Chi Tiết</a>
+                    <a href="@Url.RouteUrl("NewDetail", new {id =product.ProductId, text =Html.ToFriendlyUrl(product.ProductName)})" class="btn btn-default">Xem Chi Tiết</a>
                     <a product-id="@product.ProductId" class="btn btn-template-main pointer add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm Vào Giỏ Hàng</a>
                 </p>
             </div>

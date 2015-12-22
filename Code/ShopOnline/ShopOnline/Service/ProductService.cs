@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ShopOnline.App_Data;
 using System.IO;
+using ShopOnline.Constants;
 
 namespace ShopOnline.Service
 {
@@ -218,7 +219,7 @@ namespace ShopOnline.Service
             return product;
         }
 
-        public List<Product> GetProductsByCondition(int page, int pageSize, out bool isLastPage, int? categoryId,int? parentCategoryId,List<int> brandIds,List<int> colorIds )
+        public List<Product> GetProductsByCondition(int page, int pageSize, out bool isLastPage, int? categoryId,int? parentCategoryId,List<int> brandIds,List<int> colorIds,Sorts? sortCondition )
         {
             Func<Product, bool> whereClause = delegate(Product p)
                                   {
@@ -281,11 +282,55 @@ namespace ShopOnline.Service
                                                             }
                                                            
                                                         };
+            var productsList = Context.Products
+                .Where(whereClause).Where(whereBrandClause).Where(whereColorsClause);
+            if(sortCondition.HasValue)
+            {
+                switch (sortCondition.Value)
+                {
+                    case Sorts.New:
+                        productsList =
+                            productsList.OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.UpdatedDate);
+                        break;
+                    case Sorts.Old:
+                        productsList =
+                           productsList.OrderBy(x => x.CreatedDate).ThenBy(x => x.UpdatedDate);
+                        break;
+                    case Sorts.BestSell:
+                        productsList = productsList.OrderBy(x =>
+                                                                {
+                                                                    var countInOrder = 0;
+                                                                    if(x.OrderDetails!=null)
+                                                                    {
+                                                                        countInOrder =
+                                                                            x.OrderDetails.Sum(k => k.Quantity);
+                                                                    }
+                                                                    return countInOrder;
+                                                                });
+                        break;
+                    case Sorts.DescPrice:
+                        productsList = productsList.OrderByDescending(x => x.Price);
+                        break;
+                    case Sorts.AscPrice:
+                        productsList = productsList.OrderBy(x => x.Price);
+                        break;
+                    case Sorts.Az:
+                        productsList = productsList.OrderBy(x => x.ProductName);
+                        break;
+                    case Sorts.Za:
+                        productsList = productsList.OrderByDescending(x => x.ProductName);
+                        break;
+                }
+            }
+            else
+            {
+                productsList =
+                           productsList.OrderByDescending(x => x.CreatedDate).ThenByDescending(x => x.UpdatedDate);
+            }
+            var products = productsList.Skip((page) * pageSize)
+                      .Take(pageSize);
             isLastPage = !Context.Products
-                .Where(whereClause).Where(whereBrandClause).Where(whereColorsClause).OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate).Skip((page + 1) * pageSize).Take(pageSize).Any();
-            var products = Context.Products
-                .Where(whereClause).Where(whereBrandClause).Where(whereColorsClause).OrderByDescending(x => x.UpdatedDate).ThenByDescending(x => x.CreatedDate).Skip((page) * pageSize)
-                       .Take(pageSize);
+                .Where(whereClause).Where(whereBrandClause).Where(whereColorsClause).Skip((page + 1) * pageSize).Take(pageSize).Any();
             return products.ToList();
         }
         public bool DeleteProductImage(int productImageId)

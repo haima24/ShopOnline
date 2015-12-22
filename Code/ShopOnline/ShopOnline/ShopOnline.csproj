@@ -157,6 +157,7 @@
     <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\ProductListController.cs" />
     <Compile Include="Extension\ControllerExtension.cs" />
+    <Compile Include="Extension\EnumExtensions.cs" />
     <Compile Include="Extension\HtmlHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -372,6 +373,7 @@
     <Content Include="images\img\texture-turquoise.png" />
     <Content Include="images\img\texture-violet.png" />
     <Content Include="images\img\women.jpg" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\additional-methods.js" />
     <Content Include="Scripts\app\admin\brands.js" />
     <Content Include="Scripts\app\admin\category.parent.js" />
@@ -607,6 +609,7 @@
     <Content Include="Views\Comment\RenderSignUpToCommentLink.cshtml" />
     <Content Include="Views\Comment\CommentBlock.cshtml" />
     <Content Include="Views\Shared\ReplySection.cshtml" />
+    <Content Include="Views\Comment\GetComments.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

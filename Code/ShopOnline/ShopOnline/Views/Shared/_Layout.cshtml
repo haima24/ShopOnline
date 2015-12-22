@@ -6,11 +6,13 @@
     <meta name="robots" content="all,follow">
     <meta name="googlebot" content="index,follow,snippet,archive">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta http-equiv="content-language" content="vi">
+    <meta name="language" content="vietnamese" data-link="hangtotgiasi.com" >
     <title>@ViewBag.Title</title>
 
-    <meta name="keywords" content="">
-
+    <meta name="keywords" content="hàng tiêu dùng giá sỉ, hàng tốt, hàng rẻ, hàng đẹp, giá sỉ, mua buôn, hàng hóa, hàng tiêu dùng, thời trang, thời trang giá sỉ, bỏ sỉ quần áo, lấy sỉ quần áo, nguồn hàng thời trang giá sỉ, quần áo giá sỉ, váy đầm giá sỉ, áo khoác giá sỉ, áo thun giá sỉ, đồ bộ giá sỉ, áo sơ mi nam nữ giá sỉ">
+    <meta name="description" content="hàng tiêu dùng giá sỉ, hàng tốt, hàng rẻ, hàng đẹp, giá sỉ, mua buôn, hàng hóa, hàng tiêu dùng, thời trang, thời trang giá sỉ, bỏ sỉ quần áo, lấy sỉ quần áo, nguồn hàng thời trang giá sỉ, quần áo giá sỉ, váy đầm giá sỉ, áo khoác giá sỉ, áo thun giá sỉ, đồ bộ giá sỉ, áo sơ mi nam nữ giá sỉ">
+    <meta name="author" content="akai777">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,700,800' rel='stylesheet' type='text/css'>
 
     <!-- Bootstrap and Font Awesome css -->
@@ -177,7 +179,7 @@ _________________________________________________________ -->
                         </form>
 
                         <p class="text-center text-muted">Bạn chưa có tài khoản</p>
-                        <p class="text-center text-muted"><a href="@Url.Action("SignUpPage", "Contact")"><strong>Đăng Ký Ngay</strong></a></p>
+                        <p class="text-center text-muted"><a href="@Url.RouteUrl("NewContact")"><strong>Đăng Ký Ngay</strong></a></p>
 
                     </div>
                 </div>
@@ -315,7 +317,7 @@ _________________________________________________________ -->
                     <h3>Bạn có muốn trở thành nhà cung cấp?</h3>
                 </div>
                 <div class="col-md-4 col-sm-12">
-                    <a href="@Url.Action("Contact", "Contact")" class="btn btn-template-transparent-primary">Liên hệ ngay</a>
+                    <a href="@Url.RouteUrl("NewContact")" class="btn btn-template-transparent-primary">Liên hệ ngay</a>
                 </div>
             </div>
         </div>
@@ -375,7 +377,7 @@ _________________________________________________________ -->
 
                     @Html.Raw(Html.Action("GetConfigByCode", "Helper", new { code = "Address" }).ToString())
 
-                    <a href="@Url.Action("Contact", "Contact")" class="btn btn-small btn-template-main">Liên Hệ Với Chúng Tôi</a>
+                    <a href="@Url.RouteUrl("NewContact")" class="btn btn-small btn-template-main">Liên Hệ Với Chúng Tôi</a>
 
                     <hr class="hidden-md hidden-lg hidden-sm">
                 </div>

@@ -1,30 +1,59 @@
 ﻿$(function () {
-    $('#comments .btn-reply-post').on('click', function (e) {
-        var comment = $(this).closest('.comment');
-        var replyContainer = comment.find('.reply-container');
-        var textObj = replyContainer.find('.message-reply');
-        var text = textObj.val();
-        var parentId = $(this).attr('parent-id');
-        $.post('/Comment/Reply', {parentId:parentId, text: text }, function (data) {
-            if(data.result) {
-                replyContainer.slideToggle("slow", function () {
-                    comment.find('.replys').prepend(data.html);
-                    textObj.val('');
+    var pagingData = function (pSize, passedObj) {
+        $('#comments-container').empty();
+        $('#comments-container').scrollPagination({
+            'usejson': true,
+            'isclick': true,
+            'contentPage': '/Comment/GetComments', // the url you are fetching the results
+            'contentData': { page: 0, pageSize: pSize }, // these are the variables you can pass to the request, for example: children().size() to know which page you are
+            'scrollTarget': $('#view-more-comment'), // who gonna scroll? in this example, the full window
+            'heightOffset': 10, // it gonna request when scroll is 10 pixels before the page ends
+            'beforeLoad': function (opts, obj) { // before load function, you can display a preloader div
+                var pagerObj = { page: Math.ceil(obj.children().size() / pSize), pageSize: pSize };
+                opts.contentData = $.extend(pagerObj, passedObj);
+            },
+            'afterLoad': function (elementsLoaded, isLastPage,data) { // after loading content, you can use this function to animate your new elements
+                $('#comment-count').html(data.commentsCount);
+                if (isLastPage) {
+                    $('#view-more-comment').hide();
+                } else {
+                    $('#view-more-comment').show();
+                }
+                $('.btn-reply-post', elementsLoaded).on('click', function (e) {
+                    var comment = $(this).closest('.comment');
+                    var replyContainer = comment.find('.reply-container');
+                    var textObj = replyContainer.find('.message-reply');
+                    var text = textObj.val();
+                    var parentId = $(this).attr('parent-id');
+                    $.post('/Comment/Reply', { parentId: parentId, text: text }, function (data) {
+                        if (data.result) {
+                            replyContainer.slideToggle("slow", function () {
+                                comment.find('.replys').prepend(data.html);
+                                textObj.val('');
+                            });
+                        }
+                    });
+
+                });
+                $('.btn-reply', elementsLoaded).on('click', function (e) {
+                    var replyContainer = $(this).closest('.comment').find('.reply-container');
+                    replyContainer.slideToggle("slow");
+                });
+                $('.btn-reply-cancel', elementsLoaded).on('click', function (e) {
+                    var replyContainer = $(this).closest('.comment').find('.reply-container');
+                    replyContainer.slideToggle("slow", function () {
+                        replyContainer.find('.message-comment').val('');
+                    });
                 });
             }
         });
-      
-    });
-    $('#comments .btn-reply').on('click', function(e) {
-        var replyContainer = $(this).closest('.comment').find('.reply-container');
-        replyContainer.slideToggle("slow");
-    });
-    $('#comments .btn-reply-cancel').on('click', function (e) {
-        var replyContainer = $(this).closest('.comment').find('.reply-container');
-        replyContainer.slideToggle("slow", function () {
-            replyContainer.find('.message-comment').val('');
-        });
-    });
+    };
+
+    var pageObj = new Object();
+    pageObj.productId = $('#ProductId').val();
+    pagingData(4, pageObj);
+
+
     $('#btn-post-comment').on('click', function(e) {
         e.preventDefault();
         var btnPost = $(this);
@@ -37,7 +66,7 @@
                 if (data.result) {
                     commentContainer.prepend(data.html);
                     $('#comment-count').html(data.commentCount);
-                    commentDetail.val('');
+                    $('#message-comment').val('');
                 }
             });
         }

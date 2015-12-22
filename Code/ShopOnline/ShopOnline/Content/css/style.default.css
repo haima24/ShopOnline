@@ -4266,3 +4266,25 @@ a.list-group-item.active > .badge,
 a.pointer {
     cursor: pointer;
 }
+.box-sort .form-control {
+    font-family: initial;
+        width: 235px;
+   margin: 20px 0;
+    background-color: #fff;
+    padding: 7px;
+    margin-top: 5px;
+    color: #414141;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ddd;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 3px;
+}
+.product a.btn {
+     -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}

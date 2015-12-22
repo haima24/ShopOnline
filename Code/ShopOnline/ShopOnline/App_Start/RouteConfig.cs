@@ -12,12 +12,27 @@ namespace ShopOnline
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "ProductList", action = "Index", id = UrlParameter.Optional }
-            );
+           "NewDetail",
+           "san-pham/{id}/{text}",
+           new { controller = "ProductList", action = "Detail", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
+          "NewContact",
+          "lien-he",
+          new { controller = "Contact", action = "Contact", id = UrlParameter.Optional }
+          );
+            routes.MapRoute(
+          "NewSignUp",
+          "dang-ky",
+          new { controller = "Contact", action = "SignUpPage", id = UrlParameter.Optional }
+          );
+            routes.MapRoute(
+               name: "Default",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "ProductList", action = "Index", id = UrlParameter.Optional }
+             );
+           
         }
     }
 }

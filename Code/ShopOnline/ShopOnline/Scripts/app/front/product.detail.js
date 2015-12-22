@@ -32,7 +32,7 @@
             'usejson': true,
             'isclick': true,
             'contentPage': '/ProductList/GetProducts', // the url you are fetching the results
-            'contentData': { page: 0, pageSize: pageSize }, // these are the variables you can pass to the request, for example: children().size() to know which page you are
+            'contentData': { page: 0, pageSize: pSize }, // these are the variables you can pass to the request, for example: children().size() to know which page you are
             'scrollTarget': $('#btn-load-more'), // who gonna scroll? in this example, the full window
             'heightOffset': 10, // it gonna request when scroll is 10 pixels before the page ends
             'beforeLoad': function(opts, obj) { // before load function, you can display a preloader div
@@ -54,6 +54,10 @@
         pagingData(pageSize, filters);
     };
     searchProducts();
+    $('#sortCondition').on('change', function(e) {
+        filters.sortCondition = this.value;
+        searchProducts();
+    });
     $('#btn-filter-color-clear,#btn-filter-brand-clear').on('click', function (e) {
         e.preventDefault();
         var inputs = $(this).closest('.panel.sidebar-menu').find('input');

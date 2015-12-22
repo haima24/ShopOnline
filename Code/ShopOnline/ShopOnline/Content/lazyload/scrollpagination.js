@@ -50,7 +50,7 @@
                         var objectsRendered = $(obj).children('[rel!=loaded]');
 
                         if (opts.afterLoad != null) {
-                            opts.afterLoad(objectsRendered, data.isLastPage);
+                            opts.afterLoad(objectsRendered, data.isLastPage,data);
                         }
                     },
                     dataType: 'json'
